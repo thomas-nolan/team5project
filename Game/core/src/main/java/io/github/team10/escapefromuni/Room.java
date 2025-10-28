@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 public class Room {
     public RoomManager roomManager;
     public Event event;
-    public Room[] adjacentRooms = new Room[4];
+    private Room[] adjacentRooms = new Room[4];
 
     private Texture roomTexture;
 
@@ -21,10 +21,25 @@ public class Room {
 
     public void addAdjacent(Room adjacentRoom, DoorDirection direction)
     {
+        System.out.println("Adding adjacent: " + direction + " -> " + adjacentRoom);
         if (direction == DoorDirection.NORTH) adjacentRooms[0] = adjacentRoom;
         if (direction == DoorDirection.EAST) adjacentRooms[1] = adjacentRoom;
         if (direction == DoorDirection.SOUTH) adjacentRooms[2] = adjacentRoom;
         if (direction == DoorDirection.WEST) adjacentRooms[3] = adjacentRoom;
+    }
+
+    public Room getAdjacent(DoorDirection direction)
+    {
+        if (direction == DoorDirection.NORTH) return adjacentRooms[0];
+        if (direction == DoorDirection.EAST) return adjacentRooms[1];
+        if (direction == DoorDirection.SOUTH) return adjacentRooms[2];
+        if (direction == DoorDirection.WEST) return adjacentRooms[3];
+        return null;
+    }
+
+    public Room[] getAllAdjacent()
+    {
+        return adjacentRooms;
     }
 
     /* 

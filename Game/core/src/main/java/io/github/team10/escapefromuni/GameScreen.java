@@ -18,11 +18,9 @@ public class GameScreen extends ScreenAdapter {
     public GameScreen(final EscapeGame game)
     {
         this.game = game;
-
-        roomManager = new RoomManager(game);
+        player = new Player(3f, 1f, 1f, game);
+        roomManager = new RoomManager(game, player);
         roomManager.initialiseMap();
-
-        player = new Player(3f, game);
     }
 
     @Override
@@ -34,6 +32,8 @@ public class GameScreen extends ScreenAdapter {
     private void update(float delta)
     {
         player.update(delta);
+        roomManager.checkDoorCollision();
+        
     }
 
     private void draw()
@@ -53,5 +53,12 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void resize(int width, int height) {
         game.viewport.update(width, height, true);
+    }
+
+    @Override
+    public void dispose()
+    {
+        roomManager.dispose();
+        player.dispose();
     }
 }

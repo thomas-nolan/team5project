@@ -18,14 +18,29 @@ public class Door {
         doorSprite = new Sprite(doorTexture);
         doorSprite.setSize(1f, 1f);
         doorSprite.setPosition(x, y);
+        isActive = true;
     }
 
     public void draw()
     {
-        doorSprite.draw(roomManager.game.batch);
+        if (isActive)
+        {
+            doorSprite.draw(roomManager.game.batch);    
+        }
     }
 
-    public void Interact() {
-        // Will call changeRoom() on RoomManager
+    public void setActive(boolean isActive)
+    {
+        this.isActive = isActive;
+    }
+
+    public boolean getActive()
+    {
+        return isActive;
+    }
+
+    public void dispose()
+    {
+        doorTexture.dispose();
     }
 }
