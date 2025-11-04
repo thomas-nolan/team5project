@@ -20,4 +20,6 @@ public abstract class Event {
     public abstract void update(float delta);
 
     public abstract void draw();
+
+    public abstract void drawUI();
 }

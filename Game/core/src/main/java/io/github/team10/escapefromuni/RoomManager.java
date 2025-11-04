@@ -166,6 +166,17 @@ public class RoomManager {
         }
     }
 
+    /**
+     * Draw the UI associated with any active events.
+     */
+    public void drawEventUI()
+    {
+        if (currentRoom.getEventType() != EventType.NONE)
+        {
+            currentRoom.getEvent().drawUI();
+        }
+    }
+
     private void initialiseDoors() {
         // Will create the four doors at the start of the game.
         // Assumes a viewport size of width 16 and height 9.

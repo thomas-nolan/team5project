@@ -1,6 +1,8 @@
 package io.github.team10.escapefromuni;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
@@ -10,13 +12,17 @@ public class EventLongboi extends Event {
     private final Texture longboiHiddenTexture;
     private final Texture longboiTexture;
     private Sprite longboiSprite;
+    private final Texture speechPanelTexture;
+    private final Sprite speechPanelSprite;
 
     public EventLongboi(Player player, EscapeGame game)
     {
         super(EventType.HIDDEN, player, game);
         longboiTexture = new Texture("Longboi.png");
         longboiHiddenTexture = new Texture("LongboiShadow.png");
-
+        speechPanelTexture = new Texture("UIWideBottomPanel.png");
+        speechPanelSprite = new Sprite(speechPanelTexture);
+        speechPanelSprite.setSize(1200f, 240f);
     }
 
     @Override
@@ -63,7 +69,6 @@ public class EventLongboi extends Event {
         longboiSprite = new Sprite(longboiTexture);
         longboiSprite.setSize(1f, 2f);
         longboiSprite.setPosition(8f, 4.5f);
-        // TODO: Show text/speech bubble.
     }
 
     private float getPlayerLongboiDist()
@@ -80,5 +85,32 @@ public class EventLongboi extends Event {
     {
         if (eventFinished) return;
         longboiSprite.draw(game.batch);
+    }
+
+    @Override
+    public void drawUI()
+    {
+        if (eventFinished) return;
+
+        if (!hidden)
+        {
+            float uiWidth = game.uiViewport.getWorldWidth();
+            
+            float panelY = 150f;
+            float panelX = uiWidth / 2f;
+            speechPanelSprite.setCenter(panelX, panelY);
+            speechPanelSprite.draw(game.batch);
+
+            String message = "Ghost of Longboi: \"Quack ... Quack\"";
+
+            GlyphLayout layout = new GlyphLayout(game.font, message);
+            float textWidth = layout.width;
+            float textHeight = layout.height;
+            float textX = (uiWidth - textWidth) / 2f;
+            float textY = panelY + textHeight / 2f;
+
+            game.font.setColor(Color.BLACK);
+            game.font.draw(game.batch, layout, textX, textY);
+        }
     }
 }
