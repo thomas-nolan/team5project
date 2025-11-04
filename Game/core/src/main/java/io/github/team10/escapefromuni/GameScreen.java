@@ -51,16 +51,18 @@ public class GameScreen extends ScreenAdapter {
         game.batch.setProjectionMatrix(game.viewport.getCamera().combined);
 		game.batch.begin();
 
+        // World Rendering
         roomManager.drawMap();
-
         player.draw();
+        game.batch.end();
+
+        // UI Rendering
+        game.uiViewport.apply();
+        game.batch.setProjectionMatrix(game.uiCamera.combined);
+        game.batch.begin();
+        roomManager.drawEventUI();
 
         game.batch.end();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        game.viewport.update(width, height, true);
     }
 
     @Override
