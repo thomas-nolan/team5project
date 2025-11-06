@@ -4,13 +4,21 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
+/**
+ * Positive event where the player encounters a Greggs sausage roll.
+ * 
+ * When the player runs into the sausage roll, they gain a speed increase.
+ */
 public class EventGreggs extends Event {
 
-    private Texture greggsTexture;
+    private final Texture greggsTexture;
     private Sprite greggsSprite;
 
     private boolean used = false;
 
+    /**
+     * Creates a new EventGreggs.
+     */
     public EventGreggs(Player player, EscapeGame game)
     {
         super(EventType.POSITIVE, player, game);
@@ -22,8 +30,8 @@ public class EventGreggs extends Event {
         if (eventFinished) return;
 
         greggsSprite = new Sprite(greggsTexture);
-        greggsSprite.setSize(1f, 1f);
-        greggsSprite.setPosition(7.5f, 4f);
+        greggsSprite.setSize(3f, 2f);
+        greggsSprite.setPosition(6.5f, 3.5f);
     }
 
     @Override
@@ -47,6 +55,11 @@ public class EventGreggs extends Event {
         }
     }
 
+    /**
+     * Calculates the distance between the center of the player and the Greggs sprite.
+     *
+     * @return the distance between the player and the Greggs sprite.
+     */
     private float getPlayerGreggsDist()
     {
         Vector2 playerPos = player.getCenter();
@@ -56,6 +69,9 @@ public class EventGreggs extends Event {
         return greggsCenter.dst(playerPos);
     }
 
+    /**
+     * Handles applying the effects (speed increase) of collecting the Greggs sausage roll.
+     */
     private void pickupGreggs()
     {
         used = true;
