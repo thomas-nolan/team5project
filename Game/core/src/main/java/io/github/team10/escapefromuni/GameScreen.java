@@ -18,7 +18,7 @@ public class GameScreen extends ScreenAdapter {
     Player player;
     RoomManager roomManager;
     Timer timer; 
-    
+
     private BitmapFont font;
     private boolean isPaused;
 
@@ -31,7 +31,6 @@ public class GameScreen extends ScreenAdapter {
 
         timer = new Timer(); 
         font = game.font;
-        font.getData().setScale(3);
         isPaused = false;
     }
 
@@ -98,7 +97,9 @@ public class GameScreen extends ScreenAdapter {
         game.batch.setProjectionMatrix(game.uiCamera.combined);
         game.batch.begin();
         roomManager.drawEventUI();
-        font.draw(game.batch, "Time: " + timer.getTimeLeftSeconds() + "s", 50, 450);
+
+        font.setColor(Color.BLACK);
+        font.draw(game.batch, "Time: " + timer.getTimeLeftSeconds() + "s", 75f, 1000f);
 
         game.batch.end();
     }
