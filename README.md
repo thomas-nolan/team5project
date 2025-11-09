@@ -20,11 +20,11 @@ https://docs.google.com/document/d/1ttgzSkKAa-nU32mumbeGtjiTOcdinZ63kUqj-hlkOJo/
 
 ### Method Selection and Planning
 
-
+https://docs.google.com/document/d/1jP_QSOm5AOlqduEG_hz37fWpack5aPXX66zcs3Q0cug/edit?usp=sharing
 
 ### Risk Assessment and Mitigation (Table at the very end)
 
-https://docs.google.com/document/d/1ib__qU7JRzAEIXeXTKm5G1zbhA6kSTIAK-MLs1ewC-Q/edit?usp=sharing
+https://docs.google.com/document/d/1MGHRkPNj2HTmQdMBd2MlmwN3UmxL4tfz4RAHLsYtz00/edit?usp=sharing
 
 
 ### Log book
