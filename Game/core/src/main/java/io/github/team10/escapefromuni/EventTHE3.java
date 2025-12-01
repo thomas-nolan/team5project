@@ -15,9 +15,14 @@ import com.badlogic.gdx.math.Vector3;
  * feedback based on the player's answer. If the player gets the answer correct the score increases, otherwise the
  * player is slowed down.
  */
-public class EventTHE3 extends Event{
+public class EventTHE3 implements IEvent{
 
     private final ScoreManager scoreManager;
+    private final Player player;
+    private final EscapeGame game;
+    private final EventType type;
+
+    private boolean eventFinished = false;
 
     private final Texture titlePanelTexture;
     private final Texture questionPanelTexture;
@@ -44,7 +49,10 @@ public class EventTHE3 extends Event{
      */
     public EventTHE3(Player player, EscapeGame game, ScoreManager scoreManager)
     {
-        super(EventType.NEGATIVE, player, game);
+        this.player = player;
+        this.game = game;
+        this.scoreManager = scoreManager;
+        this.type = EventType.NEGATIVE;
 
         titlePanelTexture = new Texture("UI/Blue4x1Panel.png");
         questionPanelTexture = new Texture("UI/BlueBorder10x3Panel.png");
@@ -55,9 +63,17 @@ public class EventTHE3 extends Event{
         questionPanelSprite = new Sprite(questionPanelTexture);
         trueButtonSprite = new Sprite(trueButtonTexture);
         falseButtonSprite = new Sprite(falseButtonTexture);
-
-        this.scoreManager = scoreManager;
     }
+
+    @Override 
+    public EventType getType(){
+        return type;
+    }
+    @Override
+    public boolean IsFinished() {
+        return eventFinished;
+    }
+
 
     /**
      * Starts the event by disabling player movement and initialising the quiz UI.

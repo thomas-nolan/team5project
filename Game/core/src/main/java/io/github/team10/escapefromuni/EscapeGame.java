@@ -28,6 +28,9 @@ public class EscapeGame extends Game {
     public OrthographicCamera uiCamera;
     public FitViewport uiViewport;
 
+    public GameController gameController;
+    public UIController uiController;
+
     @Override
     public void create() {
         batch = new SpriteBatch();
@@ -37,8 +40,12 @@ public class EscapeGame extends Game {
         uiViewport = new FitViewport(1920, 1080, uiCamera);
 
         generateFont();
+        
+        this.uiController = new UIController(this, null);
+        this.gameController = new GameController(this, uiController);
+        uiController.setGameController(gameController);
 
-        this.setScreen(new MainMenu(this));
+        uiController.showMainMenu();
     }
 
     /**

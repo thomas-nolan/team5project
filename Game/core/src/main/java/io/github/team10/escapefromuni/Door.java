@@ -6,12 +6,13 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 /**
  * Represents a door used to connect rooms.
  * 
- * Each {@code Door} is has a direction and is managed by the {@link RoomManager}.
+ * Each {@code Door} is has a direction and is managed by the {@link DoorController}.
  * The door can be active or inactive indicating whether it is visible and can be used.  
  */
 public class Door {
-    public RoomManager roomManager;
+    public DoorController doorController;
     public DoorDirection direction;
+
     public boolean isActive;
     public Texture doorTexture;
     public Sprite doorSprite;
@@ -25,14 +26,17 @@ public class Door {
      * @param x The x-coord of the bottom left corner of the door.
      * @param y The y-coord of the bottom left corner of the door.
      */
-    public Door(RoomManager roomManager, DoorDirection direction, float x, float y)
+    public Door(DoorController doorController, DoorDirection direction, float x, float y)
     {
-        this.roomManager = roomManager;
+        this.doorController = doorController;
         this.direction = direction;
+
         doorTexture = new Texture("DoorNew.png");
         doorSprite = new Sprite(doorTexture);
+
         doorSprite.setSize(1f, 1f);
         doorSprite.setPosition(x, y);
+
         isActive = true;
     }
 
@@ -40,7 +44,7 @@ public class Door {
     {
         if (isActive)
         {
-            doorSprite.draw(roomManager.game.batch);    
+            doorSprite.draw(doorController.getGame().batch);    
         }
     }
 

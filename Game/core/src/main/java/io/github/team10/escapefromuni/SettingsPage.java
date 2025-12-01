@@ -17,6 +17,7 @@ import com.badlogic.gdx.math.Vector3;
 public class SettingsPage implements Screen {
     
     private final EscapeGame game;
+    private final UIController uiController;
     private final Screen previousScreen;
     private Texture backgroundImage;
     private Texture buttonTexture;
@@ -35,8 +36,9 @@ public class SettingsPage implements Screen {
     private boolean isDraggingSlider;
     private int audioLevel;
     
-    public SettingsPage(EscapeGame game, Screen previousScreen) {
+    public SettingsPage(EscapeGame game, UIController uiController, Screen previousScreen) {
         this.game = game;
+        this.uiController = uiController;
         this.previousScreen = previousScreen;
         this.audioLevel = (int)(AudioManager.getInstance().getVolume() * 100);
     }
@@ -187,7 +189,7 @@ public class SettingsPage implements Screen {
     }
     
     public void onBack() {
-        game.setScreen(previousScreen);
+        uiController.returnToPreviousScreen(previousScreen);
         dispose();
     }
     

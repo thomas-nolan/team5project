@@ -17,6 +17,7 @@ import com.badlogic.gdx.math.Vector3;
 public class PauseMenu implements Screen {
     
     private final EscapeGame game;
+    private final UIController uiController;
     private final GameScreen gameScreen;
     private BitmapFont font;
     private GlyphLayout layout;
@@ -34,8 +35,9 @@ public class PauseMenu implements Screen {
     private boolean settingsHovered;
     private boolean exitHovered;
     
-    public PauseMenu(EscapeGame game, GameScreen gameScreen, int pausedTime) {
+    public PauseMenu(EscapeGame game, UIController uiController, GameScreen gameScreen, int pausedTime) {
         this.game = game;
+        this.uiController = uiController;
         this.gameScreen = gameScreen;
         this.pausedTime = pausedTime;
     }
@@ -146,21 +148,20 @@ public class PauseMenu implements Screen {
     
     public void onResume() {
         System.out.println("Resuming game...");
-        gameScreen.resumeGame();
-        game.setScreen(gameScreen);
+        uiController.resumeGame(gameScreen);
         dispose();
     }
     
     public void onSettings() {
         System.out.println("Opening settings from pause menu...");
-        game.setScreen(new SettingsPage(game, this));
+        uiController.showSettings(this);
         dispose();
     }
     
     public void onExit() {
         System.out.println("Returning to main menu...");
         gameScreen.dispose();
-        game.setScreen(new MainMenu(game));
+        uiController.showMainMenu();
         dispose();
     }
     

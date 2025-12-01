@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 public class GameOverScreen implements Screen {
 
     private final EscapeGame game;
+    private final UIController uiController;
     private final boolean isWon;
     private final Timer timer;
     private final ScoreManager scoreManager;
@@ -32,8 +33,9 @@ public class GameOverScreen implements Screen {
      * @param timer The timer used to track playtime.
      * @param scoreManager  The score manager which calculates the final score.
      */
-    public GameOverScreen(final EscapeGame game, boolean isWon, Timer timer, ScoreManager scoreManager) {
+    public GameOverScreen(final EscapeGame game, UIController uiController, boolean isWon, Timer timer, ScoreManager scoreManager) {
         this.game = game;
+        this.uiController = uiController;
         this.isWon = isWon;
         this.timer = timer;
         this.scoreManager = scoreManager;
@@ -47,8 +49,7 @@ public class GameOverScreen implements Screen {
     public void render(float delta) {
         // Return to main menu if ESC pressed.
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            AudioManager.getInstance().playClickSound();
-            game.setScreen(new MainMenu(game));
+            uiController.showMainMenu();
             dispose();
             return;
         }

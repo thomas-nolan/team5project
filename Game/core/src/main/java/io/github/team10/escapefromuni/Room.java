@@ -8,10 +8,10 @@ import com.badlogic.gdx.graphics.Texture;
  * A room can be connected to up to 4 adjacent rooms, and may contain an event.
  */
 public class Room {
-    public RoomManager roomManager;
-    private Event event;
-    private Room[] adjacentRooms = new Room[4];
-    private Texture roomTexture;
+
+    private IEvent event;
+    private final Room[] adjacentRooms = new Room[4];
+    private final Texture roomTexture;
     private final boolean isExit;
 
     /**
@@ -29,10 +29,9 @@ public class Room {
      * Initialises a new room, with isExit set to false (the case for most rooms).
      * @param roomTexture The texture for this room.
      */
-    public Room(Texture roomTexture)
+    public Room(Texture texture)
     {
-        this.roomTexture = roomTexture;
-        this.isExit = false;
+        this(texture, false);
     }
 
     public Texture getRoomTexture()
@@ -40,11 +39,7 @@ public class Room {
         return roomTexture;
     }
 
-    /**
-     * Returns whether this room is a final exit room.
-     */
-    public boolean getExit()
-    {
+    public boolean isExit(){
         return isExit;
     }
 
@@ -55,10 +50,7 @@ public class Room {
      */
     public void addAdjacent(Room adjacentRoom, DoorDirection direction)
     {
-        if (direction == DoorDirection.NORTH) adjacentRooms[0] = adjacentRoom;
-        if (direction == DoorDirection.EAST) adjacentRooms[1] = adjacentRoom;
-        if (direction == DoorDirection.SOUTH) adjacentRooms[2] = adjacentRoom;
-        if (direction == DoorDirection.WEST) adjacentRooms[3] = adjacentRoom;
+       adjacentRooms[direction.ordinal()] = adjacentRoom;
     }
 
     /**
@@ -69,11 +61,8 @@ public class Room {
      */
     public Room getAdjacent(DoorDirection direction)
     {
-        if (direction == DoorDirection.NORTH) return adjacentRooms[0];
-        if (direction == DoorDirection.EAST) return adjacentRooms[1];
-        if (direction == DoorDirection.SOUTH) return adjacentRooms[2];
-        if (direction == DoorDirection.WEST) return adjacentRooms[3];
-        return null;
+        return adjacentRooms[direction.ordinal()];
+
     }
 
     /**
@@ -87,28 +76,21 @@ public class Room {
         return adjacentRooms;
     }
 
-    public void setEvent(Event event)
+    public void setEvent(IEvent event)
     {
         this.event = event;
     }
 
-    public Event getEvent()
+    public IEvent getEvent()
     {
-        return this.event;
+        return event;
     }
 
     public EventType getEventType() {
         if (event != null)
         {
-            return event.type;
+            return event.getType();
         }
         return EventType.NONE;
-    }
-
-    /**
-     * Perform actions after room is loaded e.g. play event.
-     */
-    public void start() {
-        if (event != null) event.startEvent();
     }
 }

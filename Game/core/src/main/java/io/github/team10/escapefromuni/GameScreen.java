@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 /**
@@ -14,71 +13,48 @@ import com.badlogic.gdx.utils.ScreenUtils;
  * Will handle rendering of game textures using the SpriteBatch stored in EscapeGame. 
  */
 public class GameScreen extends ScreenAdapter {
-    final EscapeGame game;
-    Player player;
-    RoomManager roomManager;
-    ScoreManager scoreManager;
-    Timer timer; 
+    private final EscapeGame game;
+    private final GameController controller;
+    private final UIController uiController;
+    private boolean isPaused = false;
 
-    private final BitmapFont font;
-    private boolean isPaused;
-
-    public GameScreen(final EscapeGame game)
-    {
+    public GameScreen(EscapeGame game, UIController uiController, GameController controller){
         this.game = game;
-        timer = new Timer(); 
-        scoreManager = new ScoreManager();
+        this.uiController = uiController;
+        this.controller = controller;
+        
+    }
 
-        player = new Player(3f, 1f, 1f, game);
-        roomManager = new RoomManager(game, player, scoreManager, timer);
-        roomManager.initialiseMap();
-
-
-        font = game.font;
-        isPaused = false;
+    public void CheckLose(){   
+        if (controller.getTimer().hasReached(300)) { // 300 seconds = 5 minutes
+            uiController.showGameOver(false, controller.getTimer(), controller.getScoreManager());
+        }
     }
 
     @Override
     public void render(float delta) {
     // Check for ESC key to pause
-    if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-        isPaused = true;
-        int currentTime = timer.getTimeSeconds();
-        game.setScreen(new PauseMenu(game, this, currentTime));
-        return;
-    }
-
-    if (!isPaused) {
-        update(delta);
-        CheckLose();
-    }
-
-    draw();
-    }
-
-    public void CheckLose()
-    {   
-        if (timer.hasReached(300)) { // 300 seconds = 5 minutes
-            game.setScreen(new GameOverScreen(game, false, timer, scoreManager));
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            pauseGame();
+            return;
         }
+    
+        if (!isPaused) {
+            controller.update(delta);
+            CheckLose();
+        }
+        draw();
+    }
+
+    private void pauseGame(){
+        isPaused = true;
+        int pausedTime = controller.getTimer().getTimeSeconds();
+        uiController.pauseGame(this, pausedTime);
     }
 
     //timer resuming form pause menu
     public void resumeGame() {
         isPaused = false;
-    }
-
-    /**
-     * Performs game logic each frame. 
-     * 
-     * Always called before drawing textures.
-     * @param delta float representing the time since the last frame.
-     */
-    private void update(float delta)
-    {
-        player.update(delta);
-        roomManager.update(delta);
-        timer.update(delta);
     }
 
     /**
@@ -92,27 +68,23 @@ public class GameScreen extends ScreenAdapter {
 		game.batch.begin();
 
         // World Rendering
-        roomManager.drawMap();
-        player.draw();
+        
+        controller.drawWorld();
+        
         game.batch.end();
 
         // UI Rendering
         game.uiViewport.apply();
         game.batch.setProjectionMatrix(game.uiCamera.combined);
         game.batch.begin();
-        roomManager.drawEventUI();
-
-        font.setColor(Color.BLACK);
-        font.draw(game.batch, "Time: " + timer.getTimeLeftSeconds() + "s", 75f, 1000f);
-
+        controller.drawUI(game);
         game.batch.end();
     }
 
     @Override
     public void dispose()
     {
-        roomManager.dispose();
-        player.dispose();
+        controller.dispose();
     }
 
     @Override public void show() {

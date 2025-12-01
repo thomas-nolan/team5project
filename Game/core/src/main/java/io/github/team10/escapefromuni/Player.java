@@ -17,6 +17,7 @@ public class Player {
     public float speed;
     public EscapeGame game;
     private boolean movementEnabled;
+    private boolean textureDisposed = false;
 
     private final float EDGE_LIMIT = 1f;
 
@@ -31,14 +32,28 @@ public class Player {
     {
         this.speed = speed;
         this.game = game;
+        this.movementEnabled = true;
+
+        loadTexture(playerWidth, playerHeight);
+    }
+
+    private void loadTexture(float width, float height){
+        if(playerTexture != null && !textureDisposed){
+            playerTexture.dispose();
+        }
+
         playerTexture = new Texture("MalePlayer.png");
         playerSprite = new Sprite(playerTexture);
-        playerSprite.setSize(playerWidth, playerHeight);
+        playerSprite.setSize(width, height);
 
+        // Center the player
         float centerX = game.viewport.getWorldWidth() / 2f;
         float centerY = game.viewport.getWorldHeight() / 2f;
         playerSprite.setCenter(centerX, centerY);
-        this.movementEnabled = true;
+    }
+
+    public void reset(float playerWidth, float playerHeight){
+        loadTexture(playerWidth, playerHeight);
     }
 
     /**
@@ -102,7 +117,10 @@ public class Player {
      * Draws the player sprite.
      */
     public void draw() {
-        playerSprite.draw(game.batch);
+        if(!textureDisposed){
+            playerSprite.draw(game.batch);
+        }
+            
     }
 
     /**
@@ -121,8 +139,10 @@ public class Player {
      * Should be called when the GameScreen is disposed.
      */
     public void dispose()
-    {
-        playerTexture.dispose();
+    {   
+        if(playerTexture != null && !textureDisposed){
+            playerTexture.dispose();
+        }
     }
 
     /**

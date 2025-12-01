@@ -12,8 +12,13 @@ import com.badlogic.gdx.math.Vector2;
  * The event begins hidden (only outline is visible) and is revealed when the player approaches within a certain 
  * distance. Once revealed, Longboi appears and displays a dialogue panel.
  */
-public class EventLongboi extends Event {
+public class EventLongboi implements IEvent {
 
+    private final Player player;
+    private final EscapeGame game;
+    private final EventType type;
+
+    private boolean eventFinished = false;
     private boolean hidden = true;
     private final Texture longboiHiddenTexture;
     private final Texture longboiTexture;
@@ -26,12 +31,25 @@ public class EventLongboi extends Event {
      */
     public EventLongboi(Player player, EscapeGame game)
     {
-        super(EventType.HIDDEN, player, game);
+        this.player = player;
+        this.game = game;
+        this.type = EventType.HIDDEN;
+
         longboiTexture = new Texture("Longboi.png");
         longboiHiddenTexture = new Texture("LongboiShadow.png");
         speechPanelTexture = new Texture("UIWideBottomPanel.png");
         speechPanelSprite = new Sprite(speechPanelTexture);
         speechPanelSprite.setSize(1200f, 240f);
+    }
+
+    @Override
+    public EventType getType() {
+        return type;
+    }
+
+    @Override
+    public boolean IsFinished() {
+        return eventFinished;
     }
 
     @Override

@@ -9,7 +9,13 @@ import com.badlogic.gdx.math.Vector2;
  * 
  * When the player runs into the sausage roll, they gain a speed increase.
  */
-public class EventGreggs extends Event {
+public class EventGreggs implements IEvent {
+
+    private final Player player;
+    private final EscapeGame game;
+    private final EventType type;
+
+    private boolean eventFinished = false;
 
     private final Texture greggsTexture;
     private Sprite greggsSprite;
@@ -21,8 +27,20 @@ public class EventGreggs extends Event {
      */
     public EventGreggs(Player player, EscapeGame game)
     {
-        super(EventType.POSITIVE, player, game);
+        this.player = player;
+        this.game = game;
+        this.type = EventType.POSITIVE;
         greggsTexture = new Texture("GreggsSausageRoll.png");
+    }
+
+     @Override
+    public EventType getType() {
+        return type;
+    }
+
+    @Override
+    public boolean IsFinished() {
+        return eventFinished;
     }
 
     @Override

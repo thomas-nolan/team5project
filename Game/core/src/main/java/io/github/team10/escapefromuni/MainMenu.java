@@ -17,6 +17,7 @@ import com.badlogic.gdx.math.Vector2;
 public class MainMenu implements Screen {
 
     private final EscapeGame game;
+    private final UIController ui;
     private Texture backgroundImage;
     private Texture buttonTexture;
     private BitmapFont font;
@@ -34,8 +35,9 @@ public class MainMenu implements Screen {
     private boolean settingsHovered;
     private boolean exitHovered;
 
-    public MainMenu(EscapeGame game) {
+    public MainMenu(EscapeGame game, UIController ui) {
         this.game = game;
+        this.ui = ui;
     }
 
     @Override
@@ -133,28 +135,28 @@ public class MainMenu implements Screen {
     public void onStartGame() {
         // switch to main gameplay
         System.out.println("Starting game...");
-        game.setScreen(new GameScreen(game));
+        ui.startGame();
         dispose();
     }
 
     public void onTutorial() {
         // open tutorial page
         System.out.println("Opening tutorial...");
-        game.setScreen(new TutorialPage(game));
+        ui.showTutorial();
         dispose();
     }
 
     public void onSettings() {
         // open settings page
         System.out.println("Opening settings...");
-        game.setScreen(new SettingsPage(game, this));
+        ui.showSettings(this);
         dispose();
     }
 
     public void onExit() {
         // quit game
         System.out.println("Exiting game...");
-        Gdx.app.exit();
+        ui.exitGame();
     }
 
     @Override

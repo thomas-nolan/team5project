@@ -14,14 +14,16 @@ import com.badlogic.gdx.graphics.Texture;
 public class TutorialPage implements Screen {
     
     private final EscapeGame game;
+    private final UIController uiController;
     private Texture tutorialImage;
     
     /**
      * Creates a new TutorialPage instance.
      * @param game Reference to the main {@link EscapeGame} instance.
      */
-    public TutorialPage(EscapeGame game) {
+    public TutorialPage(EscapeGame game, UIController uiController) {
         this.game = game;
+        this.uiController = uiController;
     }
     
     @Override
@@ -46,7 +48,7 @@ public class TutorialPage implements Screen {
      * Returns to main menu.
      */
     public void onEscPress() {
-        game.setScreen(new MainMenu(game));
+        uiController.showMainMenu();
         dispose();
     }
     
