@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 
 /**
  * Represents the player character.
- * 
+ *
  * Handles player rendering, movement and collision detection.
  */
 public class Player {
@@ -70,7 +70,7 @@ public class Player {
 
     /**
      * Handles player movement and constrains movement to within screen edge boundaries.
-     * 
+     *
      * Uses arrow key input. Center of player remains at least {@link #EDGE_LIMIT} units from the world edges.
      * @param delta The time in seconds since the last frame.
      */
@@ -82,22 +82,22 @@ public class Player {
         float playerCenterX = playerSprite.getX() + halfWidth;
         float playerCenterY = playerSprite.getY() + halfHeight;
 
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
             if (playerCenterX < worldWidth - EDGE_LIMIT) {
                 playerSprite.translateX(speed * delta);
             }
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
             if (playerCenterX > EDGE_LIMIT) {
                 playerSprite.translateX(-speed * delta);
             }
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
             if (playerCenterY < worldHeight - EDGE_LIMIT) {
                 playerSprite.translateY(speed * delta);
             }
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
             if (playerCenterY > EDGE_LIMIT) {
                 playerSprite.translateY(-speed * delta);
             }
@@ -120,7 +120,7 @@ public class Player {
         if(!textureDisposed){
             playerSprite.draw(game.batch);
         }
-            
+
     }
 
     /**
@@ -135,11 +135,11 @@ public class Player {
 
     /**
      * Dispose of player texture to free GPU memory.
-     * 
+     *
      * Should be called when the GameScreen is disposed.
      */
     public void dispose()
-    {   
+    {
         if(playerTexture != null && !textureDisposed){
             playerTexture.dispose();
         }
@@ -156,7 +156,7 @@ public class Player {
     }
 
     /**
-     * Sets the center position of the player sprite. 
+     * Sets the center position of the player sprite.
      * @param x The x-coord of the new position.
      * @param y The y-coord of the new position.
      */

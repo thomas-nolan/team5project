@@ -7,15 +7,17 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import java.util.HashMap;
+import java.util.Random;
 
 /**
  * Represents the THE3 exam negative event.
- * 
- * This event temporarily disables player movement, displays a quiz question with TRUE/FALSE buttons, and provides 
+ *
+ * This event temporarily disables player movement, displays a quiz question with TRUE/FALSE buttons, and provides
  * feedback based on the player's answer. If the player gets the answer correct the score increases, otherwise the
  * player is slowed down.
  */
-public class EventTHE3 implements IEvent{
+public class EventTHE3 implements IEvent {
 
     private final ScoreManager scoreManager;
     private final Player player;
@@ -42,7 +44,9 @@ public class EventTHE3 implements IEvent{
 
     private Rectangle trueButtonBounds;
     private Rectangle falseButtonBounds;
-    
+
+    private HashMap<String, Boolean> questions;
+    private Random questionNumber;
 
     /**
      * Creates a new instance of EventTHE3.
@@ -65,7 +69,7 @@ public class EventTHE3 implements IEvent{
         falseButtonSprite = new Sprite(falseButtonTexture);
     }
 
-    @Override 
+    @Override
     public EventType getType(){
         return type;
     }
@@ -91,11 +95,14 @@ public class EventTHE3 implements IEvent{
 
     /**
      * Initialises and positions all UI components for the quiz screen.
-     * 
+     *
      * This includes a title, question display and two buttons (true or false).
      */
     private void initialiseQuizUI()
     {
+        questionNumber = new Random();
+        initialiseQuestions();
+
         feedbackText = "";
         questionText = "True or False:\nThe self-accepting problem SA \nis semi-decidable.";
 
@@ -124,6 +131,13 @@ public class EventTHE3 implements IEvent{
         );
     }
 
+    public void initialiseQuestions() {
+        questions.put("True or False:\nThe self-accepting problem SA \nis semi-decidable.", Boolean.TRUE);
+        // Add more questions later
+    }
+
+    
+
     /**
      * Ends the event, enabling player movement again and disposing of textures.
     */
@@ -140,7 +154,7 @@ public class EventTHE3 implements IEvent{
 
     /**
      * Called every frame to update the event's logic.
-     * 
+     *
      * Handles input detection for true/false buttons.
      * Controls the post-answer delay before ending the event.
      * @param delta The time elapsed since the last frame in seconds.
@@ -167,19 +181,19 @@ public class EventTHE3 implements IEvent{
             if (trueButtonBounds.contains(touchPos.x, touchPos.y)) {
                 // TRUE selected.
                 handleAnswer(true);
-            } 
+            }
             else if (falseButtonBounds.contains(touchPos.x, touchPos.y)) {
                 // FALSE selected.
                 handleAnswer(false);
             }
         }
 
-        
+
     }
 
     /**
      * Apply's effects based on the player's answer.
-     * 
+     *
      * If correct, score is increased. If incorrect, player speed is decreased.
      * @param answer {@code true} if the true button was pressed, {@code false} otherwise.
      */
@@ -190,13 +204,16 @@ public class EventTHE3 implements IEvent{
         if (answer) {
             feedbackText = "Correct: Score +500";
             scoreManager.increaseScore(500);
-        } 
+        }
         else {
             feedbackText = "Incorrect: Speed Decrease";
             player.increaseSpeed(-2f);
         }
     }
 
+    private void selectQuestion() {
+        // TO DO
+    }
 
     @Override
     public void draw() {

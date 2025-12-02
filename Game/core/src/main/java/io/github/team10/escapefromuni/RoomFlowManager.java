@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.ObjectMap;
 
 public class RoomFlowManager {
-    
+
     private final EscapeGame game;
     private final UIController uiController;
     private final PlayerController playerController;
@@ -15,12 +15,12 @@ public class RoomFlowManager {
     private final ObjectMap<String, Texture> roomTextures = new ObjectMap<>();
     private Room currentRoom;
 
-    public RoomFlowManager(EscapeGame game, UIController uiController, PlayerController playerController, 
+    public RoomFlowManager(EscapeGame game, UIController uiController, PlayerController playerController,
         DoorController doorController, EventSystem eventSystem, ScoreManager scoreManager, Timer timer){
 
         this.game = game;
         this.uiController = uiController;
-        this.playerController = playerController; 
+        this.playerController = playerController;
         this.doorController = doorController;
         this.eventSystem = eventSystem;
         this.scoreManager = scoreManager;
@@ -87,6 +87,7 @@ public class RoomFlowManager {
         room7.setEvent(new EventLongboi(playerController.getPlayer(), game));
         room3.setEvent(new EventGreggs(playerController.getPlayer(), game));
         room5.setEvent(new EventTHE3(playerController.getPlayer(), game, scoreManager));
+        room4.setEvent(new EventFreeze(playerController.getPlayer(), game, timer));
 
         currentRoom = room1;
 
@@ -115,7 +116,7 @@ public class RoomFlowManager {
         doorController.updateForRoom(newRoom);
         playerController.positionAfterRoomChange(direction);
         eventSystem.onEnterRoom(newRoom);
-        
+
         if (newRoom.isExit())
         {
             GameplayStateManager.triggerWin(game, uiController, timer, scoreManager);
