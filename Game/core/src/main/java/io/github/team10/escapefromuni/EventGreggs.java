@@ -31,6 +31,8 @@ public class EventGreggs implements IEvent {
         this.game = game;
         this.type = EventType.POSITIVE;
         greggsTexture = new Texture("GreggsSausageRoll.png");
+        
+        startEvent();
     }
 
      @Override

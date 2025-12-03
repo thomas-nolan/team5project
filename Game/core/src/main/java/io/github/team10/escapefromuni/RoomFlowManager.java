@@ -39,6 +39,7 @@ public class RoomFlowManager {
         roomTextures.put("room7", new Texture("Room5.png"));
         roomTextures.put("room8", new Texture("Room9.png"));
         roomTextures.put("room9", new Texture("Room10.png"));
+        roomTextures.put("hiddenRoom", new Texture("Room2.png"));
 
         // Iniitalise all the rooms
         // TODO: Update room textures, and add more rooms.
@@ -54,6 +55,8 @@ public class RoomFlowManager {
 
         // Exit room is not actually displayed - game ends as soon as player steps inside.
         Room exit = new Room(roomTextures.get("room1"), true);
+        
+        Room hiddenRoom = new Room(roomTextures.get("hiddenRoom"));
 
 
         // Initialise connections - remember both ways.
@@ -82,12 +85,13 @@ public class RoomFlowManager {
 
         room9.addAdjacent(exit, DoorDirection.EAST);
 
-
         // Initialise Events
         room7.setEvent(new EventLongboi(playerController.getPlayer(), game));
         room3.setEvent(new EventGreggs(playerController.getPlayer(), game));
         room5.setEvent(new EventTHE3(playerController.getPlayer(), game, scoreManager));
-
+        room1.setEvent(new EventBookshelf(playerController.getPlayer(), game, this, hiddenRoom, room1));
+        hiddenRoom.setEvent(new EventBookshelf(playerController.getPlayer(), game, this, room1, hiddenRoom));
+        
         currentRoom = room1;
 
         doorController.updateForRoom(currentRoom);
@@ -122,6 +126,15 @@ public class RoomFlowManager {
         }
 
     }
+
+    public void goToRoom(Room targetRoom) {
+        currentRoom = targetRoom;
+
+        float centerX = game.viewport.getWorldWidth() / 2f;
+        float centerY = game.viewport.getWorldHeight() / 2f;
+        playerController.getPlayer().setCenter(centerX, centerY);
+    }
+    
     public Room getCurrentRoom() {
         return currentRoom;
     }
