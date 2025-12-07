@@ -11,12 +11,13 @@ public class RoomFlowManager {
     private DoorController doorController;
     private final EventSystem eventSystem;
     private final ScoreManager scoreManager;
+    private final AchievementManager achievementManager;
     private final Timer timer;
     private final ObjectMap<String, Texture> roomTextures = new ObjectMap<>();
     private Room currentRoom;
 
     public RoomFlowManager(EscapeGame game, UIController uiController, PlayerController playerController,
-        DoorController doorController, EventSystem eventSystem, ScoreManager scoreManager, Timer timer){
+        DoorController doorController, EventSystem eventSystem, ScoreManager scoreManager, Timer timer, AchievementManager achievementManager){
 
         this.game = game;
         this.uiController = uiController;
@@ -25,6 +26,7 @@ public class RoomFlowManager {
         this.eventSystem = eventSystem;
         this.scoreManager = scoreManager;
         this.timer = timer;
+        this.achievementManager = achievementManager;
     }
 
     public void initialiseMap() {
@@ -84,9 +86,9 @@ public class RoomFlowManager {
 
 
         // Initialise Events
-        room7.setEvent(new EventLongboi(playerController.getPlayer(), game));
+        room7.setEvent(new EventLongboi(playerController.getPlayer(), game, achievementManager));
         room3.setEvent(new EventGreggs(playerController.getPlayer(), game));
-        room5.setEvent(new EventTHE3(playerController.getPlayer(), game, scoreManager));
+        room5.setEvent(new EventTHE3(playerController.getPlayer(), game, scoreManager, achievementManager));
         room4.setEvent(new EventFreeze(playerController.getPlayer(), game, timer));
 
         currentRoom = room1;
@@ -119,6 +121,7 @@ public class RoomFlowManager {
 
         if (newRoom.isExit())
         {
+            achievementManager.addAchievement("Complete game");
             GameplayStateManager.triggerWin(game, uiController, timer, scoreManager);
         }
 

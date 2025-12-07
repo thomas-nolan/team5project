@@ -1,0 +1,67 @@
+package io.github.team10.escapefromuni;
+
+import java.util.HashMap;
+
+
+public class AchievementManager {
+
+    HashMap<String, Boolean> achievements = new HashMap<String, Boolean>();
+
+    public AchievementManager(){
+
+        //ones that are commented out arent done yet bc 
+        //  they arent possible yet
+        //'No incorrect answers' is true by default, you lose the achievement
+        //  if you fail a question
+
+        achievements.put("Complete game", false);
+        achievements.put("Speedrun", false);
+        //achievements.put("Found all events", false);
+        //achievements.put("Visit every room", false);
+        //achievements.put("Find hidden room", false);
+        achievements.put("Find Long Boi", false);
+        achievements.put("No incorrect answers", true);
+        //achievements.put("Caught by dean", false);
+
+    }
+
+    public void addAchievement(String achievementName){
+        
+        achievements.put(achievementName,true);
+
+    }
+
+    public void removeAchievement(String achievementName){
+        
+        achievements.put(achievementName,false);
+
+    }
+
+    public int getTotalAchievements(){
+
+        int total = 0;
+
+        for (Boolean i : achievements.values()){
+            if (i){
+                total += 1;
+            }
+        }
+
+        return total;
+    }
+
+    public void reset(){
+
+        achievements.put("Complete game", false);
+        achievements.put("Speedrun", false);
+        achievements.put("Found all events", false);
+        //achievements.put("Visit every room", false);
+        //achievements.put("Find hidden room", false);
+        achievements.put("Find Long Boi", false);
+        achievements.put("No incorrect answers", true);
+        //achievements.put("Caught by dean", false);
+
+    }
+
+
+}

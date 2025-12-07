@@ -21,6 +21,7 @@ public class GameOverScreen implements Screen {
     private final boolean isWon;
     private final Timer timer;
     private final ScoreManager scoreManager;
+    private final AchievementManager achievementManager;
 
     private final BitmapFont font;
     private final Texture winScreen;
@@ -39,6 +40,7 @@ public class GameOverScreen implements Screen {
         this.isWon = isWon;
         this.timer = timer;
         this.scoreManager = scoreManager;
+        this.achievementManager = game.gameController.getAchievementManager();
 
         this.font = game.font;
         this.winScreen = new Texture("WinScreen.png");
@@ -77,7 +79,8 @@ public class GameOverScreen implements Screen {
     private void renderWinScreen(){
         game.batch.draw(winScreen, 0, 0, game.uiViewport.getWorldWidth(), game.uiViewport.getWorldHeight());
         String timeText = "Time Elapsed: " + timer.getTimeSeconds();
-        int finalScore = scoreManager.CalculateFinalScore(timer.getTimeLeftSeconds());
+        checkAchievements(timer.getTimeLeftSeconds());
+        int finalScore = scoreManager.CalculateFinalScore(timer.getTimeLeftSeconds(), achievementManager);
         String scoreText = "Score: " + finalScore;
 
         game.font.setColor(Color.BLACK);
@@ -106,6 +109,14 @@ public class GameOverScreen implements Screen {
      */
     private void renderLoseScreen(){
         game.batch.draw(loseScreen, 0, 0, game.uiViewport.getWorldWidth(), game.uiViewport.getWorldHeight());
+    }
+
+    public void checkAchievements(int timeLeftSeconds){
+
+        if (timeLeftSeconds > 260){
+            achievementManager.addAchievement("Speedrun");
+        }
+
     }
 
     @Override public void show() {}

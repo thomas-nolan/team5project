@@ -21,9 +21,10 @@ public class ScoreManager {
         score = 0;
     }
 
-    public int CalculateFinalScore(int timeLeftSeconds)
+    public int CalculateFinalScore(int timeLeftSeconds, AchievementManager achievementManager)
     {
         int timeScore = 50 * timeLeftSeconds;
-        return timeScore + score;
+        int achievementScore = 200 * achievementManager.getTotalAchievements();
+        return timeScore + score + achievementScore;
     }
 }

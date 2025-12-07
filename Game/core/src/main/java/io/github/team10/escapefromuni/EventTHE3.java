@@ -23,6 +23,7 @@ public class EventTHE3 implements IEvent {
     private final Player player;
     private final EscapeGame game;
     private final EventType type;
+    private final AchievementManager achievementManager;
 
     private boolean eventFinished = false;
 
@@ -51,12 +52,15 @@ public class EventTHE3 implements IEvent {
     /**
      * Creates a new instance of EventTHE3.
      */
-    public EventTHE3(Player player, EscapeGame game, ScoreManager scoreManager)
+    public EventTHE3(Player player, EscapeGame game, ScoreManager scoreManager, AchievementManager achievementManager)
     {
         this.player = player;
         this.game = game;
         this.scoreManager = scoreManager;
         this.type = EventType.NEGATIVE;
+        this.achievementManager = achievementManager;
+
+        this.questions = new HashMap<String, Boolean>();
 
         titlePanelTexture = new Texture("UI/Blue4x1Panel.png");
         questionPanelTexture = new Texture("UI/BlueBorder10x3Panel.png");
@@ -207,6 +211,7 @@ public class EventTHE3 implements IEvent {
         }
         else {
             feedbackText = "Incorrect: Speed Decrease";
+            achievementManager.removeAchievement("No incorrect answers");
             player.increaseSpeed(-2f);
         }
     }

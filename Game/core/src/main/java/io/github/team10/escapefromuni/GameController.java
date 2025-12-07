@@ -7,6 +7,7 @@ public class GameController {
     private Player player;
     private PlayerController playerController;
     private final ScoreManager scoreManager;
+    private final AchievementManager achievementManager;
     private final Timer timer;
 
     private final EventSystem eventSystem;
@@ -19,11 +20,12 @@ public class GameController {
         this.uiController = uiController;
         this.timer = new Timer(); 
         this.scoreManager = new ScoreManager();
+        this.achievementManager = new AchievementManager();
         this.player = new Player(3f, 1f, 1f, game);
 
         this.playerController = new PlayerController(game, player);
         this.eventSystem = new EventSystem();
-        this.roomFlow = new RoomFlowManager(game, this.uiController, playerController, null, eventSystem, scoreManager, timer);
+        this.roomFlow = new RoomFlowManager(game, this.uiController, playerController, null, eventSystem, scoreManager, timer, achievementManager);
         this.doorController = new DoorController(game, playerController, roomFlow);
         this.roomFlow.setDoorController(doorController);
         
@@ -57,6 +59,7 @@ public class GameController {
         // Reset timer and score
         timer.reset();
         scoreManager.reset();
+        achievementManager.reset();
 
         // Recreate the player
         Player newPlayer = new Player(3f, 1f, 1f, game);
@@ -67,7 +70,7 @@ public class GameController {
         this.doorController = new DoorController(game, playerController, null);
 
         // Recreate room flow manager and connect it with the new doorController
-        this.roomFlow = new RoomFlowManager(game, uiController, playerController, doorController, eventSystem, scoreManager, timer);
+        this.roomFlow = new RoomFlowManager(game, uiController, playerController, doorController, eventSystem, scoreManager, timer, achievementManager);
         roomFlow.setDoorController(doorController);
         doorController.setRoomFlowManager(roomFlow);
 
@@ -87,6 +90,10 @@ public class GameController {
     
     public ScoreManager getScoreManager(){
         return scoreManager;
+    }
+
+    public AchievementManager getAchievementManager(){
+        return achievementManager;
     }
 
     public EventSystem getEventSystem(){

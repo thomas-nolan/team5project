@@ -17,6 +17,7 @@ public class EventLongboi implements IEvent {
     private final Player player;
     private final EscapeGame game;
     private final EventType type;
+    private final AchievementManager achievementManager;
 
     private boolean eventFinished = false;
     private boolean hidden = true;
@@ -29,11 +30,12 @@ public class EventLongboi implements IEvent {
     /**
      * Creates a new EventLongboi.
      */
-    public EventLongboi(Player player, EscapeGame game)
+    public EventLongboi(Player player, EscapeGame game, AchievementManager achievementManager)
     {
         this.player = player;
         this.game = game;
         this.type = EventType.HIDDEN;
+        this.achievementManager = achievementManager;
 
         longboiTexture = new Texture("Longboi.png");
         longboiHiddenTexture = new Texture("LongboiShadow.png");
@@ -57,6 +59,7 @@ public class EventLongboi implements IEvent {
     {
         if (eventFinished) return;
 
+        achievementManager.addAchievement("Find Long Boi");
         longboiSprite = new Sprite(longboiHiddenTexture);
         longboiSprite.setSize(1f, 2f);
         longboiSprite.setPosition(8f, 3f);
