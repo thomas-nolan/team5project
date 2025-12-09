@@ -57,5 +57,6 @@ public class Timer {
     public void reset() {
         time = 0;
         timeLeft = 300;
+        isFrozen = false;
     }
 }

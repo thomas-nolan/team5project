@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import java.io.IOException;
+
 /**
  * Represents the Game Over screen, shown when the player either wins or loses.
  * Displays the appropriate background, score, and time information.
@@ -62,7 +64,11 @@ public class GameOverScreen implements Screen {
         game.batch.begin();
 
         if(isWon){
-            renderWinScreen();
+            try {
+                renderWinScreen();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
         else{
             renderLoseScreen();
@@ -76,7 +82,7 @@ public class GameOverScreen implements Screen {
     /**
      * Renders the winning screen, showing the win background, final score and time elapsed.
      */
-    private void renderWinScreen(){
+    private void renderWinScreen() throws IOException {
         game.batch.draw(winScreen, 0, 0, game.uiViewport.getWorldWidth(), game.uiViewport.getWorldHeight());
         String timeText = "Time Elapsed: " + timer.getTimeSeconds();
         checkAchievements(timer.getTimeLeftSeconds());
@@ -104,7 +110,7 @@ public class GameOverScreen implements Screen {
 
     /**
      * Renders the losing screen with the lose background.
-     * 
+     *
      * Doesn't display the score or time.
      */
     private void renderLoseScreen(){
@@ -128,7 +134,7 @@ public class GameOverScreen implements Screen {
     /**
      * Dispose of textures used by the screen.
      */
-    @Override public void dispose() { 
+    @Override public void dispose() {
         winScreen.dispose();
         loseScreen.dispose();
     }

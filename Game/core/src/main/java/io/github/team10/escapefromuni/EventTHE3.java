@@ -9,6 +9,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents the THE3 exam negative event.
@@ -47,7 +49,7 @@ public class EventTHE3 implements IEvent {
     private Rectangle falseButtonBounds;
 
     private HashMap<String, Boolean> questions;
-    private Random questionNumber;
+    private Random randomNum;
 
     /**
      * Creates a new instance of EventTHE3.
@@ -57,6 +59,7 @@ public class EventTHE3 implements IEvent {
         this.player = player;
         this.game = game;
         this.scoreManager = scoreManager;
+        this.questions = new HashMap<>();
         this.type = EventType.NEGATIVE;
         this.achievementManager = achievementManager;
 
@@ -104,11 +107,11 @@ public class EventTHE3 implements IEvent {
      */
     private void initialiseQuizUI()
     {
-        questionNumber = new Random();
+        randomNum = new Random();
         initialiseQuestions();
 
         feedbackText = "";
-        questionText = "True or False:\nThe self-accepting problem SA \nis semi-decidable.";
+        questionText = selectQuestion();
 
         float uiWidth = game.uiViewport.getWorldWidth();
         float uiHeight = game.uiViewport.getWorldHeight();
@@ -135,12 +138,30 @@ public class EventTHE3 implements IEvent {
         );
     }
 
+    /**
+     * Fills the questions hashmap with questions (keys)
+     * and answers (values)
+     */
     public void initialiseQuestions() {
         questions.put("True or False:\nThe self-accepting problem SA \nis semi-decidable.", Boolean.TRUE);
+        questions.put("True or False:\nIpV4 is 64-bits.", Boolean.FALSE);
+        questions.put("True or False:\nThe predecessor to the C programming\n language was called B", Boolean.TRUE);
         // Add more questions later
     }
 
-    
+    /**
+     * Using a randomly generated number, this function selects a random question
+     * from the hash map.
+     * @return String - A random key from the hash map containing the question
+     */
+    private String selectQuestion() {
+        // TO DO
+        List<String> questionList = new ArrayList<String>(questions.keySet());
+        int questionNumber = randomNum.nextInt(questions.size());
+
+        return questionList.get(questionNumber);
+    }
+
 
     /**
      * Ends the event, enabling player movement again and disposing of textures.
@@ -183,16 +204,14 @@ public class EventTHE3 implements IEvent {
             game.uiCamera.unproject(touchPos);
 
             if (trueButtonBounds.contains(touchPos.x, touchPos.y)) {
-                // TRUE selected.
+                // TRUE selected
                 handleAnswer(true);
             }
             else if (falseButtonBounds.contains(touchPos.x, touchPos.y)) {
-                // FALSE selected.
+                // FALSE selected
                 handleAnswer(false);
             }
         }
-
-
     }
 
     /**
@@ -205,7 +224,7 @@ public class EventTHE3 implements IEvent {
         questionAnswered = true;
         answerDisplayTimer = 0f;
 
-        if (answer) {
+        if (answer == questions.get(questionText)) {
             feedbackText = "Correct: Score +500";
             scoreManager.increaseScore(500);
         }
@@ -214,10 +233,6 @@ public class EventTHE3 implements IEvent {
             achievementManager.removeAchievement("No incorrect answers");
             player.increaseSpeed(-2f);
         }
-    }
-
-    private void selectQuestion() {
-        // TO DO
     }
 
     @Override
@@ -238,7 +253,7 @@ public class EventTHE3 implements IEvent {
 
         float uiWidth = game.uiViewport.getWorldWidth();
 
-        String titleText = "THE3 Exam";
+        String titleText = "EXAM";
         layout.setText(game.font, titleText);
         float titleX = (uiWidth - layout.width) / 2f;
         float titleY = titlePanelSprite.getY() + titlePanelSprite.getHeight() / 2f + layout.height / 2f;
