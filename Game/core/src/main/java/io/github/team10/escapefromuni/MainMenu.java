@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Main menu screen displayed on game launch with menu options:
@@ -23,17 +25,22 @@ public class MainMenu implements Screen {
     private BitmapFont font;
     private GlyphLayout layout;
 
+    private FileManager fileManager = new FileManager();
+    private String[] files = {"scores.csv", "previous_score.csv"};
+
     // buttons
     private Rectangle startButton;
     private Rectangle tutorialButton;
     private Rectangle settingsButton;
     private Rectangle exitButton;
+    private Rectangle resetButton;
 
-    // hover states for nuttons
+    // hover states for buttons
     private boolean startHovered;
     private boolean tutorialHovered;
     private boolean settingsHovered;
     private boolean exitHovered;
+    private boolean resetHovered;
 
     public MainMenu(EscapeGame game, UIController ui) {
         this.game = game;
@@ -42,7 +49,7 @@ public class MainMenu implements Screen {
 
     @Override
     public void show() {
-        // backgrouns
+        // background
         backgroundImage = new Texture(Gdx.files.internal("mainmenu_background.png"));
         buttonTexture = new Texture(Gdx.files.internal("ButtonBG.png"));
 
@@ -63,8 +70,9 @@ public class MainMenu implements Screen {
         tutorialButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f + 50f, buttonWidth, buttonHeight);
         settingsButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f - 50f, buttonWidth, buttonHeight);
         exitButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f - 150f, buttonWidth, buttonHeight);
+        resetButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f - 250f, buttonWidth, buttonHeight);
 
-        //menu music 
+        //menu music
         AudioManager.getInstance().playMenuMusic();
     }
 
@@ -85,8 +93,11 @@ public class MainMenu implements Screen {
         drawButton(tutorialButton, "Tutorial", tutorialHovered);
         drawButton(settingsButton, "Settings", settingsHovered);
         drawButton(exitButton, "Exit", exitHovered);
+        drawButton(resetButton, "Reset Leaderboards", resetHovered);
 
+        displayLeaderboards();
         game.batch.end();
+
     }
 
     //the buttons
@@ -108,6 +119,18 @@ public class MainMenu implements Screen {
 
         font.setColor(Color.WHITE);
         font.draw(game.batch, layout, textX, textY);
+
+    }
+
+    private void displayLeaderboards() {
+        Map<String,Integer> scores = fileManager.readFile(files[0]);
+        scores = fileManager.sortMap(scores);
+        float textY = 800;
+        for (String key : scores.keySet()) {
+            String entry = (key + " : " + scores.get(key));
+            font.draw(game.batch, entry,20, textY);
+            textY -= 50;
+        }
     }
 
     private boolean isButtonClicked(Rectangle button) {
@@ -159,6 +182,16 @@ public class MainMenu implements Screen {
         ui.exitGame();
     }
 
+    public void onReset() {
+        Map<String, Integer> defaultScores = new HashMap<String, Integer>();
+        defaultScores.put("Tom", 15000);
+        defaultScores.put("Harry",12000);
+        defaultScores.put("Mimi",10000);
+        defaultScores.put("Will",5000);
+        defaultScores.put("Lottie",0);
+        fileManager.writeFile(files[0],defaultScores);
+    }
+
     @Override
     public void render(float delta) {
 
@@ -179,6 +212,8 @@ public class MainMenu implements Screen {
             onSettings();
         } else if (isButtonClicked(exitButton)) {
             onExit();
+        } else if (isButtonClicked(resetButton)) {
+            onReset();
         }
 
         // draw everything
@@ -202,7 +237,7 @@ public class MainMenu implements Screen {
 
     @Override
     public void dispose() {
-        
+
         backgroundImage.dispose();
         buttonTexture.dispose();
     }

@@ -1,12 +1,7 @@
 package io.github.team10.escapefromuni;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.PrintWriter;
+import java.io.*;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -14,8 +9,12 @@ import java.util.stream.Collectors;
 public class ScoreManager {
 
     private int score;
+    private String playerName;
+    private String[] files = {"scores.csv", "previous_score.csv"};
+
     public ScoreManager() {
         this.score = 0;
+        this.playerName = "Harry"; // Change later
     }
 
     public void increaseScore(int scoreIncrease)
@@ -35,46 +34,34 @@ public class ScoreManager {
         int timeScore = 50 * timeLeftSeconds;
         int achievementScore = 200 * achievementManager.getTotalAchievements();
         int finalScore = timeScore + score + achievementScore;
-        leaderboards(finalScore);
+        //leaderboards(finalScore);
         return finalScore;
     }
 
     public void leaderboards(int playerScore) throws IOException {
-        String[] files = {};
-        Map<String, Integer> scores = new HashMap<String, Integer>();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader("scores.csv"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                scores.put(parts[0], Integer.valueOf(parts[1]));
-                test(scores); // TEST
-            }
-        } catch (IOException e) {
-            System.out.println("READ ERROR");
-            e.printStackTrace();
+        FileManager fileManager = new FileManager();
+
+        Map<String, Integer> scores = fileManager.readFile(files[0]);
+
+        if (!isDuplicate(scores,playerName)) {
+            scores.put(playerName, playerScore);
         }
-
-        scores.put("Player", playerScore);
+        else {
+            scores.put(playerName + "1" ,playerScore);
+        }
         scores = sortMap(scores);
-        //test(scores); // TEST
 
+        fileManager.writeFile(files[0], scores);
+    }
 
-        try (PrintWriter writer = new PrintWriter(new FileWriter("scores.csv"))) {
-            Set<String> keys = scores.keySet();
-            int count = 0;
-            for (String key : keys) {
-                String line = key + "," + scores.get(key);
-                writer.println(line);
-                count++;
-                if (count == 5) { // Reads the first 5
-                    break;
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("WRITE ERROR");
-            e.printStackTrace();
+    // IMPROVE LATER
+    public boolean isDuplicate(Map<String,Integer> map, String playerName) {
+        Set<String> names = map.keySet();
+        if (names.contains(playerName)) {
+            return true;
         }
+        return false;
     }
 
     Map<String, Integer> sortMap(Map<String,Integer> map) {
@@ -89,7 +76,6 @@ public class ScoreManager {
             ));
         return sortedMap;
     }
-
 
     // FOR TESTING DELETE LATER
     void test(Map<String,Integer> map) {

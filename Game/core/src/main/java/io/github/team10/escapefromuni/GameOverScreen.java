@@ -29,6 +29,8 @@ public class GameOverScreen implements Screen {
     private final Texture winScreen;
     private final Texture loseScreen;
 
+    private boolean leaderboardsSaved = false;
+
     /**
      * Constructs a new GameOVerScreen.
      * @param game  The main game instance.
@@ -73,9 +75,6 @@ public class GameOverScreen implements Screen {
         else{
             renderLoseScreen();
         }
-
-
-
         game.batch.end();
     }
 
@@ -87,6 +86,10 @@ public class GameOverScreen implements Screen {
         String timeText = "Time Elapsed: " + timer.getTimeSeconds();
         checkAchievements(timer.getTimeLeftSeconds());
         int finalScore = scoreManager.CalculateFinalScore(timer.getTimeLeftSeconds(), achievementManager);
+        if (leaderboardsSaved == false) {
+            scoreManager.leaderboards(finalScore);
+            leaderboardsSaved = true;
+        }
         String scoreText = "Score: " + finalScore;
 
         game.font.setColor(Color.BLACK);
