@@ -104,6 +104,7 @@ public class EventTHE3 implements IEvent {
      * Initialises and positions all UI components for the quiz screen.
      *
      * This includes a title, question display and two buttons (true or false).
+     * 
      */
     private void initialiseQuizUI()
     {
@@ -146,7 +147,9 @@ public class EventTHE3 implements IEvent {
         questions.put("True or False:\nThe self-accepting problem SA \nis semi-decidable.", Boolean.TRUE);
         questions.put("True or False:\nIpV4 is 64-bits.", Boolean.FALSE);
         questions.put("True or False:\nThe predecessor to the C programming\n language was called B", Boolean.TRUE);
-        // Add more questions later
+        questions.put("True or False:\nThe do ... while loop is in the C programming language",Boolean.TRUE);
+        questions.put("True or False:\nThe HTTPS protocol uses port 80.",Boolean.FALSE);
+        questions.put("True or False:\nP <-> Q is true whenever and have different truth values.",Boolean.FALSE);
     }
 
     /**
@@ -183,6 +186,7 @@ public class EventTHE3 implements IEvent {
      * Handles input detection for true/false buttons.
      * Controls the post-answer delay before ending the event.
      * @param delta The time elapsed since the last frame in seconds.
+     *
      */
     @Override
     public void update(float delta) {
@@ -219,6 +223,7 @@ public class EventTHE3 implements IEvent {
      *
      * If correct, score is increased. If incorrect, player speed is decreased.
      * @param answer {@code true} if the true button was pressed, {@code false} otherwise.
+     *
      */
     private void handleAnswer(boolean answer) {
         questionAnswered = true;
