@@ -9,6 +9,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +30,7 @@ public class MainMenu implements Screen {
     private GlyphLayout layout;
 
     private FileManager fileManager = new FileManager();
-    private String[] files = {"scores.csv", "previous_score.csv"};
+    private String[] files = {"scores.csv", "previous_score.csv", "player_name.txt"};
 
     // buttons
     private Rectangle startButton;
@@ -41,6 +45,10 @@ public class MainMenu implements Screen {
     private boolean settingsHovered;
     private boolean exitHovered;
     private boolean resetHovered;
+
+    private Stage stage;
+    private Skin skin;
+    private TextField inputField;    
 
     public MainMenu(EscapeGame game, UIController ui) {
         this.game = game;
@@ -74,6 +82,18 @@ public class MainMenu implements Screen {
 
         //menu music
         AudioManager.getInstance().playMenuMusic();
+        
+        // Display input field
+        //font.draw(game.batch, "Name:",centerX - buttonWidth, screenHeight + 100f / 2f);
+        stage = new Stage(game.uiViewport);
+        Gdx.input.setInputProcessor(stage);
+
+        skin = new Skin(Gdx.files.internal("uiskin.json"));
+
+        inputField = new TextField("null", skin);
+        inputField.setSize(300, 50);
+        inputField.setPosition(centerX - buttonWidth + 1500f / 2f, screenHeight / 2f);
+        stage.addActor(inputField);
     }
 
     // Draws the main menu UI
@@ -216,8 +236,18 @@ public class MainMenu implements Screen {
             onReset();
         }
 
+        String playerName = inputField.getText().trim();
+
+        if (!(playerName.isEmpty())) {
+            fileManager.writeFileString(files[2], playerName);
+        }
+
         // draw everything
         display();
+
+        stage.act(delta);
+        stage.draw();
+
     }
 
     @Override
@@ -240,5 +270,7 @@ public class MainMenu implements Screen {
 
         backgroundImage.dispose();
         buttonTexture.dispose();
+        stage.dispose();
+        skin.dispose();
     }
 }

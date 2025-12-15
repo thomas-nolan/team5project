@@ -149,7 +149,7 @@ public class EventTHE3 implements IEvent {
         questions.put("True or False:\nThe predecessor to the C programming\n language was called B", Boolean.TRUE);
         questions.put("True or False:\nThe do ... while loop is in the C programming language",Boolean.TRUE);
         questions.put("True or False:\nThe HTTPS protocol uses port 80.",Boolean.FALSE);
-        questions.put("True or False:\nP <-> Q is true whenever and have different truth values.",Boolean.FALSE);
+        questions.put("True or False:\nP <-> Q is true whenever P and Q\nhave different truth values.",Boolean.FALSE);
     }
 
     /**

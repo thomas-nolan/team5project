@@ -5,16 +5,16 @@ import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
 public class ScoreManager {
 
     private int score;
     private String playerName;
-    private String[] files = {"scores.csv", "previous_score.csv"};
+    private String[] files = {"scores.csv", "previous_score.csv", "player_name.txt"};
+    FileManager fileManager = new FileManager();
 
     public ScoreManager() {
         this.score = 0;
-        this.playerName = "Harry"; // Change later
+        this.playerName = fileManager.readFileString(files[2]);
     }
 
     public void increaseScore(int scoreIncrease)
@@ -40,9 +40,8 @@ public class ScoreManager {
 
     public void leaderboards(int playerScore) throws IOException {
 
-        FileManager fileManager = new FileManager();
-
         Map<String, Integer> scores = fileManager.readFile(files[0]);
+        this.playerName = fileManager.readFileString(files[2]);
 
         if (!isDuplicate(scores,playerName)) {
             scores.put(playerName, playerScore);

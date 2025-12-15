@@ -22,6 +22,17 @@ public class FileManager {
         return map;
     }
 
+    public String readFileString(String fileName) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            String line = reader.readLine();
+            return line;
+        } catch (IOException e) {
+            System.out.println("Read Error");
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public void writeFile(String fileName, Map<String,Integer> scores) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
             Set<String> keys = scores.keySet();
@@ -36,6 +47,15 @@ public class FileManager {
             }
         } catch (IOException e) {
             System.out.println("WRITE ERROR");
+            e.printStackTrace();
+        }
+    }
+    
+    public void writeFileString(String fileName, String line) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
+            writer.println(line);
+        } catch (IOException e) {
+            System.out.println("Write Error");
             e.printStackTrace();
         }
     }
