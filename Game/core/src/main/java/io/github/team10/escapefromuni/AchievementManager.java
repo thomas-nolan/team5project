@@ -50,6 +50,25 @@ public class AchievementManager {
         return total;
     }
 
+    public String[] getAchievements(){
+
+        String[] currentAchievements = new String[getTotalAchievements()];
+
+        int index = 0;
+        for (String key : achievements.keySet()){
+
+            if (achievements.get(key)){
+                
+                currentAchievements[index] = key;
+                index += 1;
+
+            }
+        }
+
+        return currentAchievements;
+
+    }
+
     public void reset(){
 
         achievements.put("Complete game", false);

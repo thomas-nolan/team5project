@@ -109,6 +109,9 @@ public class GameOverScreen implements Screen {
         float scoreX = (uiWidth - layout.width) / 2f;
         float scoreY = uiHeight * 0.3f;
         font.draw(game.batch, scoreText, scoreX, scoreY);
+
+        displayAchievements();
+
     }
 
     /**
@@ -124,6 +127,21 @@ public class GameOverScreen implements Screen {
 
         if (timeLeftSeconds > 260){
             achievementManager.addAchievement("Speedrun");
+        }
+
+    }
+
+    public void displayAchievements(){
+
+        float achievementY = game.uiViewport.getWorldHeight() - 20;
+        String[] achievements = achievementManager.getAchievements();
+        font.draw(game.batch, "Achievements: ", 20, achievementY);
+
+        for (int i = 0; i < achievements.length; i++){
+
+            achievementY -= 50;
+            font.draw(game.batch, achievements[i], 20, achievementY);
+            
         }
 
     }
