@@ -7,12 +7,12 @@ public class GameController {
     private Player player;
     private PlayerController playerController;
     private final ScoreManager scoreManager;
-    private final AchievementManager achievementManager;
     private final Timer timer;
 
     private final EventSystem eventSystem;
     private RoomFlowManager roomFlow;
     private DoorController doorController;
+    private final AchievementManager achievementManager;
 
     public GameController(EscapeGame game, UIController uiController){
 
@@ -20,35 +20,36 @@ public class GameController {
         this.uiController = uiController;
         this.timer = new Timer(); 
         this.scoreManager = new ScoreManager();
-        this.achievementManager = new AchievementManager();
         this.player = new Player(3f, 1f, 1f, game);
-
+        this.achievementManager = new AchievementManager();
         this.playerController = new PlayerController(game, player);
         this.eventSystem = new EventSystem();
         this.roomFlow = new RoomFlowManager(game, this.uiController, playerController, null, eventSystem, scoreManager, timer, achievementManager);
         this.doorController = new DoorController(game, playerController, roomFlow);
         this.roomFlow.setDoorController(doorController);
         
+        
         roomFlow.initialiseMap();
     }
 
     public void update(float delta){
-        playerController.update(delta);
-        doorController.update();
-        eventSystem.update(delta);
-        timer.update(delta);
+        roomFlow.update(delta); // processes player input
+        doorController.update(); // checks if the player has touched a door and needs to change room
+        eventSystem.update(delta); // checks if the event has been activated
+        timer.update(delta); // updates the timer
     }
 
     public void drawWorld() {
-        roomFlow.drawCurrentRoom();
-        doorController.draw();
-        playerController.drawPlayer();
-        eventSystem.drawWorld();
+        roomFlow.drawCurrentRoom(); // draws the current room
+        doorController.draw(); // draws the doors
+        playerController.drawPlayer(); // draws the player
+        eventSystem.drawWorld(); // draws the event
     }
 
     public void drawUI(EscapeGame game){
-        eventSystem.drawUI();
-        game.font.draw(this.game.batch, "Time: " + timer.getTimeLeftSeconds() + "s", 75f, 1000f);
+        eventSystem.drawUI(); // renders the ui 
+        doorController.drawUI();
+        game.font.draw(this.game.batch, "Time: " + timer.getTimeLeftSeconds() + "s", 75f, 1000f); // draws remaining time
     }
     public void resetGame(){
         // Dispose old resources
@@ -59,7 +60,6 @@ public class GameController {
         // Reset timer and score
         timer.reset();
         scoreManager.reset();
-        achievementManager.reset();
 
         // Recreate the player
         Player newPlayer = new Player(3f, 1f, 1f, game);
@@ -92,16 +92,15 @@ public class GameController {
         return scoreManager;
     }
 
-    public AchievementManager getAchievementManager(){
-        return achievementManager;
-    }
-
     public EventSystem getEventSystem(){
         return eventSystem;
     }
 
     public Player getPlayer(){
         return player;
+    }
+    public AchievementManager getAchievementManager(){
+        return achievementManager;
     }
 
 }   

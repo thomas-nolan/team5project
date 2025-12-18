@@ -27,6 +27,7 @@ public class AudioManager {
     
     
     private AudioManager() {
+        // loads music and sound files from the files
         loadAudio();
     }
     

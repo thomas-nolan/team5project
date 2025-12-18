@@ -17,6 +17,8 @@ public class Door {
     public Texture doorTexture;
     public Sprite doorSprite;
 
+    private boolean isLocked = false;
+
     /**
      * Creates a new Door instance.
      * 
@@ -56,6 +58,14 @@ public class Door {
     public boolean getActive()
     {
         return isActive;
+    }
+
+    public void setLocked(boolean locked){
+        this.isLocked = locked;
+    }
+
+    public boolean isLocked(){
+        return isLocked;
     }
 
     public void dispose()

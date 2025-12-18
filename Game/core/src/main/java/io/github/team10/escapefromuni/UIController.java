@@ -27,7 +27,7 @@ public class UIController {
         if(gameController != null){
             gameController.resetGame();
         }
-        
+
         game.setScreen(new GameScreen(game, this, gameController));
     }
 
@@ -53,7 +53,7 @@ public class UIController {
 
     public void showGameOver(boolean win, Timer timer, ScoreManager scores) {
         AudioManager.getInstance().playMenuMusic();
-        game.setScreen(new GameOverScreen(game, this, win, timer, scores));
+        game.setScreen(new GameOverScreen(game, this, win, timer, scores, gameController.getAchievementManager()));
     }
 
     public void exitGame() {

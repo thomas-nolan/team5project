@@ -1,6 +1,7 @@
 package io.github.team10.escapefromuni;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.ObjectMap;
 
 /**
  * Represents a single Room.
@@ -9,6 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
  */
 public class Room {
 
+    private final ObjectMap<DoorDirection, Boolean> lockedDoors = new ObjectMap<>();
     private IEvent event;
     private final Room[] adjacentRooms = new Room[4];
     private final Texture roomTexture;
@@ -43,6 +45,15 @@ public class Room {
         return isExit;
     }
 
+    public void setLocked(DoorDirection dir, boolean locked){
+        lockedDoors.put(dir,locked);
+    }
+
+    public boolean isLocked(DoorDirection dir) {
+        return lockedDoors.get(dir, false);
+
+    }
+
     /**
      * Adds a connection to an adjacent room, given a direction. 
      * @param adjacentRoom The adjacent room to connect to.
@@ -52,6 +63,15 @@ public class Room {
     {
        adjacentRooms[direction.ordinal()] = adjacentRoom;
     }
+
+
+    public void removeAdjacent(Room room, DoorDirection direction){
+        if (adjacentRooms[direction.ordinal()] == room){
+            adjacentRooms[direction.ordinal()] = null;
+        }
+    }
+
+
 
     /**
      * Return a specific adjacent room based on a direction.

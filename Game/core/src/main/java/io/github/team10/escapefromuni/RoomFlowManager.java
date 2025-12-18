@@ -1,6 +1,7 @@
 package io.github.team10.escapefromuni;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
 public class RoomFlowManager {
@@ -15,6 +16,9 @@ public class RoomFlowManager {
     private final Timer timer;
     private final ObjectMap<String, Texture> roomTextures = new ObjectMap<>();
     private Room currentRoom;
+    private Dean dean;
+    private final Array<Room> allRooms = new Array<>();
+    private boolean bookshelfRoomVisited = false;
 
     public RoomFlowManager(EscapeGame game, UIController uiController, PlayerController playerController,
         DoorController doorController, EventSystem eventSystem, ScoreManager scoreManager, Timer timer, AchievementManager achievementManager){
@@ -41,6 +45,9 @@ public class RoomFlowManager {
         roomTextures.put("room7", new Texture("Room5.png"));
         roomTextures.put("room8", new Texture("Room9.png"));
         roomTextures.put("room9", new Texture("Room10.png"));
+        roomTextures.put("keyRoom", new Texture("PossibleRoom1.png"));
+        roomTextures.put("hiddenBookshelfRoom", new Texture("PossibleRoom2.png"));
+        roomTextures.put("lostStudentRoom", new Texture("PossibleRoom3.png"));
 
         // Iniitalise all the rooms
         // TODO: Update room textures, and add more rooms.
@@ -53,6 +60,24 @@ public class RoomFlowManager {
         Room room7 = new Room(roomTextures.get("room7"));
         Room room8 = new Room(roomTextures.get("room8"));
         Room room9 = new Room(roomTextures.get("room9"));
+        room8.setLocked(DoorDirection.EAST, true);
+        Room keyRoom = new Room(roomTextures.get("keyRoom"));
+        float roomWidth = game.viewport.getWorldWidth();
+        float roomHeight = game.viewport.getWorldHeight();
+        dean = new Dean(0.6f, 1f, 1f, game, roomWidth, roomHeight);
+        Room hiddenBookshelfRoom = new Room(roomTextures.get("hiddenBookshelfRoom"));
+        Room lostStudentRoom = new Room(roomTextures.get("lostStudentRoom"));
+        
+        
+        allRooms.add(room1);
+        allRooms.add(room2);
+        allRooms.add(room3);
+        allRooms.add(room4);
+        allRooms.add(room5);
+        allRooms.add(room6);
+        allRooms.add(room7);
+        allRooms.add(room8);
+        allRooms.add(hiddenBookshelfRoom);
 
         // Exit room is not actually displayed - game ends as soon as player steps inside.
         Room exit = new Room(roomTextures.get("room1"), true);
@@ -84,18 +109,83 @@ public class RoomFlowManager {
 
         room9.addAdjacent(exit, DoorDirection.EAST);
 
+        room3.addAdjacent(keyRoom, DoorDirection.NORTH);
+        keyRoom.addAdjacent(room3, DoorDirection.SOUTH);
+
+        room4.addAdjacent(hiddenBookshelfRoom, DoorDirection.EAST);
+
 
         // Initialise Events
         room7.setEvent(new EventLongboi(playerController.getPlayer(), game, achievementManager));
         room3.setEvent(new EventGreggs(playerController.getPlayer(), game));
         room5.setEvent(new EventTHE3(playerController.getPlayer(), game, scoreManager, achievementManager));
         room4.setEvent(new EventFreeze(playerController.getPlayer(), game, timer));
+        room6.setEvent(new BearTrapEvent(game, playerController.getPlayer(), timer));
+        keyRoom.setEvent(new KeyEvent(playerController.getPlayer(), game));
+        hiddenBookshelfRoom.setEvent(new BookshelfEvent(playerController.getPlayer(), this, lostStudentRoom, game));
+        lostStudentRoom.setEvent(new TeleportEvent(playerController.getPlayer(), this, game));
+        room2.setEvent(new InvincibleEvent(playerController.getPlayer(), game));
 
         currentRoom = room1;
 
         doorController.updateForRoom(currentRoom);
         eventSystem.onEnterRoom(currentRoom);
+
     }
+
+    public Room getRandomRoom(Room exclude){
+        Array<Room> validRooms = new Array<>();
+        for (Room r: allRooms){
+            if(r != exclude ){
+                validRooms.add(r);
+            }
+        }
+        return validRooms.random();
+    }
+
+    public Room getRoomByName(String room){
+        for (Room r: allRooms){
+            if (r.getRoomTexture() == roomTextures.get(room)){
+                return r;
+            }
+        }
+        return null;
+    }
+
+    public boolean bookshelfRoomVisited(){
+        return bookshelfRoomVisited;
+    }
+
+    public void removeEnterence(Room bookshelfRoom, Room roomFrom, DoorDirection direction){
+        roomFrom.removeAdjacent(bookshelfRoom, direction);
+    }
+
+    public void changeRoomTo(Room room){
+        eventSystem.onExitRoom(currentRoom);
+        currentRoom = room;
+        doorController.updateForRoom(room);
+
+        float centerX = game.viewport.getWorldWidth() / 2f;
+        float centerY = game.viewport.getWorldHeight() / 2f;
+        playerController.getPlayer().setCenter(centerX, centerY);
+
+        eventSystem.onEnterRoom(currentRoom);
+
+    }
+
+    public void update(float delta) {
+        playerController.update(delta);
+
+        if (currentRoom.getEvent() instanceof KeyEvent){
+            dean.update(delta);
+
+            if (dean.checkReached(playerController.getPlayer())){
+                GameplayStateManager.triggerLose(game, uiController, timer, scoreManager);
+        }
+        }
+        
+    }
+
 
     public void setDoorController(DoorController doorController) {
         this.doorController = doorController;
@@ -135,6 +225,10 @@ public class RoomFlowManager {
         float w = game.viewport.getWorldWidth();
         float h = game.viewport.getWorldHeight();
         game.batch.draw(t,0,0, w, h);
+
+        if (currentRoom.getEvent() instanceof KeyEvent) {
+            dean.draw();
+        }
     }
 
     public void dispose(){

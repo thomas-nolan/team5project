@@ -38,13 +38,13 @@ public class GameOverScreen implements Screen {
      * @param timer The timer used to track playtime.
      * @param scoreManager  The score manager which calculates the final score.
      */
-    public GameOverScreen(final EscapeGame game, UIController uiController, boolean isWon, Timer timer, ScoreManager scoreManager) {
+    public GameOverScreen(final EscapeGame game, UIController uiController, boolean isWon, Timer timer, ScoreManager scoreManager, AchievementManager achievementManager) {
         this.game = game;
         this.uiController = uiController;
         this.isWon = isWon;
         this.timer = timer;
         this.scoreManager = scoreManager;
-        this.achievementManager = game.gameController.getAchievementManager();
+        this.achievementManager = achievementManager;
 
         this.font = game.font;
         this.winScreen = new Texture("WinScreen.png");

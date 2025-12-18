@@ -2,7 +2,10 @@ package io.github.team10.escapefromuni;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
@@ -18,6 +21,10 @@ public class Player {
     public EscapeGame game;
     private boolean movementEnabled;
     private boolean textureDisposed = false;
+    private boolean hasKey = false;
+    private boolean invincible = false;
+    private float invincibiltyTime = 0f;
+    private BitmapFont font;
 
     private final float EDGE_LIMIT = 1f;
 
@@ -33,6 +40,8 @@ public class Player {
         this.speed = speed;
         this.game = game;
         this.movementEnabled = true;
+
+        font = new BitmapFont();
 
         loadTexture(playerWidth, playerHeight);
     }
@@ -56,6 +65,15 @@ public class Player {
         loadTexture(playerWidth, playerHeight);
     }
 
+    public void setInvincible(float duration){
+        invincible = true;
+        invincibiltyTime = duration;
+    }
+    
+    public boolean isInvincible(){
+        return invincible;
+    }
+
     /**
      * Called every frame to perform player logic.
      * @param delta The time in seconds since the last frame.
@@ -65,6 +83,14 @@ public class Player {
         if (movementEnabled)
         {
             move(delta);
+        }
+
+        if(invincible){
+            invincibiltyTime -= delta;
+            if(invincibiltyTime <= 0){
+                invincible = false;
+                invincibiltyTime = 0;
+            }
         }
     }
 
@@ -121,6 +147,27 @@ public class Player {
             playerSprite.draw(game.batch);
         }
 
+    }
+
+    public void drawUI(){
+        if(invincible){
+            font.getData().setScale(4f);
+            font.setColor(Color.GREEN);
+
+            String message = "Invincible! " + (int)Math.ceil(invincibiltyTime) + "s";
+        
+            if(!game.batch.isDrawing()) {
+                game.batch.begin();
+            }
+
+            float uiWidth = game.uiViewport.getWorldWidth();
+            float uiHeight = game.uiViewport.getWorldHeight();
+
+            float textX = uiWidth / 2f - message.length() * 4f;
+            float textY = uiHeight * 0.9f;
+
+            font.draw(game.batch, message, textX, textY);
+        }
     }
 
     /**
@@ -183,4 +230,17 @@ public class Player {
     {
         speed += speedIncrease;
     }
+
+    public void giveKey(){
+        hasKey = true;
+    }
+
+    public boolean hasKey(){
+        return hasKey;
+    }
+
+    public void useKey(){
+        hasKey = false;
+    }
+
 }
