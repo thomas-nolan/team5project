@@ -48,7 +48,7 @@ public class MainMenu implements Screen {
 
     private Stage stage;
     private Skin skin;
-    private TextField inputField;    
+    private TextField inputField;
 
     public MainMenu(EscapeGame game, UIController ui) {
         this.game = game;
@@ -82,7 +82,7 @@ public class MainMenu implements Screen {
 
         //menu music
         AudioManager.getInstance().playMenuMusic();
-        
+
         // Display input field
         //font.draw(game.batch, "Name:",centerX - buttonWidth, screenHeight + 100f / 2f);
         stage = new Stage(game.uiViewport);
@@ -151,7 +151,6 @@ public class MainMenu implements Screen {
             font.draw(game.batch, entry,20, textY);
             textY -= 50;
         }
-
         displayPreviousScore();
     }
 
@@ -222,6 +221,7 @@ public class MainMenu implements Screen {
         Map<String, Integer> defaultPreviousScore = new HashMap<String, Integer>();
         defaultPreviousScore.put("Stan", 500);
         fileManager.writeFile(files[0],defaultScores);
+        fileManager.writeFile(files[1],defaultPreviousScore);
     }
 
     @Override
