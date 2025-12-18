@@ -15,7 +15,7 @@ public class FileManager {
                 map.put(parts[0], Integer.valueOf(parts[1]));
             }
         } catch (IOException e) {
-            System.out.println("READ ERROR");
+            System.out.println("READ ERROR with file: " + fileName);
             e.printStackTrace();
         }
 
@@ -27,7 +27,7 @@ public class FileManager {
             String line = reader.readLine();
             return line;
         } catch (IOException e) {
-            System.out.println("Read Error");
+            System.out.println("Read Error with file: " + fileName);
             e.printStackTrace();
         }
         return null;

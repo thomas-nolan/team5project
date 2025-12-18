@@ -34,7 +34,6 @@ public class ScoreManager {
         int timeScore = 50 * timeLeftSeconds;
         int achievementScore = 200 * achievementManager.getTotalAchievements();
         int finalScore = timeScore + score + achievementScore;
-        //leaderboards(finalScore);
         return finalScore;
     }
 
@@ -43,15 +42,24 @@ public class ScoreManager {
         Map<String, Integer> scores = fileManager.readFile(files[0]);
         this.playerName = fileManager.readFileString(files[2]);
 
+        saveCurrentScore(playerName, playerScore);
+
         if (!isDuplicate(scores,playerName)) {
             scores.put(playerName, playerScore);
         }
         else {
             scores.put(playerName + "1" ,playerScore);
         }
-        scores = sortMap(scores);
+        scores = fileManager.sortMap(scores);
 
         fileManager.writeFile(files[0], scores);
+    }
+
+    // Used to display the score achieved. Updates each time
+    public void saveCurrentScore(String name, int score) {
+        Map<String, Integer> currentScore = new HashMap<>();
+        currentScore.putIfAbsent(name, score);
+        fileManager.writeFile(files[1], currentScore);
     }
 
     // IMPROVE LATER
@@ -61,25 +69,5 @@ public class ScoreManager {
             return true;
         }
         return false;
-    }
-
-    Map<String, Integer> sortMap(Map<String,Integer> map) {
-        Map<String, Integer> sortedMap = map.entrySet()
-            .stream()
-            .sorted(Map.Entry.<String,Integer>comparingByValue().reversed()) // Descending order
-            .collect(Collectors.toMap(
-                Map.Entry::getKey,
-                Map.Entry::getValue,
-                (a, b) -> a,
-                LinkedHashMap::new
-            ));
-        return sortedMap;
-    }
-
-    // FOR TESTING DELETE LATER
-    void test(Map<String,Integer> map) {
-        for (Map.Entry<String, Integer> entry : map.entrySet()) {
-            System.out.println(entry.getKey() + " => " + entry.getValue());
-        }
     }
 }
