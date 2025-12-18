@@ -151,6 +151,16 @@ public class MainMenu implements Screen {
             font.draw(game.batch, entry,20, textY);
             textY -= 50;
         }
+
+        displayPreviousScore();
+    }
+
+    private void displayPreviousScore() {
+        Map<String,Integer> prevScore = fileManager.readFile(files[1]);
+        String key = (String) prevScore.keySet().toArray()[0];
+        Integer val = prevScore.get(key);
+        String score = "Previous score: " + key + " : " + val;
+        font.draw(game.batch, score, 20, 400);
     }
 
     private boolean isButtonClicked(Rectangle button) {
@@ -208,7 +218,9 @@ public class MainMenu implements Screen {
         defaultScores.put("Harry",12000);
         defaultScores.put("Mimi",10000);
         defaultScores.put("Will",5000);
-        defaultScores.put("Lottie",0);
+        defaultScores.put("Lottie",1000);
+        Map<String, Integer> defaultPreviousScore = new HashMap<String, Integer>();
+        defaultPreviousScore.put("Stan", 500);
         fileManager.writeFile(files[0],defaultScores);
     }
 

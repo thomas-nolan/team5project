@@ -43,6 +43,8 @@ public class ScoreManager {
         Map<String, Integer> scores = fileManager.readFile(files[0]);
         this.playerName = fileManager.readFileString(files[2]);
 
+        
+
         if (!isDuplicate(scores,playerName)) {
             scores.put(playerName, playerScore);
         }
@@ -52,6 +54,13 @@ public class ScoreManager {
         scores = sortMap(scores);
 
         fileManager.writeFile(files[0], scores);
+    }
+
+    // Used to display the score achieved. Updates each time
+    public void displayCurrentScore(String name, int score) {
+        Map<String, Integer> currentScore = new HashMap<>();
+        currentScore.putIfAbsent(name, score);
+        fileManager.writeFile(files[1], currentScore);
     }
 
     // IMPROVE LATER
