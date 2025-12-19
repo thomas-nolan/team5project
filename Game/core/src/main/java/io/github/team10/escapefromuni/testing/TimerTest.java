@@ -89,6 +89,8 @@ public class TimerTest {
             int after_Time = timer_TEST.getTimeLeftSeconds();
             System.out.println("TESTING TIME FREEZING: the time when frozen was " + before_Time + " and it should be the same and it is : " + after_Time);
 
+            
+
             if(before_Time == after_Time){System.out.println("\nFREEZING TIME = PASS"); return true; }
             else{System.out.println("\nDECREASING TIME = FAIL");return false;}
 
@@ -109,8 +111,11 @@ public class TimerTest {
             int Current_Time = timer_TEST.getTimeLeftSeconds();
 
             System.out.println("Currently the time should be 0: and it is " + Current_Time);
+            timer_TEST.update(10.0f); // Should be maths -10 seconds now as its passed but should still be set as zero
+            int PastZeroTime = timer_TEST.getTimeLeftSeconds();
+            System.out.println("Added 10 seconds of time gone (-10s now) so it should still be zero and it is : " + PastZeroTime);
 
-            if(timer_TEST.isFinished()){System.out.println("\n TIME HAS REACHED ZERO = PASS"); return true; }
+            if(timer_TEST.isFinished() && PastZeroTime == 0){System.out.println("\n TIME HAS REACHED ZERO = PASS"); return true; }
             else{System.out.println("\n TIME HAS REACHED ZERO = FAIL");return false;}
 
         } catch (Exception error) {
