@@ -246,7 +246,7 @@ public class AchievementManager_Test {
 
             // This test passes if the achievement is active
             // The count behavior depends on implementation
-            if (state == true) {
+            if (state == true && finalCount == initialCount) {
                 System.out.println("\nDUPLICATE ACHIEVEMENTS = PASS");
                 return true;
             }
