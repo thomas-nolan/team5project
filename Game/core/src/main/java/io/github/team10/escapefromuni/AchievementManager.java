@@ -25,6 +25,11 @@ public class AchievementManager {
 
     }
 
+    //Added this for the testing sorry it shouldnt make any difference
+    public Boolean getStateAchievement(String achievementName){
+        return achievements.get(achievementName);
+    }
+
     public void addAchievement(String achievementName){
         
         achievements.put(achievementName,true);
