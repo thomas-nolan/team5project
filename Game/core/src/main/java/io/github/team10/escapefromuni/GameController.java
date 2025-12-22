@@ -18,7 +18,7 @@ public class GameController {
 
         this.game = game;
         this.uiController = uiController;
-        this.timer = new Timer(); 
+        this.timer = new Timer();
         this.scoreManager = new ScoreManager();
         this.player = new Player(3f, 1f, 1f, game);
         this.achievementManager = new AchievementManager();
@@ -27,8 +27,7 @@ public class GameController {
         this.roomFlow = new RoomFlowManager(game, this.uiController, playerController, null, eventSystem, scoreManager, timer, achievementManager);
         this.doorController = new DoorController(game, playerController, roomFlow);
         this.roomFlow.setDoorController(doorController);
-        
-        
+
         roomFlow.initialiseMap();
     }
 
@@ -47,7 +46,7 @@ public class GameController {
     }
 
     public void drawUI(EscapeGame game){
-        eventSystem.drawUI(); // renders the ui 
+        eventSystem.drawUI(); // renders the ui
         doorController.drawUI();
         game.font.draw(this.game.batch, "Time: " + timer.getTimeLeftSeconds() + "s", 75f, 1000f); // draws remaining time
     }
@@ -87,7 +86,7 @@ public class GameController {
     public Timer getTimer() {
         return timer;
     }
-    
+
     public ScoreManager getScoreManager(){
         return scoreManager;
     }
@@ -103,4 +102,4 @@ public class GameController {
         return achievementManager;
     }
 
-}   
+}

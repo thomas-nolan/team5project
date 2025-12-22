@@ -18,7 +18,7 @@ import java.util.Map;
 
 /**
  * Main menu screen displayed on game launch with menu options:
- * Start Game, Tutorial,Exit.
+ * Start Game,Tutorial,Exit.
  */
 public class MainMenu implements Screen {
 
@@ -39,6 +39,10 @@ public class MainMenu implements Screen {
     private Rectangle exitButton;
     private Rectangle resetButton;
 
+    private Rectangle easyMode;
+    private Rectangle mediumMode;
+    private Rectangle hardMode;
+
     // hover states for buttons
     private boolean startHovered;
     private boolean tutorialHovered;
@@ -46,9 +50,15 @@ public class MainMenu implements Screen {
     private boolean exitHovered;
     private boolean resetHovered;
 
+    private boolean easyHovered;
+    private boolean mediumHovered;
+    private boolean hardHovered;
+
     private Stage stage;
     private Skin skin;
     private TextField inputField;
+
+    private DifficultySetup difficultySetup = new DifficultySetup();
 
     public MainMenu(EscapeGame game, UIController ui) {
         this.game = game;
@@ -79,6 +89,10 @@ public class MainMenu implements Screen {
         settingsButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f - 50f, buttonWidth, buttonHeight);
         exitButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f - 150f, buttonWidth, buttonHeight);
         resetButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f - 250f, buttonWidth, buttonHeight);
+
+        easyMode = new Rectangle((centerX + 500f) - buttonWidth / 2f, screenHeight / 2f - 250f, buttonWidth, buttonHeight);
+        mediumMode = new Rectangle((centerX + 500f) - buttonWidth / 2f, screenHeight / 2f - 350f, buttonWidth, buttonHeight);
+        hardMode = new Rectangle((centerX + 500f) - buttonWidth / 2f, screenHeight / 2f - 450f, buttonWidth, buttonHeight);
 
         //menu music
         AudioManager.getInstance().playMenuMusic();
@@ -115,12 +129,17 @@ public class MainMenu implements Screen {
         drawButton(exitButton, "Exit", exitHovered);
         drawButton(resetButton, "Reset Leaderboards", resetHovered);
 
+        drawButton(easyMode, "Easy", easyHovered);
+        drawButton(mediumMode, "Medium", mediumHovered);
+        drawButton(hardMode, "Hard", hardHovered);
+
         displayLeaderboards();
+        //difficultySetup.setDifficulty(Difficulty.EASY); // TEST
         game.batch.end();
 
     }
 
-    //the buttons
+    // the buttons
     private void drawButton(Rectangle button, String text, boolean hovered) {
 
         if (hovered) {
@@ -129,7 +148,7 @@ public class MainMenu implements Screen {
             game.batch.setColor(Color.WHITE);
         }
 
-        //button bg,size etc
+        // button bg,size etc
         game.batch.draw(buttonTexture, button.x, button.y, button.width, button.height);
         game.batch.setColor(Color.WHITE);
 
@@ -158,7 +177,7 @@ public class MainMenu implements Screen {
         Map<String,Integer> prevScore = fileManager.readFile(files[1]);
         String key = (String) prevScore.keySet().toArray()[0];
         Integer val = prevScore.get(key);
-        String score = "Previous score: " + key + " : " + val;
+        String score = "Previous score\n" + key + " : " + val;
         font.draw(game.batch, score, 20, 400);
     }
 
@@ -224,6 +243,18 @@ public class MainMenu implements Screen {
         fileManager.writeFile(files[1],defaultPreviousScore);
     }
 
+    public void onEasy() {
+        difficultySetup.setDifficulty(Difficulty.EASY);
+    }
+
+    public void onMedium() {
+        difficultySetup.setDifficulty(Difficulty.NORMAL);
+    }
+
+    public void onHard() {
+        difficultySetup.setDifficulty(Difficulty.HARD);
+    }
+
     @Override
     public void render(float delta) {
 
@@ -234,7 +265,11 @@ public class MainMenu implements Screen {
         tutorialHovered = isButtonHovered(tutorialButton);
         settingsHovered = isButtonHovered(settingsButton);
         exitHovered = isButtonHovered(exitButton);
+        resetHovered = isButtonHovered(resetButton);
 
+        easyHovered = isButtonHovered(easyMode);
+        mediumHovered = isButtonHovered(mediumMode);
+        hardHovered = isButtonHovered(hardMode);
 
         if (isButtonClicked(startButton)) {
             onStartGame();
@@ -246,6 +281,12 @@ public class MainMenu implements Screen {
             onExit();
         } else if (isButtonClicked(resetButton)) {
             onReset();
+        } else if (isButtonClicked(easyMode)) {
+            onEasy();
+        } else if (isButtonClicked(mediumMode)) {
+            onMedium();
+        } else if (isButtonClicked(hardMode)) {
+            onHard();
         }
 
         String playerName = inputField.getText().trim();

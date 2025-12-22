@@ -11,6 +11,8 @@ public class Dean extends Player{
     private final float roomWidth;
     private Texture deanTexture;
 
+    private DifficultySetup difficultySetup = new DifficultySetup();
+
     public Dean(float speed, float width, float height, EscapeGame game, float roomWidth, float roomHeight){
         super(speed, width, height, game);
         this.roomWidth = roomWidth;
@@ -19,7 +21,7 @@ public class Dean extends Player{
         deanTexture = new Texture("dean.png");
         playerSprite.setTexture(deanTexture);
         playerSprite.setSize(width, height);
-        
+
         setCenter(roomWidth / 2f, roomHeight / 2f);
     }
 
@@ -44,8 +46,8 @@ public class Dean extends Player{
         float distance = deanPos.dst(playerPos);
 
         if (distance > 0){
-            float moveX = (dx / distance) * speed * delta;
-            float moveY = (dy / distance) * speed * delta;
+            float moveX = (dx / distance) * speed * delta * difficultySetup.readDifficulty().enemySpeedModifier;
+            float moveY = (dy / distance) * speed * delta * difficultySetup.readDifficulty().enemySpeedModifier;
             playerSprite.translateX(moveX);
             playerSprite.translateY(moveY);
         }

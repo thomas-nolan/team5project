@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import jdk.internal.org.jline.utils.DiffHelper;
 
 /**
  * Represents the player character.
@@ -25,6 +26,7 @@ public class Player {
     private boolean invincible = false;
     private float invincibiltyTime = 0f;
     private BitmapFont font;
+    private DifficultySetup difficultySetup = new DifficultySetup();
 
     private final float EDGE_LIMIT = 1f;
 
@@ -37,7 +39,7 @@ public class Player {
      */
     public Player(float speed, float playerWidth, float playerHeight, EscapeGame game)
     {
-        this.speed = speed;
+        this.speed = speed * (difficultySetup.readDifficulty().playerSpeedModifier);
         this.game = game;
         this.movementEnabled = true;
 
@@ -69,7 +71,7 @@ public class Player {
         invincible = true;
         invincibiltyTime = duration;
     }
-    
+
     public boolean isInvincible(){
         return invincible;
     }
@@ -155,7 +157,7 @@ public class Player {
             font.setColor(Color.GREEN);
 
             String message = "Invincible! " + (int)Math.ceil(invincibiltyTime) + "s";
-        
+
             if(!game.batch.isDrawing()) {
                 game.batch.begin();
             }
