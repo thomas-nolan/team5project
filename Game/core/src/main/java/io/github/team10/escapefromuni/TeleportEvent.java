@@ -10,16 +10,18 @@ public class TeleportEvent implements IEvent{
     private final Player player;
     private final RoomFlowManager roomFlow;
     private final EscapeGame game;
+    private final EventSystem eventSystem;
 
     private Sprite teleportSprite;
     private Texture teleportTexture;
 
     private boolean finished = false;
 
-    public TeleportEvent (Player player, RoomFlowManager roomFlow, EscapeGame game){
+    public TeleportEvent (Player player, RoomFlowManager roomFlow, EscapeGame game, EventSystem eventSystem){
         this.player = player;
         this.roomFlow = roomFlow;
         this.game = game;
+        this.eventSystem = eventSystem;
 
     }
 
@@ -50,9 +52,11 @@ public class TeleportEvent implements IEvent{
        if(finished) return;
 
        if (player.checkCollision(teleportSprite) && Gdx.input.isKeyJustPressed(Input.Keys.F)){
+
             Room destination = roomFlow.getRandomRoom(roomFlow.getRoomByName("hiddenBookshelfRoom"));
             
             if(destination != null){
+                eventSystem.registerEvent(EventType.HIDDEN);
                 roomFlow.changeRoomTo(destination);
                 finished = true;
             }

@@ -13,12 +13,14 @@ public class BookshelfEvent implements IEvent {
     private Texture bookshelfTexture;
     private final EscapeGame game;
     private final Room destinationRoom;
+    private final EventSystem eventSystem;
 
-    public BookshelfEvent(Player player, RoomFlowManager roomFlow, Room destinationRoom, EscapeGame game){
+    public BookshelfEvent(Player player, RoomFlowManager roomFlow, Room destinationRoom, EscapeGame game, EventSystem eventSystem){
         this.player = player;
         this.roomFlow = roomFlow;
         this.game = game;
         this.destinationRoom = destinationRoom;
+        this.eventSystem = eventSystem;
     }
 
     @Override
@@ -48,6 +50,7 @@ public class BookshelfEvent implements IEvent {
         }
 
         if(player.checkCollision(bookshelfSprite) && Gdx.input.isKeyJustPressed(Input.Keys.F)) {
+            eventSystem.registerEvent(EventType.HIDDEN);
             roomFlow.changeRoomTo(destinationRoom);
             isFinished = true;
         

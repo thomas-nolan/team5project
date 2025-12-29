@@ -14,15 +14,17 @@ public class KeyEvent implements IEvent{
 
     private Texture keyTexture;
     private Sprite keySprite;
+    private final EventSystem eventSystem;
 
     private boolean isFinished = false;
     private boolean pickedUp = false;
 
     private BitmapFont font = new BitmapFont();
 
-    public KeyEvent(Player player, EscapeGame game){
+    public KeyEvent(Player player, EscapeGame game, EventSystem eventSystem){
         this.player = player;
         this.game = game;
+        this.eventSystem = eventSystem;
 
         font.setColor(Color.RED);
     }
@@ -53,6 +55,7 @@ public class KeyEvent implements IEvent{
             player.giveKey();
             pickedUp = true;
             isFinished = true;
+            eventSystem.registerEvent(EventType.POSITIVE);
         }
     }
 

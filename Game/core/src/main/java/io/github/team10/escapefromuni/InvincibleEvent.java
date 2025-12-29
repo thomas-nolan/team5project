@@ -13,11 +13,13 @@ public class InvincibleEvent implements IEvent{
     private boolean pickedUp = false;
     private Texture texture;
     private Sprite sprite;
+    private final EventSystem eventSystem;
 
 
-    public InvincibleEvent(Player player, EscapeGame game){
+    public InvincibleEvent(Player player, EscapeGame game, EventSystem eventSystem){
         this.player = player;
         this.game = game;
+        this.eventSystem = eventSystem;
 
         texture = new Texture("GreggsSausageRoll.png");
         sprite = new Sprite(texture);
@@ -49,6 +51,7 @@ public class InvincibleEvent implements IEvent{
         if(!pickedUp){
             if(player.checkCollision(sprite)){
                 pickedUp = true;
+                eventSystem.registerEvent(EventType.POSITIVE);
                 player.setInvincible(10f);
             } 
         }

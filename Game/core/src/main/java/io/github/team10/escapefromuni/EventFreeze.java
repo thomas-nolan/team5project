@@ -17,16 +17,18 @@ public class EventFreeze implements IEvent {
     private final EventType type;
     private Player player;
     private EscapeGame game;
+    private final EventSystem eventSystem;
 
     private boolean used = false;
 
-    public EventFreeze(Player player, EscapeGame game, Timer timer) {
+    public EventFreeze(Player player, EscapeGame game, Timer timer, EventSystem eventSystem) {
         this.player = player;
         this.game = game;
         this.type = EventType.POSITIVE;
         freezeTexture = new Texture("GreggsSausageRoll.png");
         this.timer = timer;
         this.eventFinished = false;
+        this.eventSystem = eventSystem;
     }
 
     @Override
@@ -70,6 +72,7 @@ public class EventFreeze implements IEvent {
     private void pickupFreeze() {
         used = true;
         // Implement here
+        eventSystem.registerEvent(type);
         timer.setFrozen();
     }
 

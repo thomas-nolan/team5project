@@ -10,6 +10,7 @@ public class DoorController {
     private final EscapeGame game;
     private final PlayerController playerController;
     private RoomFlowManager roomFlowManager;
+    private final EventSystem eventSystem;
 
     private Door[] doors = new Door[4];
     private final Texture positiveIndicator = new Texture("PositiveIndicator.png");
@@ -17,11 +18,13 @@ public class DoorController {
     private Texture[] indicatorTextures = new Texture[4];
     private BitmapFont font = new BitmapFont();
     private boolean isTouchingDoor = false;
+    private boolean addedEvent = false;
 
-    public DoorController(EscapeGame game, PlayerController playerController, RoomFlowManager roomFlowManager){
+    public DoorController(EscapeGame game, PlayerController playerController, RoomFlowManager roomFlowManager, EventSystem eventSystem){
         this.game = game;
         this.playerController = playerController;
         this.roomFlowManager = roomFlowManager;
+        this.eventSystem = eventSystem;
 
         doors[0] = new Door(this, DoorDirection.NORTH, 7.5f, 8f);
         doors[1] = new Door(this, DoorDirection.EAST, 15f, 4f);
@@ -107,6 +110,11 @@ public class DoorController {
 
     public void drawUI(){
         if(isTouchingDoor) {
+            if (addedEvent == false){
+                eventSystem.registerEvent(EventType.NEGATIVE);
+                addedEvent = true;
+            }
+
             font.getData().setScale(3f);
             String message = "This door is Locked! Find a key to get through.";
             GlyphLayout layout = new GlyphLayout(font, message);

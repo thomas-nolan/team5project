@@ -14,6 +14,7 @@ public class EventGreggs implements IEvent {
     private final Player player;
     private final EscapeGame game;
     private final EventType type;
+    private final EventSystem eventSystem;
 
     private boolean eventFinished = false;
 
@@ -25,12 +26,13 @@ public class EventGreggs implements IEvent {
     /**
      * Creates a new EventGreggs.
      */
-    public EventGreggs(Player player, EscapeGame game)
+    public EventGreggs(Player player, EscapeGame game, EventSystem eventSystem)
     {
         this.player = player;
         this.game = game;
         this.type = EventType.POSITIVE;
         greggsTexture = new Texture("GreggsSausageRoll.png");
+        this.eventSystem = eventSystem;
     }
 
      @Override
@@ -94,6 +96,7 @@ public class EventGreggs implements IEvent {
     private void pickupGreggs()
     {
         used = true;
+        eventSystem.registerEvent(EventType.POSITIVE);
         player.increaseSpeed(2f);
     }
 

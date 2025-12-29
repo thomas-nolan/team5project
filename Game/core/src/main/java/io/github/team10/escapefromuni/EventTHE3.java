@@ -26,6 +26,7 @@ public class EventTHE3 implements IEvent {
     private final EscapeGame game;
     private final EventType type;
     private final AchievementManager achievementManager;
+    private final EventSystem eventSystem;
 
     private boolean eventFinished = false;
 
@@ -54,10 +55,11 @@ public class EventTHE3 implements IEvent {
     /**
      * Creates a new instance of EventTHE3.
      */
-    public EventTHE3(Player player, EscapeGame game, ScoreManager scoreManager, AchievementManager achievementManager)
+    public EventTHE3(Player player, EscapeGame game, ScoreManager scoreManager, AchievementManager achievementManager, EventSystem eventSystem)
     {
         this.player = player;
         this.game = game;
+        this.eventSystem = eventSystem;
         this.scoreManager = scoreManager;
         this.questions = new HashMap<>();
         this.type = EventType.NEGATIVE;
@@ -97,6 +99,7 @@ public class EventTHE3 implements IEvent {
         player.enableMovement(false);
         AudioManager.getInstance().playEventSound(this.type);
         questionAnswered = false;
+        eventSystem.registerEvent(EventType.NEGATIVE);
         initialiseQuizUI();
     }
 

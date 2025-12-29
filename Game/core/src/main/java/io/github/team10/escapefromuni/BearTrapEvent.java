@@ -19,13 +19,16 @@ public class BearTrapEvent implements IEvent {
     private float remaining = FREEZE_TIME;
     private boolean finished = false;
     private boolean triggered = false;
+    private final EventSystem eventSystem;
 
     private BitmapFont font = new BitmapFont();
 
-    public BearTrapEvent(EscapeGame game, Player player, Timer timer){
+    public BearTrapEvent(EscapeGame game, Player player, Timer timer, EventSystem eventSystem){
         this.player = player;
         this.timer = timer;
         this.game = game;
+        this.eventSystem = eventSystem;
+
 
         this.trapTexture = new Texture("GreggsSausageRoll.png");
         font.setColor(Color.RED);
@@ -56,6 +59,7 @@ public class BearTrapEvent implements IEvent {
         if(!triggered){
             if(player.checkCollision(trapSprite) && !player.isInvincible()) {
                 triggered = true;
+                eventSystem.registerEvent(EventType.NEGATIVE);
                 player.enableMovement(false);
             }
             return;

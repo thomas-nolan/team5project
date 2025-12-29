@@ -26,16 +26,18 @@ public class EventLongboi implements IEvent {
     private Sprite longboiSprite;
     private final Texture speechPanelTexture;
     private final Sprite speechPanelSprite;
+    private final EventSystem eventSystem;
 
     /**
      * Creates a new EventLongboi.
      */
-    public EventLongboi(Player player, EscapeGame game, AchievementManager achievementManager)
+    public EventLongboi(Player player, EscapeGame game, AchievementManager achievementManager, EventSystem eventSystem)
     {
         this.player = player;
         this.game = game;
         this.type = EventType.HIDDEN;
         this.achievementManager = achievementManager;
+        this.eventSystem = eventSystem;
 
         longboiTexture = new Texture("Longboi.png");
         longboiHiddenTexture = new Texture("LongboiShadow.png");
@@ -86,6 +88,7 @@ public class EventLongboi implements IEvent {
             if (playerDist < 3f)
             {
                 reveal();
+                eventSystem.registerEvent(EventType.HIDDEN);
             }
         }
     }

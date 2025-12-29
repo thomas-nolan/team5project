@@ -19,6 +19,7 @@ public class RoomFlowManager {
     private Dean dean;
     private final Array<Room> allRooms = new Array<>();
     private boolean bookshelfRoomVisited = false;
+    private boolean keyRoomVisited = false;
 
     public RoomFlowManager(EscapeGame game, UIController uiController, PlayerController playerController,
         DoorController doorController, EventSystem eventSystem, ScoreManager scoreManager, Timer timer, AchievementManager achievementManager){
@@ -116,15 +117,15 @@ public class RoomFlowManager {
 
 
         // Initialise Events
-        room7.setEvent(new EventLongboi(playerController.getPlayer(), game, achievementManager));
-        room3.setEvent(new EventGreggs(playerController.getPlayer(), game));
-        room5.setEvent(new EventTHE3(playerController.getPlayer(), game, scoreManager, achievementManager));
-        room4.setEvent(new EventFreeze(playerController.getPlayer(), game, timer));
-        room6.setEvent(new BearTrapEvent(game, playerController.getPlayer(), timer));
-        keyRoom.setEvent(new KeyEvent(playerController.getPlayer(), game));
-        hiddenBookshelfRoom.setEvent(new BookshelfEvent(playerController.getPlayer(), this, lostStudentRoom, game));
-        lostStudentRoom.setEvent(new TeleportEvent(playerController.getPlayer(), this, game));
-        room2.setEvent(new InvincibleEvent(playerController.getPlayer(), game));
+        room7.setEvent(new EventLongboi(playerController.getPlayer(), game, achievementManager, eventSystem));
+        room3.setEvent(new EventGreggs(playerController.getPlayer(), game, eventSystem));
+        room5.setEvent(new EventTHE3(playerController.getPlayer(), game, scoreManager, achievementManager, eventSystem));
+        room4.setEvent(new EventFreeze(playerController.getPlayer(), game, timer, eventSystem));
+        room6.setEvent(new BearTrapEvent(game, playerController.getPlayer(), timer, eventSystem));
+        keyRoom.setEvent(new KeyEvent(playerController.getPlayer(), game, eventSystem));
+        hiddenBookshelfRoom.setEvent(new BookshelfEvent(playerController.getPlayer(), this, lostStudentRoom, game, eventSystem));
+        lostStudentRoom.setEvent(new TeleportEvent(playerController.getPlayer(), this, game, eventSystem));
+        room2.setEvent(new InvincibleEvent(playerController.getPlayer(), game, eventSystem));
 
         currentRoom = room1;
 
@@ -160,6 +161,18 @@ public class RoomFlowManager {
         roomFrom.removeAdjacent(bookshelfRoom, direction);
     }
 
+    public void handleNegativeRoomEntery(Room room){
+        if (room.getEvent() instanceof KeyEvent && !keyRoomVisited){
+            keyRoomVisited = true;
+            eventSystem.registerEvent(EventType.NEGATIVE);
+        }
+
+        if (room.getEvent() instanceof BookshelfEvent && !bookshelfRoomVisited){
+            eventSystem.registerEvent(EventType.NEGATIVE);
+        }
+
+    }
+
     public void changeRoomTo(Room room){
         eventSystem.onExitRoom(currentRoom);
         currentRoom = room;
@@ -170,6 +183,7 @@ public class RoomFlowManager {
         playerController.getPlayer().setCenter(centerX, centerY);
 
         eventSystem.onEnterRoom(currentRoom);
+        handleNegativeRoomEntery(currentRoom);
 
     }
 
@@ -208,6 +222,7 @@ public class RoomFlowManager {
         doorController.updateForRoom(newRoom);
         playerController.positionAfterRoomChange(direction);
         eventSystem.onEnterRoom(newRoom);
+        handleNegativeRoomEntery(newRoom);
 
         if (newRoom.isExit())
         {
