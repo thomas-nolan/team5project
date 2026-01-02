@@ -12,6 +12,7 @@ buildscript {
 }
 plugins {
   id "application"
+  id "jacoco"
 }
 apply plugin: 'io.github.fourlastor.construo'
 
