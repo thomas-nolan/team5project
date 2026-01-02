@@ -42,6 +42,12 @@ jobs:
         name: jacoc-report
         path: Game/build/reports/jacoco/test/html/
         retention-days: 7
-      
+        
+    - name: Upload library JAR
+      uses: actions/upload-artifact@v4.3.1
+      with: 
+        name: lib.jar
+        path: Game/build/lib/lib.jar
+        retention-days: 7
 
     
