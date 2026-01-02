@@ -34,20 +34,20 @@ jobs:
     - name: Set up Gradle
       uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
     - name: Build game with wrapper
-      run: cd Game && ./gradlew build jacocoTestReport
+      run: cd Game/lwjgl3 && ./gradlew build jacocoTestReport
 
     - name: Upload Jacoco coverage report 
       uses: actions/upload-artifact@v4.3.1
       with:
         name: jacoc-report
-        path: Game/build/reports/jacoco/test/html/
+        path: Game/lwjgl3/build/reports/jacoco/test/html/
         retention-days: 7
         
     - name: Upload library JAR
       uses: actions/upload-artifact@v4.3.1
       with: 
         name: lib.jar
-        path: Game/build/lib/lib.jar
+        path: Game/lwjgl3/build/libs/lib.jar
         retention-days: 7
 
     
