@@ -16,12 +16,11 @@ public class AchievementManager {
 
         achievements.put("Complete game", false);
         achievements.put("Speedrun", false);
-        //achievements.put("Found all events", false);
-        //achievements.put("Visit every room", false);
-        //achievements.put("Find hidden room", false);
+        achievements.put("All positive events", false);
+        achievements.put("All negative events", false);
+        achievements.put("All hidden events", false);
         achievements.put("Find Long Boi", false);
         achievements.put("No incorrect answers", true);
-        //achievements.put("Caught by dean", false);
 
     }
 
@@ -73,12 +72,11 @@ public class AchievementManager {
 
         achievements.put("Complete game", false);
         achievements.put("Speedrun", false);
-        achievements.put("Found all events", false);
-        //achievements.put("Visit every room", false);
-        //achievements.put("Find hidden room", false);
+        achievements.put("All positive events", false);
+        achievements.put("All negative events", false);
+        achievements.put("All hidden events", false);
         achievements.put("Find Long Boi", false);
         achievements.put("No incorrect answers", true);
-        //achievements.put("Caught by dean", false);
 
     }
 

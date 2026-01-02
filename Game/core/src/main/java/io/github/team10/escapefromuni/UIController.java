@@ -53,7 +53,7 @@ public class UIController {
 
     public void showGameOver(boolean win, Timer timer, ScoreManager scores) {
         AudioManager.getInstance().playMenuMusic();
-        game.setScreen(new GameOverScreen(game, this, win, timer, scores, gameController.getAchievementManager()));
+        game.setScreen(new GameOverScreen(game, this, win, timer, scores, gameController.getAchievementManager(), gameController.getEventSystem()));
     }
 
     public void exitGame() {

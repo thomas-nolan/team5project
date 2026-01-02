@@ -174,9 +174,16 @@ public class MainMenu implements Screen {
     }
 
     private void displayPreviousScore() {
+        String key;
+        Integer val;
         Map<String,Integer> prevScore = fileManager.readFile(files[1]);
-        String key = (String) prevScore.keySet().toArray()[0];
-        Integer val = prevScore.get(key);
+        try{
+            key = (String) prevScore.keySet().toArray()[0];
+            val = prevScore.get(key);
+        } catch (Exception e){
+            key = "";
+            val = 0;
+        }
         String score = "Previous score\n" + key + " : " + val;
         font.draw(game.batch, score, 20, 400);
     }

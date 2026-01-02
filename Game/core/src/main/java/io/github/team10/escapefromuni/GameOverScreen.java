@@ -24,6 +24,7 @@ public class GameOverScreen implements Screen {
     private final Timer timer;
     private final ScoreManager scoreManager;
     private final AchievementManager achievementManager;
+    private final EventSystem eventSystem;
 
     private final BitmapFont font;
     private final Texture winScreen;
@@ -38,13 +39,14 @@ public class GameOverScreen implements Screen {
      * @param timer The timer used to track playtime.
      * @param scoreManager  The score manager which calculates the final score.
      */
-    public GameOverScreen(final EscapeGame game, UIController uiController, boolean isWon, Timer timer, ScoreManager scoreManager, AchievementManager achievementManager) {
+    public GameOverScreen(final EscapeGame game, UIController uiController, boolean isWon, Timer timer, ScoreManager scoreManager, AchievementManager achievementManager, EventSystem eventSystem) {
         this.game = game;
         this.uiController = uiController;
         this.isWon = isWon;
         this.timer = timer;
         this.scoreManager = scoreManager;
         this.achievementManager = achievementManager;
+        this.eventSystem = eventSystem;
 
         this.font = game.font;
         this.winScreen = new Texture("WinScreen.png");
@@ -55,6 +57,7 @@ public class GameOverScreen implements Screen {
     public void render(float delta) {
         // Return to main menu if ESC pressed.
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            achievementManager.reset();
             uiController.showMainMenu();
             dispose();
             return;
@@ -125,9 +128,23 @@ public class GameOverScreen implements Screen {
 
     public void checkAchievements(int timeLeftSeconds){
 
-        if (timeLeftSeconds > 260){
+        if (timeLeftSeconds > 270){
             achievementManager.addAchievement("Speedrun");
         }
+
+
+        if (eventSystem.getTriggered(EventType.POSITIVE) >= eventSystem.getMax(EventType.POSITIVE)){
+            achievementManager.addAchievement("All positive events");
+        }
+
+        if (eventSystem.getTriggered(EventType.NEGATIVE) >= eventSystem.getMax(EventType.NEGATIVE)){
+            achievementManager.addAchievement("All negative events");
+        }
+
+        if (eventSystem.getTriggered(EventType.HIDDEN) >= eventSystem.getMax(EventType.HIDDEN)){
+            achievementManager.addAchievement("All hidden events");
+        }
+
 
     }
 
