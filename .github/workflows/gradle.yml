@@ -34,7 +34,7 @@ jobs:
     - name: Set up Gradle
       uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
     - name: Build game with wrapper
-      run: cd Game && ./gradlew build with test jacocoTestReport
+      run: cd Game && ./gradlew build jacocoTestReport
 
     - name: Upload Jacoco coverage report 
       uses: actions/upload-artifact@v4.3.1
