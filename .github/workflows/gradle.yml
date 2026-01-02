@@ -36,6 +36,9 @@ jobs:
     - name: Build game with wrapper
       run: cd Game && ./gradlew :lwjgl3:build :lwjgl3:jacocoTestReport
 
+    - name: List build outputs
+      run: ls -R Game/lwjgl3/build
+
     - name: Upload Jacoco coverage report 
       uses: actions/upload-artifact@v4.3.1
       with:
@@ -47,7 +50,7 @@ jobs:
       uses: actions/upload-artifact@v4.3.1
       with: 
         name: lib.jar
-        path: Game/lwjgl3/build/libs/lib.jar
+        path: Game/lwjgl3/build/libs/*.jar
         retention-days: 7
 
     
