@@ -21,13 +21,13 @@ public class DifficultySetup {
     private void writeDifficulty() {
         DifficultyModifiers modifiers;
         if (difficulty == Difficulty.HARD) {
-            modifiers = new DifficultyModifiers(0.8f,1.2f);
+            modifiers = new DifficultyModifiers(0.8f,1.2f,0.5f,0.5f,true);
             //modifiers = new DifficultyModifiers(0f,2f); // TEST
         } else if (difficulty == Difficulty.EASY) {
-            modifiers = new DifficultyModifiers(1.2f,0.75f);
+            modifiers = new DifficultyModifiers(1.2f,0.75f,1.25f,1.25f,false);
             //modifiers = new DifficultyModifiers(2f,0f); // TEST
         } else {
-            modifiers = new DifficultyModifiers(1f,1f);
+            modifiers = new DifficultyModifiers(1f,1f,1f,1f,false);
         }
         Json json = new Json();
         FileHandle file = Gdx.files.local(fileName);

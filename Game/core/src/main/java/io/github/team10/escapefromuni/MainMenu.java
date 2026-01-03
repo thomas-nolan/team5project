@@ -75,7 +75,7 @@ public class MainMenu implements Screen {
         layout = new GlyphLayout();
 
         // button sizes
-        float buttonWidth = 400f;
+        float buttonWidth = 500f;
         float buttonHeight = 80f;
 
         // alignment; To be Fixed
@@ -84,15 +84,15 @@ public class MainMenu implements Screen {
         float centerX = screenWidth / 2f;
 
         // main menu button positions
-        startButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f + 150f, buttonWidth, buttonHeight);
-        tutorialButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f + 50f, buttonWidth, buttonHeight);
-        settingsButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f - 50f, buttonWidth, buttonHeight);
-        exitButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f - 150f, buttonWidth, buttonHeight);
-        resetButton = new Rectangle(centerX - buttonWidth / 2f, screenHeight / 2f - 250f, buttonWidth, buttonHeight);
+        startButton = new Rectangle(centerX - (buttonWidth / 2f), screenHeight / 2f + 150f, buttonWidth, buttonHeight);
+        tutorialButton = new Rectangle(centerX - (buttonWidth / 2f), screenHeight / 2f + 50f, buttonWidth, buttonHeight);
+        settingsButton = new Rectangle(centerX - (buttonWidth / 2f), screenHeight / 2f - 50f, buttonWidth, buttonHeight);
+        exitButton = new Rectangle(centerX - (buttonWidth / 2f), screenHeight / 2f - 150f, buttonWidth, buttonHeight);
+        resetButton = new Rectangle(centerX - (buttonWidth / 2f), screenHeight / 2f - 250f, buttonWidth, buttonHeight);
 
-        easyMode = new Rectangle((centerX + 500f) - buttonWidth / 2f, screenHeight / 2f - 250f, buttonWidth, buttonHeight);
-        mediumMode = new Rectangle((centerX + 500f) - buttonWidth / 2f, screenHeight / 2f - 350f, buttonWidth, buttonHeight);
-        hardMode = new Rectangle((centerX + 500f) - buttonWidth / 2f, screenHeight / 2f - 450f, buttonWidth, buttonHeight);
+        easyMode = new Rectangle((centerX + 600f) - buttonWidth / 2f, screenHeight / 2f - 250f, buttonWidth, buttonHeight);
+        mediumMode = new Rectangle((centerX + 600f) - buttonWidth / 2f, screenHeight / 2f - 350f, buttonWidth, buttonHeight);
+        hardMode = new Rectangle((centerX + 600f) - buttonWidth / 2f, screenHeight / 2f - 450f, buttonWidth, buttonHeight);
 
         //menu music
         AudioManager.getInstance().playMenuMusic();
@@ -106,7 +106,7 @@ public class MainMenu implements Screen {
 
         inputField = new TextField("null", skin);
         inputField.setSize(300, 50);
-        inputField.setPosition(centerX - buttonWidth + 1500f / 2f, screenHeight / 2f);
+        inputField.setPosition(centerX - buttonWidth + 1800f / 2f, screenHeight / 2f);
         stage.addActor(inputField);
     }
 

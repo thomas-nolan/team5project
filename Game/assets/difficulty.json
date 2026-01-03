@@ -1,3 +1,6 @@
 {
-enemySpeedModifier: 2
+playerSpeedModifier: 1
+enemySpeedModifier: 1
+speedBoostModifier: 1
+freezeModifier: 1
 }

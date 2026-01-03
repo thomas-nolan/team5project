@@ -52,6 +52,8 @@ public class EventTHE3 implements IEvent {
     private HashMap<String, Boolean> questions;
     private Random randomNum;
 
+    private DifficultySetup diffSetup = new DifficultySetup();
+
     /**
      * Creates a new instance of EventTHE3.
      */
@@ -107,7 +109,7 @@ public class EventTHE3 implements IEvent {
      * Initialises and positions all UI components for the quiz screen.
      *
      * This includes a title, question display and two buttons (true or false).
-     * 
+     *
      */
     private void initialiseQuizUI()
     {
@@ -147,12 +149,20 @@ public class EventTHE3 implements IEvent {
      * and answers (values)
      */
     public void initialiseQuestions() {
-        questions.put("True or False:\nThe self-accepting problem SA \nis semi-decidable.", Boolean.TRUE);
-        questions.put("True or False:\nIpV4 is 64-bits.", Boolean.FALSE);
-        questions.put("True or False:\nThe predecessor to the C programming\n language was called B", Boolean.TRUE);
-        questions.put("True or False:\nThe do ... while loop is in the C programming language",Boolean.TRUE);
-        questions.put("True or False:\nThe HTTPS protocol uses port 80.",Boolean.FALSE);
-        questions.put("True or False:\nP <-> Q is true whenever P and Q\nhave different truth values.",Boolean.FALSE);
+        if (diffSetup.readDifficulty().hardQuestions) { // Questions for hard difficulty
+            questions.put("True or False:\nThe do ... while loop is in the C programming language",Boolean.TRUE);
+            questions.put("True or False:\n2n^3 +5n^2 +3 is NOT in O(n3)",Boolean.FALSE);
+            questions.put("True or False:\nP <-> Q is true whenever P and Q\nhave different truth values",Boolean.FALSE);
+            questions.put("True or False:\nUniversal introduction can be expressed in Carnap with AE",Boolean.FALSE);
+            questions.put("True or False:\nThe Java programming language\nis named after a coffee\n from Indonesia",Boolean.TRUE);
+        }
+        else { // Questions for easy and medium difficulty
+            questions.put("True or False:\nThe self-accepting problem SA \nis semi-decidable", Boolean.TRUE);
+            questions.put("True or False:\nIpV4 is 64-bits", Boolean.FALSE);
+            questions.put("True or False:\nThe predecessor to the C programming\n language was called B", Boolean.TRUE);
+            questions.put("True or False:\nThe programming language Python\nis named after a British comedy series",Boolean.TRUE);
+            questions.put("True or False:\nThe HTTPS protocol uses port 80",Boolean.FALSE);
+        }
     }
 
     /**

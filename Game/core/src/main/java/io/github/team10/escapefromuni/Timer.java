@@ -7,15 +7,18 @@ public class Timer {
     private boolean isFrozen;
     private float frozenTimer;
 
+    private DifficultySetup diffSetup = new DifficultySetup();
+
     public Timer() {
         this.time = 0;
         this.timeLeft = 300; // start at 300 seconds
-        this.frozenTimer = 30; // Freeze lasts 30 seconds when activated
+        this.frozenTimer = 30 * diffSetup.readDifficulty().freezeModifier; // Freeze lasts 30 seconds when activated
         this.isFrozen = false;
     }
 
     public void update(float delta) {
         if (!isFrozen) {
+            this.frozenTimer = 30 * diffSetup.readDifficulty().freezeModifier;
             time += delta;
             timeLeft -= delta;
             if (timeLeft < 0) {

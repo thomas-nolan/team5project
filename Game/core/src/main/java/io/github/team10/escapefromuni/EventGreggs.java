@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 
 /**
  * Positive event where the player encounters a Greggs sausage roll.
- * 
+ *
  * When the player runs into the sausage roll, they gain a speed increase.
  */
 public class EventGreggs implements IEvent {
@@ -22,6 +22,8 @@ public class EventGreggs implements IEvent {
     private Sprite greggsSprite;
 
     private boolean used = false;
+
+    private DifficultySetup diffSetup = new DifficultySetup();
 
     /**
      * Creates a new EventGreggs.
@@ -97,7 +99,7 @@ public class EventGreggs implements IEvent {
     {
         used = true;
         eventSystem.registerEvent(EventType.POSITIVE);
-        player.increaseSpeed(2f);
+        player.increaseSpeed(2f * diffSetup.readDifficulty().speedBoostModifier);
     }
 
     @Override
@@ -110,6 +112,5 @@ public class EventGreggs implements IEvent {
 
     @Override
     public void drawUI() {}
-    
+
 }
- 
