@@ -5,12 +5,20 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AchievementManagerTest {
+
+    private AchievementManager achievementManager;
+
+    @BeforeEach
+    void setUp() {
+        achievementManager = new AchievementManager();
+    }
     
     @Test
-    void contrutor_SetsCorrectDefault() {
+    void contrutor_setsCorrectDefault() {
         AchievementManager achievementManager = new AchievementManager();
 
         assertEquals(1, achievementManager.getTotalAchievements());
@@ -41,7 +49,7 @@ public class AchievementManagerTest {
     }
 
     @Test
-    void reset_SetsDefaultAchievements() {
+    void reset_setsDefaultAchievements() {
         AchievementManager achievementManager = new AchievementManager();
 
         achievementManager.addAchievement("Complete game");
