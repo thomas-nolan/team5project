@@ -35,9 +35,11 @@ jobs:
       uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
 
     - name: Build and test core with JaCoCo
-      working-directory: ./Game
-      run: ./gradlew build :core:jacocoTestReport :core:checkstyleMain :core:checkstyleTest || true
+      run: cd Game && ./gradlew build :core:test core:jacocoTestReport :core:checkstyleMain :core:checkstyleTest
 
+    - name: List build outputs
+      run: ls -R Game/lwjgl3/build/
+    
     - name: Upload JaCoCo artifact
       uses: actions/upload-artifact@v4.3.1
       with:
@@ -77,3 +79,4 @@ jobs:
       with:
         files: Escape-From-Uni-jar
 
+ 
