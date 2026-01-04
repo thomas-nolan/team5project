@@ -1,5 +1,18 @@
+apply plugin: 'jacoco'
+apply plugin: 'checkstyle'
+
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 eclipse.project.name = appName + '-core'
+
+def checkstyleVersion = '10.4'
+
+checkstyle {
+  toolVersion = checkstyleVersion
+}
+
+configurations {
+  checkstyleRules
+}
 
 dependencies {
   api "com.badlogicgames.gdx:gdx:$gdxVersion"
@@ -12,6 +25,17 @@ dependencies {
   testImplementation(platform('org.junit:junit-bom:5.10.2'))
 	testImplementation('org.junit.jupiter:junit-jupiter')
 	testRuntimeOnly('org.junit.platform:junit-platform-launcher')
+
+  checkstyleRules("com.puppycrawl.tools:checkstyle:${checkstyleVersion}") {
+    transitive = false
+  }
+}
+
+checkstyle {
+  config = resources.text.fromArchiveEntry(
+    configurations.checkstyleRules,
+    'google_checks.xml'
+    )
 }
 
 test {

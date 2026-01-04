@@ -10,6 +10,7 @@ name: Java CI with Gradle
 on:
   push:
     branches: [ "main" ]
+    tags: [ "v[0-9]+.[0-9]+.[0-9]+" ]
   pull_request:
     branches: [ "main" ]
 
@@ -27,30 +28,51 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-    
 
     # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
     # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
-    - name: Set up Gradle
+    - name: Setup Gradle
       uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
-    - name: Build game with wrapper
-      run: cd Game && ./gradlew :lwjgl3:build :lwjgl3:jacocoTestReport
 
-    - name: List build outputs
-      run: ls -R Game/lwjgl3/build
+    - name: Build and test core with JaCoCo
+      run: cd Game && ./gradlew build :core:test core:jacocoTestReport :core:checkstyleMain :core:checkstyleTest
 
-    - name: Upload Jacoco coverage report 
+    - name: Upload JaCoCo artifact
       uses: actions/upload-artifact@v4.3.1
       with:
-        name: jacoc-report
-        path: Game/lwjgl3/build/reports/jacoco/test/html/
+        name: jacoco-report
+        path: Game/core/build/reports/jacoco/test/html/
         retention-days: 7
-        
-    - name: Upload library JAR
+
+    - name: Upload binary artifact
       uses: actions/upload-artifact@v4.3.1
-      with: 
-        name: lib.jar
+      with:
+        name: Escape-From-Uni-jar
         path: Game/lwjgl3/build/libs/*.jar
         retention-days: 7
 
-    
+    - name: Upload checkStyle test
+      uses: actions/upload-artifact@v4.3.1
+      with:
+        name: checkstyle-report
+        path: Game/core/build/reports/checkstyle/
+        retention-days: 7
+        
+  release:
+    runs-on: ubuntu-24.04
+    needs: [build]
+    if: startsWith(github.ref, 'refs/tags/')
+    permissions:
+      contents: write
+
+    steps:
+    - name: Download binary artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: Escape-From-Uni-jar
+        
+    - name: Create Github Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: Escape-From-Uni-jar
+

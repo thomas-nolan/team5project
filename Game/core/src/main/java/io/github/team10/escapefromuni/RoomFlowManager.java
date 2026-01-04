@@ -47,8 +47,8 @@ public class RoomFlowManager {
         roomTextures.put("room8", new Texture("Room9.png"));
         roomTextures.put("room9", new Texture("Room10.png"));
         roomTextures.put("keyRoom", new Texture("PossibleRoom1.png"));
-        roomTextures.put("hiddenBookshelfRoom", new Texture("PossibleRoom2.png"));
-        roomTextures.put("lostStudentRoom", new Texture("PossibleRoom3.png"));
+        roomTextures.put("hiddenBookshelfRoom", new Texture("BookshelfRoom.png"));
+        roomTextures.put("lostStudentRoom", new Texture("Room2.png"));
 
         // Iniitalise all the rooms
         // TODO: Update room textures, and add more rooms.

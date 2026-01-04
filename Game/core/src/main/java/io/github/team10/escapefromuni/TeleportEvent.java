@@ -2,8 +2,11 @@ package io.github.team10.escapefromuni;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.utils.Align;
 
 public class TeleportEvent implements IEvent{
 
@@ -38,7 +41,7 @@ public class TeleportEvent implements IEvent{
 
         float width = game.viewport.getWorldWidth();
         float height = game.viewport.getWorldHeight();
-        teleportSprite.setCenter(width/2f, height/2f);
+        teleportSprite.setCenter(width - teleportSprite.getWidth() - 0.5f, height / 2f - teleportSprite.getHeight() /2f);
 
     }
 
@@ -73,7 +76,25 @@ public class TeleportEvent implements IEvent{
     @Override
     public void drawUI() {
         if(!finished && player.checkCollision(teleportSprite)) {
-            game.font.draw(game.batch, "This looks weird", teleportSprite.getX(), teleportSprite.getY() + 2.5f);
+            String message = "It appears you are lost, interact with this map to get back to campus!!!";
+
+            float uiWidth = game.uiViewport.getWorldWidth();
+            float uiHeight = game.uiViewport.getWorldHeight();
+            float wrapWidth = uiWidth * 0.8f;
+
+
+            game.font.getData().setScale(1.1f);
+            game.font.setColor(Color.BLACK);
+
+            GlyphLayout layout = new GlyphLayout(game.font, message, game.font.getColor(), wrapWidth, Align.center, true);
+
+            float textX = (uiWidth - wrapWidth) / 2f;
+            float textY = 50f + layout.height;
+
+            game.font.draw(game.batch, layout, textX, textY);
+
+            game.font.getData().setScale(1.1f);
+            game.font.setColor(Color.WHITE);
         }
     }
 
@@ -83,3 +104,4 @@ public class TeleportEvent implements IEvent{
     }
     
 }
+

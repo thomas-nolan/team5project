@@ -2,7 +2,9 @@ package io.github.team10.escapefromuni;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class BookshelfEvent implements IEvent {
@@ -32,6 +34,8 @@ public class BookshelfEvent implements IEvent {
     public void startEvent() {
         bookshelfTexture = new Texture("GreggsSausageRoll.png");
         bookshelfSprite = new Sprite(bookshelfTexture);
+
+        bookshelfSprite.setAlpha(0f);
         bookshelfSprite.setSize(1f, 2f);
         float roomWidth = game.viewport.getWorldWidth();
         float roomHeight = game.viewport.getWorldHeight();
@@ -73,7 +77,22 @@ public class BookshelfEvent implements IEvent {
     @Override
     public void drawUI() {
         if(!isFinished && player.checkCollision(bookshelfSprite)) {
-            game.font.draw(game.batch, "This looks weird", bookshelfSprite.getX(), bookshelfSprite.getY());
+            game.font.getData().setScale(1f);
+            game.font.setColor(Color.BLACK);
+
+            String message = "Something looks off here...";
+            GlyphLayout layout = new GlyphLayout(game.font, message);
+            
+            float uiWidth = game.uiViewport.getWorldWidth();
+            float uiHeight = game.uiViewport.getWorldHeight();
+            float textX = (uiWidth - layout.width) / 2f;
+            float textY = uiHeight * 0.9f;
+
+            game.font.draw(game.batch, layout, textX, textY);
+
+            game.font.getData().setScale(1.1f);
+            game.font.setColor(Color.WHITE);
+
 
         }
     }
@@ -85,3 +104,5 @@ public class BookshelfEvent implements IEvent {
 
 
 }
+
+

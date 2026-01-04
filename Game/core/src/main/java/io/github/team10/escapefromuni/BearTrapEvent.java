@@ -30,7 +30,7 @@ public class BearTrapEvent implements IEvent {
         this.eventSystem = eventSystem;
 
 
-        this.trapTexture = new Texture("GreggsSausageRoll.png");
+        this.trapTexture = new Texture("Trap.png");
         font.setColor(Color.RED);
 
     }
@@ -88,7 +88,7 @@ public class BearTrapEvent implements IEvent {
         // position and size
             font.getData().setScale(4f);
 
-            String message = "Bear trap! Frozen for " + (int)Math.ceil(remaining) + "s";
+            String message = "Wet floor! Frozen for " + (int)Math.ceil(remaining) + "s";
 
             com.badlogic.gdx.graphics.g2d.GlyphLayout layout = new com.badlogic.gdx.graphics.g2d.GlyphLayout(font, message);
             float uiWidth = game.uiViewport.getWorldWidth();
