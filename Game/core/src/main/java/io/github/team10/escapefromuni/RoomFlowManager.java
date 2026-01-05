@@ -48,7 +48,7 @@ public class RoomFlowManager {
         roomTextures.put("room9", new Texture("Room10.png"));
         roomTextures.put("keyRoom", new Texture("PossibleRoom1.png"));
         roomTextures.put("hiddenBookshelfRoom", new Texture("BookshelfRoom.png"));
-        roomTextures.put("lostStudentRoom", new Texture("Room2.png"));
+        roomTextures.put("lostStudentRoom", new Texture("Room8.png"));
 
         // Iniitalise all the rooms
         // TODO: Update room textures, and add more rooms.
@@ -125,7 +125,7 @@ public class RoomFlowManager {
         keyRoom.setEvent(new KeyEvent(playerController.getPlayer(), game, eventSystem));
         hiddenBookshelfRoom.setEvent(new BookshelfEvent(playerController.getPlayer(), this, lostStudentRoom, game, eventSystem));
         lostStudentRoom.setEvent(new TeleportEvent(playerController.getPlayer(), this, game, eventSystem));
-        room2.setEvent(new InvincibleEvent(playerController.getPlayer(), game, eventSystem));
+        room8.setEvent(new InvincibleEvent(playerController.getPlayer(), game, eventSystem));
 
         currentRoom = room1;
 
