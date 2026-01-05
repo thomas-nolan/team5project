@@ -25,7 +25,7 @@ public class EventFreeze implements IEvent {
         this.player = player;
         this.game = game;
         this.type = EventType.POSITIVE;
-        freezeTexture = new Texture("GreggsSausageRoll.png");
+        freezeTexture = new Texture("timer.png");
         this.timer = timer;
         this.eventFinished = false;
         this.eventSystem = eventSystem;

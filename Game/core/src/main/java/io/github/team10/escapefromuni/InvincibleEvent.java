@@ -21,7 +21,7 @@ public class InvincibleEvent implements IEvent{
         this.game = game;
         this.eventSystem = eventSystem;
 
-        texture = new Texture("GreggsSausageRoll.png");
+        texture = new Texture("shield.png");
         sprite = new Sprite(texture);
         sprite.setSize(1.5f, 1.5f);
         float width = game.viewport.getWorldWidth();

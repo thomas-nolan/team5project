@@ -35,13 +35,13 @@ public class TeleportEvent implements IEvent{
 
     @Override
     public void startEvent() {
-        teleportTexture = new Texture("GreggsSausageRoll.png");
+        teleportTexture = new Texture("map.png");
         teleportSprite = new Sprite(teleportTexture);
-        teleportSprite.setSize(2f, 2f);
+        teleportSprite.setSize(3.5f, 3.5f);
 
         float width = game.viewport.getWorldWidth();
         float height = game.viewport.getWorldHeight();
-        teleportSprite.setCenter(width - teleportSprite.getWidth() - 0.5f, height / 2f - teleportSprite.getHeight() /2f);
+        teleportSprite.setCenter(width - teleportSprite.getWidth() - 0.5f, height / 2f - teleportSprite.getHeight() /2f + 1.5f);
 
     }
 
@@ -84,7 +84,7 @@ public class TeleportEvent implements IEvent{
 
 
             game.font.getData().setScale(1.1f);
-            game.font.setColor(Color.BLACK);
+            game.font.setColor(Color.WHITE);
 
             GlyphLayout layout = new GlyphLayout(game.font, message, game.font.getColor(), wrapWidth, Align.center, true);
 
