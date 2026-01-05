@@ -74,9 +74,12 @@ jobs:
       with:
         name: Escape-From-Uni-jar
         
+    - name: Check downloaded artifact
+      run: ls -R Escape-From-Uni-jar/
+        
     - name: Create Github Release
       uses: softprops/action-gh-release@v1
       with:
-        files: Escape-From-Uni-jar/*.jar
+        files: Escape-From-Uni-jar/Escape-From-Uni-jar.jar
 
  
