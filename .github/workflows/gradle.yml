@@ -77,6 +77,6 @@ jobs:
     - name: Create Github Release
       uses: softprops/action-gh-release@v1
       with:
-        files: Escape-From-Uni-jar
+        files: Escape-From-Uni-jar/*.jar
 
  
