@@ -30,7 +30,7 @@ public class BearTrapEvent implements IEvent {
         this.eventSystem = eventSystem;
 
 
-        this.trapTexture = new Texture("Trap.png");
+        this.trapTexture = new Texture("trap.png");
         font.setColor(Color.RED);
 
     }
