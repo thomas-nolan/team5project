@@ -1,6 +1,6 @@
 {
-playerSpeedModifier: 1
-enemySpeedModifier: 1
-speedBoostModifier: 1
-freezeModifier: 1
+playerSpeedModifier: 1.2
+enemySpeedModifier: 0.75
+speedBoostModifier: 1.25
+freezeModifier: 1.25
 }
