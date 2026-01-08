@@ -1,14 +1,10 @@
 package io.github.team10.escapefromuni;
 
-import java.beans.Transient;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
@@ -111,7 +107,7 @@ public class FileManagerTest {
         assertEquals(10, result.get("Harry"));
         assertEquals(10, result.get("Will"));
         assertEquals(10, result.get("Stan"));
-        assertEquals(10, result.get("Mimmi"));
+        assertEquals(10, result.get("Mimi"));
 
     }
 

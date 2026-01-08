@@ -1,7 +1,6 @@
 package io.github.team10.escapefromuni;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -19,8 +18,6 @@ public class AchievementManagerTest {
     
     @Test
     void contrutor_setsCorrectDefault() {
-        AchievementManager achievementManager = new AchievementManager();
-
         assertEquals(1, achievementManager.getTotalAchievements());
 
         String[] achievements = achievementManager.getAchievements();
@@ -29,9 +26,7 @@ public class AchievementManagerTest {
     }
 
     @Test
-    void addAchievement_increasesAchievementTotal_markAchievementasTrue() {
-        AchievementManager achievementManager = new AchievementManager();
-
+    void addAchievement_increasesAchievementTotal_markAchievementAsTrue() {
         achievementManager.addAchievement("Complete game");
         assertEquals(2, achievementManager.getTotalAchievements());
 
@@ -40,9 +35,7 @@ public class AchievementManagerTest {
     }
 
     @Test
-    void removeAchievement_drecreaseAchievementTotal_markAchiementasFalse() {
-        AchievementManager achievementManager = new AchievementManager();
-
+    void removeAchievement_drecreaseAchievementTotal_markAchiementAsFalse() {
         achievementManager.removeAchievement("No incorrect answers");
         assertEquals(0, achievementManager.getTotalAchievements());
         assertEquals(0, achievementManager.getAchievements().length);
@@ -50,8 +43,6 @@ public class AchievementManagerTest {
 
     @Test
     void reset_setsDefaultAchievements() {
-        AchievementManager achievementManager = new AchievementManager();
-
         achievementManager.addAchievement("Complete game");
         achievementManager.addAchievement("Speedrun");
         achievementManager.removeAchievement("No incorrect answers");
