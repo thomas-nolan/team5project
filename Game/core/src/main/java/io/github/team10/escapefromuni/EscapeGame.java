@@ -12,75 +12,100 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 /**
- * Class to represent the game. Instantiated by the Launcher.
- * 
+ * NEW TO ASSESSMENT 2 
+ * Class to represent the main LibGDX game instance.
+ * Instantiated by the Launcher and is responsible for initialising core
+ * game systems such as rendering SpriteBatch batch and the intial screen.
  * Similar to the Drop class in https://libgdx.com/wiki/start/simple-game-extended.
- * Loads the initial Screen. Has a SpriteBatch batch, to be used by each screen to render the game.
  */
 public class EscapeGame extends Game {
-    public SpriteBatch batch;
-    public BitmapFont font;
+  public SpriteBatch batch;
+  public BitmapFont font;
 
-    // World rendering
-    public FitViewport viewport;
+  // World rendering
+  public FitViewport viewport;
 
-    // UI rendering
-    public OrthographicCamera uiCamera;
-    public FitViewport uiViewport;
+  // UI rendering
+  public OrthographicCamera uiCamera;
+  public FitViewport uiViewport;
 
-    public GameController gameController;
-    public UIController uiController;
+  public GameController gameController;
+  public UIController uiController;
 
-    @Override
-    public void create() {
-        batch = new SpriteBatch();
+  /**
+   * Called when the game is first created.
+   * Initialises rendering components, viewport, controllers
+   * as well as loading the main menu
+   */
+  @Override
+  public void create() {
+    batch = new SpriteBatch();
+
+    // UI and world rendering set up
+    viewport = new FitViewport(16, 9);
+    uiCamera = new OrthographicCamera();
+    uiViewport = new FitViewport(1920, 1080, uiCamera);
+    
+    // Generates the defualt font
+    generateFont();
         
-        viewport = new FitViewport(16, 9);
-        uiCamera = new OrthographicCamera();
-        uiViewport = new FitViewport(1920, 1080, uiCamera);
+    // Initialises the controllers
+    this.uiController = new UIController(this, null);
+    this.gameController = new GameController(this, uiController);
+    uiController.setGameController(gameController);
 
-        generateFont();
-        
-        this.uiController = new UIController(this, null);
-        this.gameController = new GameController(this, uiController);
-        uiController.setGameController(gameController);
+    // Shows the main menu
+    uiController.showMainMenu();
+  }
 
-        uiController.showMainMenu();
-    }
+  /**
+   * Initialise the game's default font.
+   */
+  private void generateFont() {
 
-    /**
-     * Will initialise the game's font.
-     */
-    private void generateFont()
-    {
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Kenney Mini.ttf"));
-        FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+    // Loads the game's main UI font from internal assests
+    final FreeTypeFontGenerator generator = 
+        new FreeTypeFontGenerator(
+        Gdx.files.internal("Kenney Mini.ttf"));
+    FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 
-        parameter.size = 48;
-        parameter.color = Color.WHITE;
+    // Sets the font size and colour
+    parameter.size = 48;
+    parameter.color = Color.WHITE;
 
-        parameter.magFilter = Texture.TextureFilter.Nearest;
-        parameter.minFilter = Texture.TextureFilter.Nearest;
+    parameter.magFilter = Texture.TextureFilter.Nearest;
+    parameter.minFilter = Texture.TextureFilter.Nearest;
 
-        font = generator.generateFont(parameter);
-        generator.dispose();
-    }
+    // Sets the bitmap font using the configured parameters
+    font = generator.generateFont(parameter);
+    generator.dispose();
+  }
 
-    @Override
-    public void resize(int width, int height) {
-        viewport.update(width, height, true);
-        uiViewport.update(width, height, true);
-    }
+  /**
+   * This method is called when the game window is resized.
+   * It updates both the viewport as well as the uiViewport to maintain correct scaling
+   */
+  @Override
+  public void resize(int width, int height) {
+    viewport.update(width, height, true);
+    uiViewport.update(width, height, true);
+  }
 
-    @Override
-    public void render() {
-		super.render();
-	}
+  /**
+   * Called every frame to render the game.
+   */
+  @Override
+  public void render() {
+    super.render();
+  }
 
-    @Override
-	public void dispose() {
-		batch.dispose();
-		font.dispose();
-        AudioManager.getInstance().dispose();
-	}
+  /**
+   * Cleans up the shared resources when the game exits.
+   */
+  @Override
+  public void dispose() {
+    batch.dispose();
+    font.dispose();
+    AudioManager.getInstance().dispose();
+  }
 }
