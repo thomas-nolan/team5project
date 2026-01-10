@@ -1,24 +1,42 @@
 package io.github.team10.escapefromuni;
 
+/**
+ * New for Assessment 2
+ * A class to control the player behaviour
+ */
 public class PlayerController {
-    
+
     public final EscapeGame game;
     public final Player player;
 
+    /**
+     * Constructor
+     * @param game
+     * @param player
+     */
     public PlayerController(EscapeGame game, Player player){
         this.game = game;
         this.player = player;
     }
 
+    /**
+     * Getter
+     * @return - The player class
+     */
     public Player getPlayer(){
         return player;
     }
-    
+
+    /**
+     * Defines the player position after a room change
+     * @param direction - NORTH,EAST,SOUTH,WEST
+     */
     public void positionAfterRoomChange(DoorDirection direction){
 
         float w = game.viewport.getWorldWidth();
         float h = game.viewport.getWorldHeight();
 
+        // Sets where the player will appear when entering a new room based on direction
         switch (direction) {
             case NORTH:
                 player.setCenter(w/2, 2);
@@ -43,6 +61,9 @@ public class PlayerController {
         player.draw();
     }
 
+    /**
+     * Dispose
+     */
     public void dispose() {
         player.dispose();
     }

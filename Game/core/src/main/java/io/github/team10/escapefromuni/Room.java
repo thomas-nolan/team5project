@@ -106,6 +106,10 @@ public class Room {
         return event;
     }
 
+    /**
+     * Gets event type for a room
+     * @return - Returns the correct event type, or null if there is no event for the given room
+     */
     public EventType getEventType() {
         if (event != null)
         {
