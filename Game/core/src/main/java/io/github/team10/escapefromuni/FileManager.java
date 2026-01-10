@@ -21,7 +21,7 @@ public class FileManager {
   public Map<String, Integer> readFile(String fileName) {
     Map<String, Integer> map = new HashMap<String, Integer>();
 
-    // NEW FOR ASSESSMENT - attemps to read the file and places it in a map
+    // NEW FOR ASSESSMENT 2 - attemps to read the file and places it in a map
     try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
       String line;
       while ((line = reader.readLine()) != null) {
