@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 
 /**
  * Represents a single Room.
- * 
+ *
  * A room can be connected to up to 4 adjacent rooms, and may contain an event.
  */
 public class Room {
@@ -29,7 +29,7 @@ public class Room {
 
     /**
      * Initialises a new room, with isExit set to false (the case for most rooms).
-     * @param roomTexture The texture for this room.
+     * @param texture The texture for this room.
      */
     public Room(Texture texture)
     {
@@ -55,7 +55,7 @@ public class Room {
     }
 
     /**
-     * Adds a connection to an adjacent room, given a direction. 
+     * Adds a connection to an adjacent room, given a direction.
      * @param adjacentRoom The adjacent room to connect to.
      * @param direction Direction of the new room in relation to this room.
      */
@@ -75,7 +75,7 @@ public class Room {
 
     /**
      * Return a specific adjacent room based on a direction.
-     * 
+     *
      * @param direction Direction of the adjacent room to return.
      * @return Room representing adjacentRoom if it exists, null otherwise.
      */
@@ -87,7 +87,7 @@ public class Room {
 
     /**
      * Returns the array storing adjacent rooms.
-     * 
+     *
      * If a room doesn't exist in that direction null is stored instead.
      * @return Array of size 4, with order {NORTH, EAST, SOUTH, WEST}.
      */

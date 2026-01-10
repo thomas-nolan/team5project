@@ -4,6 +4,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
+/**
+ * New for Assessment 2
+ *
+ * A class that manages the rooms in the map
+ */
 public class RoomFlowManager {
 
     private final EscapeGame game;
@@ -21,6 +26,17 @@ public class RoomFlowManager {
     private boolean bookshelfRoomVisited = false;
     private boolean keyRoomVisited = false;
 
+    /**
+     * The constructor for the class
+     * @param game
+     * @param uiController
+     * @param playerController
+     * @param doorController
+     * @param eventSystem
+     * @param scoreManager
+     * @param timer
+     * @param achievementManager
+     */
     public RoomFlowManager(EscapeGame game, UIController uiController, PlayerController playerController,
         DoorController doorController, EventSystem eventSystem, ScoreManager scoreManager, Timer timer, AchievementManager achievementManager){
 
@@ -34,6 +50,11 @@ public class RoomFlowManager {
         this.achievementManager = achievementManager;
     }
 
+    /**
+     * Initialises the game map and all of its rooms
+     * It also defines which rooms lead to each other and in what direction
+     * Also responsible for initialising the Dean
+     */
     public void initialiseMap() {
 
         // Store room textures in list for easy access and disposal.
@@ -50,8 +71,7 @@ public class RoomFlowManager {
         roomTextures.put("hiddenBookshelfRoom", new Texture("BookshelfRoom.png"));
         roomTextures.put("lostStudentRoom", new Texture("Room8.png"));
 
-        // Iniitalise all the rooms
-        // TODO: Update room textures, and add more rooms.
+        // Iniitalises all the rooms
         Room room1 = new Room(roomTextures.get("room1"));
         Room room2 = new Room(roomTextures.get("room2"));
         Room room3 = new Room(roomTextures.get("room3"));
@@ -68,8 +88,8 @@ public class RoomFlowManager {
         dean = new Dean(0.6f, 1f, 1f, game, roomWidth, roomHeight);
         Room hiddenBookshelfRoom = new Room(roomTextures.get("hiddenBookshelfRoom"));
         Room lostStudentRoom = new Room(roomTextures.get("lostStudentRoom"));
-        
-        
+
+
         allRooms.add(room1);
         allRooms.add(room2);
         allRooms.add(room3);
@@ -84,7 +104,7 @@ public class RoomFlowManager {
         Room exit = new Room(roomTextures.get("room1"), true);
 
 
-        // Initialise connections - remember both ways.
+        // Initialise room connections - remember both ways.
         room1.addAdjacent(room2, DoorDirection.EAST);
         room2.addAdjacent(room1, DoorDirection.WEST);
 
@@ -134,6 +154,11 @@ public class RoomFlowManager {
 
     }
 
+    /**
+     * Gets a random room
+     * @param exclude - Room to exclude
+     * @return - A random valid room
+     */
     public Room getRandomRoom(Room exclude){
         Array<Room> validRooms = new Array<>();
         for (Room r: allRooms){
@@ -144,6 +169,11 @@ public class RoomFlowManager {
         return validRooms.random();
     }
 
+    /**
+     * Returns a Room based on its name
+     * @param room - The name of a room
+     * @return - A room with the given name or null if none found
+     */
     public Room getRoomByName(String room){
         for (Room r: allRooms){
             if (r.getRoomTexture() == roomTextures.get(room)){
@@ -153,15 +183,29 @@ public class RoomFlowManager {
         return null;
     }
 
+    /**
+     * Getter for bookshelfRoomVisited
+     * @return - True if the bookshelf room is visited, false if not
+     */
     public boolean bookshelfRoomVisited(){
         return bookshelfRoomVisited;
     }
 
+    /**
+     * Removes the entrance in the bookshelf room after it is activated
+     * @param bookshelfRoom - The bookshelf room
+     * @param roomFrom - The room the player entered the bookshelf room from
+     * @param direction - The door direction
+     */
     public void removeEnterence(Room bookshelfRoom, Room roomFrom, DoorDirection direction){
         roomFrom.removeAdjacent(bookshelfRoom, direction);
     }
 
-    public void handleNegativeRoomEntery(Room room){
+    /**
+     * Registers negative events for rooms that contain them
+     * @param room
+     */
+    public void handleNegativeRoomEntry(Room room){
         if (room.getEvent() instanceof KeyEvent && !keyRoomVisited){
             keyRoomVisited = true;
             eventSystem.registerEvent(EventType.NEGATIVE);
@@ -173,6 +217,10 @@ public class RoomFlowManager {
 
     }
 
+    /**
+     * Changes the room the player is in when entering a door
+     * @param room - The room to enter
+     */
     public void changeRoomTo(Room room){
         eventSystem.onExitRoom(currentRoom);
         currentRoom = room;
@@ -183,10 +231,14 @@ public class RoomFlowManager {
         playerController.getPlayer().setCenter(centerX, centerY);
 
         eventSystem.onEnterRoom(currentRoom);
-        handleNegativeRoomEntery(currentRoom);
+        handleNegativeRoomEntry(currentRoom);
 
     }
 
+    /**
+     * Runs each frame, updates game data
+     * @param delta
+     */
     public void update(float delta) {
         playerController.update(delta);
 
@@ -197,18 +249,24 @@ public class RoomFlowManager {
                 GameplayStateManager.triggerLose(game, uiController, timer, scoreManager);
         }
         }
-        
+
     }
 
-
+    /**
+     * Setter method for doorController
+     * @param doorController - New DoorController
+     */
     public void setDoorController(DoorController doorController) {
         this.doorController = doorController;
     }
 
+    /**
+     * Loads a new room to replace the old one
+     * Updates which doors are visible
+     * Triggers a win if the player enters the exit door
+     * @param direction
+     */
     public void changeRoom(DoorDirection direction) {
-        // Will unload current room and load next room
-        // Will update which doors are visible. Note that only 4 door objects are used -
-        // they can be made visible or invisible.
 
         Room newRoom = currentRoom.getAdjacent(direction);
         if (newRoom == null){
@@ -222,7 +280,7 @@ public class RoomFlowManager {
         doorController.updateForRoom(newRoom);
         playerController.positionAfterRoomChange(direction);
         eventSystem.onEnterRoom(newRoom);
-        handleNegativeRoomEntery(newRoom);
+        handleNegativeRoomEntry(newRoom);
 
         if (newRoom.isExit())
         {
@@ -231,10 +289,18 @@ public class RoomFlowManager {
         }
 
     }
+
+    /**
+     * Getter for the current room
+     * @return - currrentRoom
+     */
     public Room getCurrentRoom() {
         return currentRoom;
     }
 
+    /**
+     * Draws the current room and the dean if necessary
+     */
     public void drawCurrentRoom() {
         Texture t = currentRoom.getRoomTexture();
         float w = game.viewport.getWorldWidth();
@@ -246,6 +312,9 @@ public class RoomFlowManager {
         }
     }
 
+    /**
+     * Disposes of textures
+     */
     public void dispose(){
         for (Texture t: roomTextures.values()){
             t.dispose();
