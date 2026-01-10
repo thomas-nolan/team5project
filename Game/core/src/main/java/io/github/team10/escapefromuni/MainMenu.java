@@ -65,6 +65,9 @@ public class MainMenu implements Screen {
         this.ui = ui;
     }
 
+    /**
+     * Sets up the main menu and initialises all values
+     */
     @Override
     public void show() {
         // background
@@ -110,7 +113,9 @@ public class MainMenu implements Screen {
         stage.addActor(inputField);
     }
 
-    // Draws the main menu UI
+    /**
+     * Draws the main menu UI
+     */
     public void display() {
         game.viewport.apply();
         game.batch.setProjectionMatrix(game.viewport.getCamera().combined);
@@ -139,7 +144,12 @@ public class MainMenu implements Screen {
 
     }
 
-    // the buttons
+    /**
+     * Used to destroy buttons
+     * @param button
+     * @param text
+     * @param hovered
+     */
     private void drawButton(Rectangle button, String text, boolean hovered) {
 
         if (hovered) {
@@ -161,6 +171,11 @@ public class MainMenu implements Screen {
 
     }
 
+    /**
+     * Displays the leaderboards on the main menu
+     * reads from a csv file for the leaderboards
+     * Also calls a function that displays previous score
+     */
     private void displayLeaderboards() {
         Map<String,Integer> scores = fileManager.readFile(files[0]);
         scores = fileManager.sortMap(scores);
@@ -173,6 +188,9 @@ public class MainMenu implements Screen {
         displayPreviousScore();
     }
 
+    /**
+     * Reads from a csv file to display the previous score
+     */
     private void displayPreviousScore() {
         String key;
         Integer val;
@@ -188,6 +206,11 @@ public class MainMenu implements Screen {
         font.draw(game.batch, score, 20, 400);
     }
 
+    /**
+     * Detects button clicks
+     * @param button - The button being checked
+     * @return - True is clicked, false if not
+     */
     private boolean isButtonClicked(Rectangle button) {
         // click detector
         if (Gdx.input.justTouched()) {
@@ -203,6 +226,11 @@ public class MainMenu implements Screen {
         return false;
     }
 
+    /**
+     * Detects mouse hovers
+     * @param button
+     * @return - True is hovered over, false if not
+     */
     private boolean isButtonHovered(Rectangle button) {
         // detect mouse hover in UI coordinates
         Vector2 mousePos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
@@ -210,6 +238,9 @@ public class MainMenu implements Screen {
         return button.contains(mousePos.x, mousePos.y);
     }
 
+    /**
+     * Runs when starting the main game
+     */
     public void onStartGame() {
         // switch to main gameplay
         System.out.println("Starting game...");
@@ -217,6 +248,9 @@ public class MainMenu implements Screen {
         dispose();
     }
 
+    /**
+     * Opens tutorial menu
+     */
     public void onTutorial() {
         // open tutorial page
         System.out.println("Opening tutorial...");
@@ -224,6 +258,9 @@ public class MainMenu implements Screen {
         dispose();
     }
 
+    /**
+     * Opens setting menu
+     */
     public void onSettings() {
         // open settings page
         System.out.println("Opening settings...");
@@ -231,12 +268,17 @@ public class MainMenu implements Screen {
         dispose();
     }
 
+    /**
+     * Exits the game fully
+     */
     public void onExit() {
-        // quit game
         System.out.println("Exiting game...");
         ui.exitGame();
     }
 
+    /**
+     * Reset the leaderboards with sample values
+     */
     public void onReset() {
         Map<String, Integer> defaultScores = new HashMap<String, Integer>();
         defaultScores.put("Tom", 15000);
@@ -250,6 +292,9 @@ public class MainMenu implements Screen {
         fileManager.writeFile(files[1],defaultPreviousScore);
     }
 
+    /**
+     * Three functions used to change the difficulty
+     */
     public void onEasy() {
         difficultySetup.setDifficulty(Difficulty.EASY);
     }
@@ -262,6 +307,10 @@ public class MainMenu implements Screen {
         difficultySetup.setDifficulty(Difficulty.HARD);
     }
 
+    /**
+     * Runs every frame, checks for button clicks
+     * @param delta
+     */
     @Override
     public void render(float delta) {
 
@@ -325,9 +374,11 @@ public class MainMenu implements Screen {
     @Override
     public void hide() {}
 
+    /**
+     * Dispose of redundant assets
+     */
     @Override
     public void dispose() {
-
         backgroundImage.dispose();
         buttonTexture.dispose();
         stage.dispose();
