@@ -16,8 +16,6 @@ public class AchievementManager {
    */
   public AchievementManager() {
 
-    // ones that are commented out arent done yet bc 
-    //  they arent possible yet
     // 'No incorrect answers' is true by default, you lose the achievement
     //  if you fail a question
 
@@ -30,15 +28,15 @@ public class AchievementManager {
     achievements.put("No incorrect answers", true);
 
   }
-  
+
   /**
    * NEW FOR ASSESSMENT 2
    * This method adds achievements to the game.
-   * 
+   *
    * @param achievementName The name of the achievement you wish to add
    */
   public void addAchievement(String achievementName) {
-        
+
     achievements.put(achievementName, true);
 
   }
@@ -46,11 +44,11 @@ public class AchievementManager {
   /**
    * NEW FOR ASSESSMENT 2
    * This method is used to mark achievements as not completed.
-   * 
+   *
    * @param achievementName The name of the achievement you wish to remove
    */
   public void removeAchievement(String achievementName) {
-        
+
     achievements.put(achievementName, false);
 
   }
@@ -58,7 +56,7 @@ public class AchievementManager {
   /**
    * NEW FOR ASSESSMENT 2
    * Returns the number of completed achievements.
-   * 
+   *
    * @return The number of achievements
    */
   public int getTotalAchievements() {
@@ -77,7 +75,7 @@ public class AchievementManager {
   /**
    * NEW FOR ASSESSMENT 2
    * Gets all the achievement the player has completed.
-   * 
+   *
    * @return An array containing the completed achievements
    */
   public String[] getAchievements() {
@@ -86,7 +84,7 @@ public class AchievementManager {
 
     int index = 0;
     for (String key : achievements.keySet()) {
-      if (achievements.get(key)) {    
+      if (achievements.get(key)) {
         currentAchievements[index] = key;
         index += 1;
 
@@ -110,7 +108,5 @@ public class AchievementManager {
     achievements.put("All hidden events", false);
     achievements.put("Find Long Boi", false);
     achievements.put("No incorrect answers", true);
-
   }
-
 }

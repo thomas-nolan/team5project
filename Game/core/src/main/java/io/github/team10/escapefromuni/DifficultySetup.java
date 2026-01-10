@@ -6,9 +6,9 @@ import com.badlogic.gdx.utils.Json;
 
 /**
  * NEW FOR ASSESSMENT 2.
- * This class handles the set up and storing for game's Difficulty.
+ * This class handles the set-up and storing for game's Difficulty.
  * It reads and writes difficulty modifiers to a local json file
- * Allows for certain game paramters to be edited
+ * Allows for certain game parameters to be edited
  */
 public class DifficultySetup {
 
@@ -17,7 +17,7 @@ public class DifficultySetup {
 
   /**
    * NEW FOR ASSESSMENT 2.
-   * Defualt constructor used to the Json filename used to save difficulty modifiers.
+   * Default constructor used to the Json filename used to save difficulty modifiers.
    */
   public DifficultySetup() {
     this.fileName = "difficulty.json";
@@ -26,7 +26,7 @@ public class DifficultySetup {
   /**
    * NEW FOR ASSESSMENT 2.
    * Sets the game difficulty and writes it to the file
-   * 
+   *
    * @param difficulty the desired difficulty
    */
   public void setDifficulty(Difficulty difficulty) {
@@ -61,8 +61,8 @@ public class DifficultySetup {
 
   /**
    * NEW FOR ASSESSMENT 2.
-   * Reads the difficulty modifiers currenlty saved in the json file.
-   * 
+   * Reads the difficulty modifiers currently saved in the json file.
+   *
    * @return the object representing the current difficulty settings
    */
   public DifficultyModifiers readDifficulty() {

@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 /**
  * A hidden event where the player encounters the Ghost of Longboi.
  * The event begins hidden (only outline is visible) and
- * is revealed when the player approaches within a certain 
+ * is revealed when the player approaches within a certain
  * distance. Once revealed, Longboi appears and displays a dialogue panel.
  */
 public class EventLongboi implements IEvent {
@@ -33,24 +33,24 @@ public class EventLongboi implements IEvent {
   // UI to display dialogue
   private final Texture speechPanelTexture;
   private final Sprite speechPanelSprite;
-  
+
   /**
    * EXTENDED FROM ASSESSMENT 1.
-   * Creates an instance of hidden Longboi event 
-   * 
+   * Creates an instance of hidden Longboi event
+   *
    * @param player player controlled by the user
    * @param game the main LibGDX game instance
    * @param achievementManager manages achievements unlocked by the event
    * @param eventSystem the central events manager
    */
-  public EventLongboi(Player player, EscapeGame game, 
+  public EventLongboi(Player player, EscapeGame game,
         AchievementManager achievementManager, EventSystem eventSystem) {
     this.player = player;
     this.game = game;
     this.type = EventType.HIDDEN;
     this.achievementManager = achievementManager;
     this.eventSystem = eventSystem;
-    
+
     // Loads the texture for hidden and revealed states
     longboiTexture = new Texture("Longboi.png");
     longboiHiddenTexture = new Texture("LongboiShadow.png");
@@ -68,7 +68,7 @@ public class EventLongboi implements IEvent {
   public EventType getType() {
     return type;
   }
- 
+
   /**
    * Indicates if the event is finished.
    */
@@ -136,7 +136,7 @@ public class EventLongboi implements IEvent {
 
   /**
    * Calculates the distance between the center of the player and Longboi.
-   * 
+   *
    * @return The distance between the player and longboi.
    */
   private float getPlayerLongboiDist() {
@@ -155,7 +155,7 @@ public class EventLongboi implements IEvent {
   public void draw() {
     if (eventFinished) {
       return;
-    } 
+    }
     longboiSprite.draw(game.batch);
   }
 
@@ -166,11 +166,11 @@ public class EventLongboi implements IEvent {
   public void drawUI() {
     if (eventFinished) {
       return;
-    } 
+    }
 
     if (!hidden) {
       // Positions the dialouge on the screen
-      float uiWidth = game.uiViewport.getWorldWidth(); 
+      float uiWidth = game.uiViewport.getWorldWidth();
       float panelY = 150f;
       float panelX = uiWidth / 2f;
 

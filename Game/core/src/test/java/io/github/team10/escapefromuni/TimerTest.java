@@ -19,12 +19,12 @@ public class TimerTest {
     void setUp() {
         timer = new Timer();
     }
-    
+
     /**
-     * Tests that the constructer sets the correct default achievements
+     * Tests that the constructor sets the correct default achievements
      */
     @Test
-    void contrutor_setsCorrectDefault() { 
+    void contrutor_setsCorrectDefault() {
         assertEquals(0f, timer.getTime());
         assertEquals(300f, timer.getTimeLeftSeconds());
         assertFalse(timer.isFinished());
@@ -33,7 +33,7 @@ public class TimerTest {
     /**
      * Tests that the update method decreases time left
      */
-    @Test 
+    @Test
     void update_drecreasesTime() {
         timer.update(100f);
 
@@ -43,7 +43,7 @@ public class TimerTest {
     /**
      * Tests that the update method increases elapsed time
      */
-    @Test 
+    @Test
     void update_increasesElapsedTime() {
         timer.update(100f);
 
@@ -92,7 +92,7 @@ public class TimerTest {
 
         assertEquals(0f, timer.getTime());
         assertEquals(300, timer.getTimeLeftSeconds());
-    } 
+    }
 
     /**
      * Tests that set frozen finishes and time left and elapsed time resume
@@ -110,7 +110,7 @@ public class TimerTest {
     /**
      * Tests that reset sets the timer back to default
      */
-    @Test 
+    @Test
     void reset_setsDefaultTimer() {
         timer.update(100f);
         timer.setFrozen();

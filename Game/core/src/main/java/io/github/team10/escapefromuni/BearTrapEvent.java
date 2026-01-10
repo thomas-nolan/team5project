@@ -20,7 +20,7 @@ public class BearTrapEvent implements IEvent {
   private final Player player;
   private final Timer timer;
   private final EscapeGame game;
-  
+
   private float remaining = FREEZE_TIME;
   private boolean finished = false;
   private boolean triggered = false;
@@ -30,10 +30,10 @@ public class BearTrapEvent implements IEvent {
 
   /**
    * NEW FOR ASSESSMENT 2
-   * This is a contructor for the event.
-   * It intailises the game, player, timer and eventSystem
+   * This is a constructor for the event.
+   * It initialises the game, player, timer and eventSystem
    * Also loads the texture and font for the event
-   * 
+   *
    * @param game the main LibGDX game instance
    * @param player the player character controlled by the user
    * @param timer the games timer
@@ -55,14 +55,14 @@ public class BearTrapEvent implements IEvent {
    * NEW FOR ASSESSMENT 2
    * This returns the event type which is negative.
    */
-  @Override 
+  @Override
   public EventType getType() {
     return EventType.NEGATIVE;
   }
 
   /**
    * NEW FOR ASSESSMENT 2.
-   * This method starts the event by creating the sprite 
+   * This method starts the event by creating the sprite
    * establishing its placement, texture as well as size
    */
   @Override
@@ -85,7 +85,7 @@ public class BearTrapEvent implements IEvent {
   /**
    * NEW FOR ASSESSMENT 2.
    * Handles the logic of triggering the event
-   * Checks if the player has colides and triggers the event if so 
+   * Checks if the player has collides and triggers the event if so
    * Also adds to the events counter
    */
   @Override
@@ -104,9 +104,9 @@ public class BearTrapEvent implements IEvent {
       }
       return;
     }
- 
+
     remaining -= delta;
-    
+
     // enables movement after the set time has elapsed
     if (remaining <= 0) {
       player.enableMovement(true);
@@ -123,7 +123,7 @@ public class BearTrapEvent implements IEvent {
   public void draw() {
     if (!triggered) {
       trapSprite.draw(game.batch);
-    } 
+    }
   }
 
   /**
@@ -139,7 +139,7 @@ public class BearTrapEvent implements IEvent {
       font.getData().setScale(4f);
 
       String message = "Wet floor! Frozen for " + (int) Math.ceil(remaining) + "s";
-     
+
       // Calculates layout dimensions to centre the ui on the screen
       GlyphLayout layout = new GlyphLayout(font, message);
 
@@ -163,5 +163,5 @@ public class BearTrapEvent implements IEvent {
   public boolean IsFinished() {
     return finished;
   }
-    
+
 }

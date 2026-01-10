@@ -34,14 +34,14 @@ public class GameOverScreen implements Screen {
   /**
    * EXTENDED ON FROM ASSESSMENT 1.
    * Constructs a new GameOVerScreen.
-   * 
+   *
    * @param game  The main game instance.
    * @param isWon Whether the player has won or lost.
    * @param timer The timer used to track playtime.
    * @param scoreManager  The score manager which calculates the final score.
    */
-  public GameOverScreen(final EscapeGame game, UIController uiController, 
-      boolean isWon, Timer timer, ScoreManager scoreManager, 
+  public GameOverScreen(final EscapeGame game, UIController uiController,
+      boolean isWon, Timer timer, ScoreManager scoreManager,
       AchievementManager achievementManager, EventSystem eventSystem) {
 
     // NEW FOR ASSESSMENT 2 - Sets up the core systems and managers used for the game over screen
@@ -97,14 +97,14 @@ public class GameOverScreen implements Screen {
    * Renders the winning screen, showing the win background, final score and time elapsed.
    */
   private void renderWinScreen() throws IOException {
-    game.batch.draw(winScreen, 0, 0, game.uiViewport.getWorldWidth(), 
+    game.batch.draw(winScreen, 0, 0, game.uiViewport.getWorldWidth(),
         game.uiViewport.getWorldHeight());
     final String timeText = "Time Elapsed: " + timer.getTimeSeconds();
 
     // NEW FOR ASSESSMENT 2
     // Calculates the score and saves it into the leaderboard
     checkAchievements(timer.getTimeLeftSeconds());
-    int finalScore = scoreManager.CalculateFinalScore(timer.getTimeLeftSeconds(), 
+    int finalScore = scoreManager.CalculateFinalScore(timer.getTimeLeftSeconds(),
         achievementManager);
     if (leaderboardsSaved == false) {
       scoreManager.leaderboards(finalScore);
@@ -139,15 +139,15 @@ public class GameOverScreen implements Screen {
    * Doesn't display the score or time.
    */
   private void renderLoseScreen() {
-    game.batch.draw(loseScreen, 0, 0, 
+    game.batch.draw(loseScreen, 0, 0,
         game.uiViewport.getWorldWidth(), game.uiViewport.getWorldHeight());
   }
 
   /**
    * NEW FOR ASSESSMENT 2.
    * This checks the achievements completed and gives a new achievement if the time
-   * completed is short enought.
-   * 
+   * completed is short enough.
+   *
    * @param timeLeftSeconds The time left on the timer after completing the game
    */
   public void checkAchievements(int timeLeftSeconds) {
@@ -180,7 +180,7 @@ public class GameOverScreen implements Screen {
    */
   public void displayAchievements() {
 
-    // NEW FOR ASSESSMENT 2 
+    // NEW FOR ASSESSMENT 2
     // Gets the coordinates for the placement of the Achievements on the end screen
     float achievementY = game.uiViewport.getWorldHeight() - 20;
     String[] achievements = achievementManager.getAchievements();
@@ -189,7 +189,7 @@ public class GameOverScreen implements Screen {
     // NEW FOR ASSESSMENT 2 - places each achievement below each other.
     for (int i = 0; i < achievements.length; i++) {
       achievementY -= 50;
-      font.draw(game.batch, achievements[i], 20, achievementY);        
+      font.draw(game.batch, achievements[i], 20, achievementY);
     }
   }
 
@@ -206,7 +206,7 @@ public class GameOverScreen implements Screen {
   /**
    * Dispose of textures used by the screen.
    */
-  @Override 
+  @Override
   public void dispose() {
     winScreen.dispose();
     loseScreen.dispose();

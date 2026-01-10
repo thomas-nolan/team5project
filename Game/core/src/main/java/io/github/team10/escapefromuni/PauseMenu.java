@@ -196,7 +196,7 @@ public class PauseMenu implements Screen {
 
     /**
      * Rendering for the pause menu, runs every frame
-     * @param delta
+     * @param delta - The time between frames
      */
     @Override
     public void render(float delta) {

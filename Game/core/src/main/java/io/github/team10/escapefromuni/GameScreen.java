@@ -10,11 +10,11 @@ import com.badlogic.gdx.utils.ScreenUtils;
  * EXTENDED FROM ASSESSMENT 1.
  * This class will deal with the 'main' game logic.
  * For example, creating the player, calling initialiseMap() on the RoomManager.
- * Will handle rendering of game textures using the SpriteBatch stored in EscapeGame. 
+ * Will handle rendering of game textures using the SpriteBatch stored in EscapeGame.
  */
 public class GameScreen extends ScreenAdapter {
 
-  // Intialises the new ASSESSMENT 2 systems
+  // Initialises the new ASSESSMENT 2 systems
   private final EscapeGame game;
   private final GameController controller;
   private final UIController uiController;
@@ -24,7 +24,7 @@ public class GameScreen extends ScreenAdapter {
   /**
    * EXTENDED FROM ASSESSMENT 1 - to use new systems.
    * Creates a new game screen
-   * 
+   *
    * @param game the main LibGDX game instance
    * @param uiController the UI manager controlling the games screens
    * @param controller the main game controller
@@ -32,7 +32,7 @@ public class GameScreen extends ScreenAdapter {
   public GameScreen(EscapeGame game, UIController uiController, GameController controller) {
     this.game = game;
     this.uiController = uiController;
-    this.controller = controller;      
+    this.controller = controller;
   }
 
   /**
@@ -54,7 +54,7 @@ public class GameScreen extends ScreenAdapter {
       pauseGame();
       return;
     }
-    
+
     // Only updates the game logic when not paused
     if (!isPaused) {
       controller.update(delta);
@@ -88,7 +88,7 @@ public class GameScreen extends ScreenAdapter {
     game.batch.setProjectionMatrix(game.viewport.getCamera().combined);
     game.batch.begin();
 
-    // World Rendering    
+    // World Rendering
     controller.drawWorld();
     game.batch.end();
 
@@ -105,18 +105,18 @@ public class GameScreen extends ScreenAdapter {
     controller.dispose();
   }
 
-  @Override 
+  @Override
   public void show() {
     AudioManager.getInstance().playGameMusic();
     isPaused = false;
-  } 
+  }
 
   @Override public void resize(int width, int height) {}
 
   @Override public void pause() {}
 
   @Override public void resume() {}
-  
+
   @Override public void hide() {}
 }
 

@@ -30,7 +30,7 @@ public class EventFreeze implements IEvent {
   /**
    * NEW FOR ASSESSMENT 2.
    * Constructor used to create a new freeze event.
-   * 
+   *
    * @param player the player controlled by the user
    * @param game the main LibGDX game instance
    * @param timer the games timer
@@ -57,7 +57,7 @@ public class EventFreeze implements IEvent {
 
   /**
    * NEW FOR ASSESSMENT 2.
-   * Intialises the freeze event.
+   * Initialises the freeze event.
    */
   public void startEvent() {
     if (eventFinished) {
@@ -70,7 +70,7 @@ public class EventFreeze implements IEvent {
     freezeSprite.setPosition(7.5f, 5.5f);
     // AudioManager.getInstance().playEventSound(this.type);
   }
-  
+
   /**
    * NEW FOR ASSESSMENT 2.
    * End the event, cleaning up any resources once the event has been used.
@@ -98,7 +98,7 @@ public class EventFreeze implements IEvent {
   /**
    * NEW FOR ASSESSMENT 2.
    * Calculates the distance between the player and the freeze event pickup.
-   * 
+   *
    * @return The distance between the player and the centre of the freeze pickup
    */
   private float getPlayerFreezeDist() {
@@ -132,7 +132,7 @@ public class EventFreeze implements IEvent {
     }
   }
 
-  /** 
+  /**
    * NEW FOR ASSESSMENT 2.
    * Used to draw the UI for the event.
    * Not needed as there is no UI.

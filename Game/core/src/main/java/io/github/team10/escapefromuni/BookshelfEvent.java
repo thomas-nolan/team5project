@@ -26,14 +26,14 @@ public class BookshelfEvent implements IEvent {
    * NEW FOR ASSESSMENT 2.
    * This is the class constructor for BookShelfEvent
    * It initalises the aspects of the game needed for the event
-   * 
+   *
    * @param player the player controlled by the user
    * @param roomFlow the manager for room transitions
-   * @param destinationRoom the disired room to head to
+   * @param destinationRoom the desired room to head to
    * @param game the main LibGDX game instance
    * @param eventSystem the central events manager
    */
-  public BookshelfEvent(Player player, RoomFlowManager roomFlow, 
+  public BookshelfEvent(Player player, RoomFlowManager roomFlow,
       Room destinationRoom, EscapeGame game, EventSystem eventSystem) {
     this.player = player;
     this.roomFlow = roomFlow;
@@ -69,7 +69,7 @@ public class BookshelfEvent implements IEvent {
     bookshelfSprite.setSize(1f, 2f);
     float roomWidth = game.viewport.getWorldWidth();
     float roomHeight = game.viewport.getWorldHeight();
-    bookshelfSprite.setPosition(roomWidth - bookshelfSprite.getWidth(), 
+    bookshelfSprite.setPosition(roomWidth - bookshelfSprite.getWidth(),
         roomHeight / 2f - bookshelfSprite.getHeight() / 2f);
   }
 
@@ -99,7 +99,7 @@ public class BookshelfEvent implements IEvent {
       // changes the room to desired destination
       roomFlow.changeRoomTo(destinationRoom);
       isFinished = true;
-        
+
       // removes the door to the bookshelf room upon visiting it
       // this means players do not get stuck in the room
       if (!roomFlow.bookshelfRoomVisited()) {
@@ -131,7 +131,7 @@ public class BookshelfEvent implements IEvent {
   @Override
   public void drawUI() {
     if (!isFinished && player.checkCollision(bookshelfSprite)) {
-    
+
       // sets the font and size of the text
       game.font.getData().setScale(1f);
       game.font.setColor(Color.BLACK);
@@ -140,7 +140,7 @@ public class BookshelfEvent implements IEvent {
 
       // Calculates text layout for propper positioning
       GlyphLayout layout = new GlyphLayout(game.font, message);
-            
+
       float uiWidth = game.uiViewport.getWorldWidth();
       float uiHeight = game.uiViewport.getWorldHeight();
 

@@ -23,21 +23,21 @@ public class EventSystem {
    */
   public EventSystem() {
 
-    // NEW FOR ASSESSMENT 2 - Intialises the event counter
+    // NEW FOR ASSESSMENT 2 - Initialises the event counter
     for (EventType type : EventType.values()) {
       triggeredCounts.put(type, 0);
     }
-    
+
     // NEW FOR ASSESSMENT 2
-    // Sets the number number of events for each type in the event counter
+    // Sets the number of events for each type in the event counter
     maxCounts.put(EventType.NEGATIVE, 5);
     maxCounts.put(EventType.POSITIVE, 4);
     maxCounts.put(EventType.HIDDEN, 3);
   }
 
   /**
-   * This actives the event upon entering the room.
-   * 
+   * This activates the event upon entering the room.
+   *
    * @param room the {@link Room} object you enter
    */
   public void onEnterRoom(Room room) {
@@ -50,7 +50,7 @@ public class EventSystem {
 
   /**
    * Finishes the event upon exiting the room.
-   * 
+   *
    * @param room the {@link Room} object you leave
    */
   public void onExitRoom(Room room) {
@@ -61,8 +61,8 @@ public class EventSystem {
 
   /**
    * Updates the logic for the event upon every frame.
-   * 
-   * @param delta the time between each fram
+   *
+   * @param delta the time between each frame
    */
   public void update(float delta) {
     if (activeEvent != null) {
@@ -92,7 +92,7 @@ public class EventSystem {
    * NEW FOR ASSESSMENT 2.
    * This method used for the event counter, registering an event
    * if it is interacted with.
-   * 
+   *
    * @param type the type of event
    */
   public void registerEvent(EventType type) {
@@ -114,7 +114,7 @@ public class EventSystem {
   /**
    * NEW FOR ASSESSMENT 2.
    * This returns the number of times an event type has been triggered.
-   * 
+   *
    * @param type type of the event
    * @return the number of times an event has been triggered
    */
@@ -125,8 +125,8 @@ public class EventSystem {
   /**
    * NEW FOR ASSESSMENT 2.
    * Returns the max number of times an event type may be triggered
-   * 
-   * @param type the type of event 
+   *
+   * @param type the type of event
    * @return the max number of times an event type may be triggered
    */
   public int getMax(EventType type) {

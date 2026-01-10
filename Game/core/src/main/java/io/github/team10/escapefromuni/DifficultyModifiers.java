@@ -9,7 +9,7 @@ package io.github.team10.escapefromuni;
 public class DifficultyModifiers {
   public float playerSpeedModifier;
   public float enemySpeedModifier;
-  public float speedBoostModifier; 
+  public float speedBoostModifier;
   public float freezeModifier;
   public boolean hardQuestions;
   // Add any others later
@@ -17,7 +17,7 @@ public class DifficultyModifiers {
   /**
    * NEW FOR ASSESSMENT 2.
    * Intentionally empty constructor
-   * Used to allow instantiation of the class without intialising values
+   * Used to allow instantiation of the class without initialising values
    */
   public DifficultyModifiers() {
     // Empty constructor. Do not remove
@@ -25,15 +25,15 @@ public class DifficultyModifiers {
 
   /**
    * NEW FOR ASSESSMENT 2.
-   * This modifies the below mentioned paramaters to the desired value
-   * 
+   * This modifies the below-mentioned parameters to the desired value
+   *
    * @param playerSpeedModifier The value to modify the player's speed
    * @param enemySpeedModifier The value to modify the enemy's speed
    * @param speedBoostModifier The value to modify the speedBoost event
    * @param freezeModifier The value to change the length of the freeze to
    * @param hardQuestions The boolean to change the questions to harder
    */
-  public DifficultyModifiers(float playerSpeedModifier, float enemySpeedModifier, 
+  public DifficultyModifiers(float playerSpeedModifier, float enemySpeedModifier,
        float speedBoostModifier, float freezeModifier, boolean hardQuestions) {
     this.playerSpeedModifier = playerSpeedModifier;
     this.enemySpeedModifier = enemySpeedModifier;

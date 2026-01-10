@@ -315,7 +315,7 @@ public class EventTHE3 implements IEvent {
 
   /**
    * This Draws all the UI for the elements for the event
-   * This includes the text, the pannel as well as the True/False buttons.
+   * This includes the text, the panel as well as the True/False buttons.
    */
   @Override
   public void drawUI() {

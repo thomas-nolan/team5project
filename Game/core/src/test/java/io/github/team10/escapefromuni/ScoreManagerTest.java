@@ -40,7 +40,7 @@ public class ScoreManagerTest {
 
         assertEquals(correctScore, scoreManager.CalculateFinalScore(30, achievementManager));
     }
-    
+
     /**
      * Tests that increases Score actually increases the score
      */
@@ -65,7 +65,7 @@ public class ScoreManagerTest {
     }
 
     /**
-     * Tests is Duplicate returns true if and only if theres a duplicate
+     * Tests is Duplicate returns true if and only if there is a duplicate
      */
     @Test
     void isDuplicate_returnsTrueIfDuplicate() {

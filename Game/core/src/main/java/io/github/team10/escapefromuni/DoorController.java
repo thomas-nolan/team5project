@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
  * NEW FOR ASSESSMENT 2.
  * This class acts as a controller for the door class
  * It breaks up the logic from the old god class
- * Controlls the doors within a room setting their directions as well as which room they lead to
+ * Controls the doors within a room setting their directions as well as which room they lead to
  */
 public class DoorController {
 
@@ -28,15 +28,15 @@ public class DoorController {
 
   /**
    * NEW FOR ASSESSMENT 2.
-   * This is a constructor which intialises the variables needed for the room controller
+   * This is a constructor which initialises the variables needed for the room controller
    * It also sets the direction of the doors as well as the font colour for locked doors
-   * 
+   *
    * @param game the main LibGDX game instance
    * @param playerController the controller used handling the player
    * @param roomFlowManager  the manager for room transitions
    * @param eventSystem the central events manager
    */
-  public DoorController(EscapeGame game, PlayerController playerController, 
+  public DoorController(EscapeGame game, PlayerController playerController,
        RoomFlowManager roomFlowManager, EventSystem eventSystem) {
     this.game = game;
     this.playerController = playerController;
@@ -48,20 +48,20 @@ public class DoorController {
     doors[1] = new Door(this, DoorDirection.EAST, 15f, 4f);
     doors[2] = new Door(this, DoorDirection.SOUTH, 7.5f, 0f);
     doors[3] = new Door(this, DoorDirection.WEST, 0f, 4f);
-    
+
     // NEW FOR ASSESSMENT 2 - sets the colour of the font for locked door message
     font.setColor(Color.RED);
-        
+
   }
 
   /**
    * This method sets all the doors in the room to active.
    * It also draws the event indicators onto the door
-   * 
+   *
    * @param room the room to set active
    */
   public void updateForRoom(Room room) {
-        
+
     // gets all adjacent rooms
     Room[] adj = room.getAllAdjacent();
 
@@ -84,20 +84,20 @@ public class DoorController {
       }
     }
   }
- 
+
   /**
    * This method gets the door in the specified direction.
-   * 
+   *
    * @param direction The direction of the door to retrieve
    * @return The {@link Door} object in the specified direction
-   */ 
+   */
   public Door getDoor(DoorDirection direction) {
     return doors[direction.ordinal()];
   }
 
   /**
    * Sets the {@link roomFlowManager} for this object.
-   * 
+   *
    * @param roomFlowManager The {@link roomFlowManager} to associate with this object
    */
   public void setRoomFlowManager(RoomFlowManager roomFlowManager) {
@@ -106,7 +106,7 @@ public class DoorController {
 
   /**
    * Returns the main LibGDX game instance.
-   * 
+   *
    * @return The main {@link EscapeGame} instance
    */
   public EscapeGame getGame() {
@@ -146,15 +146,15 @@ public class DoorController {
       }
     }
   }
-  
+
   /**
    * This method handles drawing the doors and their event indicators.
    */
   public void draw() {
-    // for all the doors draw them 
+    // for all the doors draw them
     for (Door d : doors) {
       d.draw();
-    } 
+    }
 
     // This section adds an event indicator texture if the door has one
     if (indicatorTextures [0] != null) {
@@ -178,7 +178,7 @@ public class DoorController {
    */
   public void drawUI() {
     if (isTouchingDoor) {
-      // NEW FOR ASSESSMENT 2 
+      // NEW FOR ASSESSMENT 2
       // Used to register the event as negative upon touching the door
       if (addedEvent == false) {
         eventSystem.registerEvent(EventType.NEGATIVE);
@@ -204,13 +204,13 @@ public class DoorController {
   }
 
   /**
-   * Cleans up the assest used in the class.
+   * Cleans up the asset used in the class.
    */
   public void dispose() {
     for (Door d : doors) {
       d.dispose();
-    } 
+    }
     positiveIndicator.dispose();
-    negativeIndicator.dispose();   
+    negativeIndicator.dispose();
   }
 }

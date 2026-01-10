@@ -309,7 +309,7 @@ public class MainMenu implements Screen {
 
     /**
      * Runs every frame, checks for button clicks
-     * @param delta
+     * @param delta - Time between frames
      */
     @Override
     public void render(float delta) {

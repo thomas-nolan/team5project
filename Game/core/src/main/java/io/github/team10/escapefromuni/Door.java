@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 /**
  * Represents a door used to connect rooms.
  * Each {@code Door} is has a direction and is managed by the {@link DoorController}.
- * The door can be active or inactive indicating whether it is visible and can be used.  
+ * The door can be active or inactive indicating whether it is visible and can be used.
  */
 public class Door {
   public DoorController doorController;
@@ -22,10 +22,10 @@ public class Door {
   /**
    * Creates a new Door instance.
    * The door is always active initially and can be locked.
-   * 
+   *
    * @param direction Direction of the door in relation to the center of the room.
-   * @param x The x-coord of the bottom left corner of the door.
-   * @param y The y-coord of the bottom left corner of the door.
+   * @param x The x-coordinate of the bottom left corner of the door.
+   * @param y The y-coordinate of the bottom left corner of the door.
    */
   public Door(DoorController doorController, DoorDirection direction, float x, float y) {
     // initialises the door controller and direction
@@ -42,19 +42,19 @@ public class Door {
 
     isActive = true;
   }
- 
+
   /**
    * Draws the door sprite into the game.
    */
   public void draw() {
     if (isActive) {
-      doorSprite.draw(doorController.getGame().batch);    
+      doorSprite.draw(doorController.getGame().batch);
     }
   }
 
   /**
    * This method sets the door to active or not active.
-   * 
+   *
    * @param isActive boolean value containing the active preference
    */
   public void setActive(boolean isActive) {
@@ -63,7 +63,7 @@ public class Door {
 
   /**
    * This method gets the status of the door.
-   * 
+   *
    * @return true if the door is active, false otherwise
    */
   public boolean getActive() {
@@ -73,23 +73,23 @@ public class Door {
   /**
    * NEW FOR ASSESSMENT 2.
    * This method sets a doors lock status
-   * 
+   *
    * @param locked a boolean value setting the door to locked or unlocked
    */
   public void setLocked(boolean locked) {
     this.isLocked = locked;
   }
-  
+
   /**
    * NEW FOR ASSESSMENT 2
    * The method returns if a door is locked or not.
-   * 
+   *
    * @return true if the door is locked, false otherwise
    */
   public boolean isLocked() {
     return isLocked;
   }
-  
+
   /**
    * This method disposes of the door texture.
    */

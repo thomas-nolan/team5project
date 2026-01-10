@@ -22,9 +22,9 @@ public class AchievementManagerTest {
     void setUp() {
         achievementManager = new AchievementManager();
     }
-    
+
     /**
-     * Tests that the constructer sets the correct default achievements
+     * Tests that the constructor sets the correct default achievements
      */
     @Test
     void contrutor_setsCorrectDefault() {

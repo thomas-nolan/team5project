@@ -26,7 +26,7 @@ public class EventSystemTest {
      * Test case of the IEvent interface
      * Tracks method calls and simulates Event behaviour
      */
-    private static class TestEvent implements IEvent { 
+    private static class TestEvent implements IEvent {
         private final EventType type;
 
         int startEventCalls = 0;
@@ -104,9 +104,9 @@ public class EventSystemTest {
     }
 
     /**
-     * Tests that the constructer sets the correct default Events
+     * Tests that the constructor sets the correct default Events
      */
-    @Test 
+    @Test
     void constructor_setsCorrectDefaults() {
         assertEquals(0, eventSystem.getTriggered(EventType.NEGATIVE));
         assertEquals(0, eventSystem.getTriggered(EventType.POSITIVE));
@@ -173,7 +173,7 @@ public class EventSystemTest {
 
         eventSystem.onExitRoom(room);
         eventSystem.update(10f);
-        
+
         assertEquals(0, event.updateEventCalls);
     }
 
@@ -212,7 +212,7 @@ public class EventSystemTest {
      */
     @Test
     void registerEvent_cantGoBeyondMax() {
-        for (int i = 0; i < eventSystem.getMax(EventType.NEGATIVE) + 2; i++) { 
+        for (int i = 0; i < eventSystem.getMax(EventType.NEGATIVE) + 2; i++) {
             eventSystem.registerEvent(EventType.NEGATIVE);
         }
 
@@ -246,7 +246,7 @@ public class EventSystemTest {
     /**
      * Tests that reset method rests trigger count back to zero
      */
-    @Test 
+    @Test
     void reset_setsTriggeredBackToZero(){
         eventSystem.registerEvent(EventType.HIDDEN);
         eventSystem.registerEvent(EventType.HIDDEN);
@@ -262,7 +262,7 @@ public class EventSystemTest {
 
 
 
-    
+
 
 
 }

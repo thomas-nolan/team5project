@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
  * NEW FOR ASSESSMENT 2.
  * This class contains the logic for the dean
  */
-public class Dean extends Player { 
+public class Dean extends Player {
 
   private boolean reached = false;
   private final float roomHeight;
@@ -19,8 +19,8 @@ public class Dean extends Player {
 
   /**
    * NEW FOR ASSESSMENT 2.
-   * This constuctor sets up the implementation of the dean
-   * 
+   * This constructor sets up the implementation of the dean
+   *
    * @param speed the speed at which the dean moves
    * @param width the width of the dean
    * @param height the height of the dean
@@ -28,12 +28,12 @@ public class Dean extends Player {
    * @param roomWidth the width of the room is in
    * @param roomHeight the height of the room the dean is in
    */
-  public Dean(float speed, float width, float height, 
+  public Dean(float speed, float width, float height,
        EscapeGame game, float roomWidth, float roomHeight) {
     super(speed, width, height, game);
     this.roomWidth = roomWidth;
     this.roomHeight = roomHeight;
-    
+
     // creates the Dean's sprite and sets its texture and size
     deanTexture = new Texture("dean.png");
     playerSprite.setTexture(deanTexture);
@@ -45,14 +45,14 @@ public class Dean extends Player {
 
   /**
    * NEW FOR ASSESSMENT 2.
-   * This controlls the logic for the dean
+   * This controls the logic for the dean
    * Gets the dean to be constantly chasing the user
    */
   @Override
   public void update(float delta) {
     if (reached) {
       return;
-    } 
+    }
     chasePlayer(delta);
     super.update(delta);
   }
@@ -61,7 +61,7 @@ public class Dean extends Player {
    * NEW FOR ASSESSMENT 2.
    * This handles the logic for the dean chasing the user
    * The Dean moves towards the player each frame
-   * 
+   *
    * @param delta the time elapsed since the last frame in seconds
    */
   private void chasePlayer(float delta) {
@@ -70,7 +70,7 @@ public class Dean extends Player {
     Player player = game.gameController.getPlayer();
     Vector2 playerPos = player.getCenter();
     Vector2 deanPos = getCenter();
-  
+
     // Calculates the direction vector of the player and the Dean
     float dx = playerPos.x - deanPos.x;
     float dy = playerPos.y - deanPos.y;
@@ -90,13 +90,13 @@ public class Dean extends Player {
   /**
    * NEW FOR ASSESSMENT 2.
    * This is a simple check to see if the Dean has caught the player
-   * 
+   *
    * @param player the player controlled by the user
    * @return a boolean value stating if the player is caught
    */
   public boolean checkReached(Player player) {
     // Checks if the Dean and player is touching
-    // Returns false if the player has the invincibilty event triggered
+    // Returns false if the player has the invincibility event triggered
     if (!reached && player.checkCollision(this.playerSprite) && !player.isInvincible()) {
       reached = true;
       return true;

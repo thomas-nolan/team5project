@@ -63,7 +63,7 @@ public class KeyEvent implements IEvent{
 
     /**
      * update runs each frame and checks for player collision with the key
-     * @param delta The time elapsed since the last frame in seconds.
+     * @param delta The time between frames
      */
     @Override
     public void update(float delta) {

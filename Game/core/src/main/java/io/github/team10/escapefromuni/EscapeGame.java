@@ -12,10 +12,10 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 /**
- * NEW TO ASSESSMENT 2 
+ * NEW TO ASSESSMENT 2
  * Class to represent the main LibGDX game instance.
  * Instantiated by the Launcher and is responsible for initialising core
- * game systems such as rendering SpriteBatch batch and the intial screen.
+ * game systems such as rendering SpriteBatch batch and the initial screen.
  * Similar to the Drop class in https://libgdx.com/wiki/start/simple-game-extended.
  */
 public class EscapeGame extends Game {
@@ -45,10 +45,10 @@ public class EscapeGame extends Game {
     viewport = new FitViewport(16, 9);
     uiCamera = new OrthographicCamera();
     uiViewport = new FitViewport(1920, 1080, uiCamera);
-    
-    // Generates the defualt font
+
+    // Generates the default font
     generateFont();
-        
+
     // Initialises the controllers
     this.uiController = new UIController(this, null);
     this.gameController = new GameController(this, uiController);
@@ -63,8 +63,8 @@ public class EscapeGame extends Game {
    */
   private void generateFont() {
 
-    // Loads the game's main UI font from internal assests
-    final FreeTypeFontGenerator generator = 
+    // Loads the game's main UI font from internal assets
+    final FreeTypeFontGenerator generator =
         new FreeTypeFontGenerator(
         Gdx.files.internal("Kenney Mini.ttf"));
     FreeTypeFontParameter parameter = new FreeTypeFontParameter();
@@ -83,7 +83,7 @@ public class EscapeGame extends Game {
 
   /**
    * This method is called when the game window is resized.
-   * It updates both the viewport as well as the uiViewport to maintain correct scaling
+   * It updates both the viewport and the uiViewport to maintain correct scaling
    */
   @Override
   public void resize(int width, int height) {

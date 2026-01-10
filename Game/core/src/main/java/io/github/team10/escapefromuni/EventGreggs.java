@@ -61,7 +61,7 @@ public class EventGreggs implements IEvent {
   public void startEvent() {
     if (eventFinished) {
       return;
-    } 
+    }
 
     // Creates the greggs sprite, setting its size and position
     // Also gets the instance of its sound
@@ -124,7 +124,7 @@ public class EventGreggs implements IEvent {
   }
 
   /**
-   * Renders the Greggs pickup whilst its not picked it.
+   * Renders the Greggs pickup whilst it's not picked it.
    */
   @Override
   public void draw() {
