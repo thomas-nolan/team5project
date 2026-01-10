@@ -7,15 +7,25 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * NEW FOR ASSESSMENT 2
+ * This class tests the functionality of the AchievementManager class
+ */
 public class AchievementManagerTest {
 
     private AchievementManager achievementManager;
 
+    /**
+     * Creates a fresh AchievementManager instance before each test
+     */
     @BeforeEach
     void setUp() {
         achievementManager = new AchievementManager();
     }
     
+    /**
+     * Tests that the constructer sets the correct default achievements
+     */
     @Test
     void contrutor_setsCorrectDefault() {
         assertEquals(1, achievementManager.getTotalAchievements());
@@ -25,6 +35,10 @@ public class AchievementManagerTest {
         assertEquals("No incorrect answers", achievements[0]);
     }
 
+    /**
+     * Tests when adding an achievement it increases the achievement total
+     * and marks the achievement as True
+     */
     @Test
     void addAchievement_increasesAchievementTotal_markAchievementAsTrue() {
         achievementManager.addAchievement("Complete game");
@@ -34,6 +48,10 @@ public class AchievementManagerTest {
         assertTrue(trueAchievements.contains("Complete game"));
     }
 
+    /**
+     * Tests when removing an achievement it decreases the achievement total
+     * and marks the achievement as False
+     */
     @Test
     void removeAchievement_drecreaseAchievementTotal_markAchiementAsFalse() {
         achievementManager.removeAchievement("No incorrect answers");
@@ -41,6 +59,9 @@ public class AchievementManagerTest {
         assertEquals(0, achievementManager.getAchievements().length);
     }
 
+    /**
+     * Tests that resetting the achievements restores it back to default
+     */
     @Test
     void reset_setsDefaultAchievements() {
         achievementManager.addAchievement("Complete game");
