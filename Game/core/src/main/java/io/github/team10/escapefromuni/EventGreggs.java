@@ -112,10 +112,12 @@ public class EventGreggs implements IEvent {
   }
 
   /**
+   * EXTENDED FROM ASSESSMENT 1.
    * Handles applying the effects (speed increase) of collecting the Greggs sausage roll.
    */
   private void pickupGreggs() {
     used = true;
+    // NEW FOR ASSESSMENT 2 - Registers the event as positive.
     eventSystem.registerEvent(EventType.POSITIVE);
     // NEW FOR ASSESSMENT 2 - Modifies the players speed depending on the difficulty
     player.increaseSpeed(2f * diffSetup.readDifficulty().speedBoostModifier);
