@@ -13,10 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Updated for Assessment 2
+ *
  * Represents the THE3 exam negative event.
- * This event temporarily disables player movement, 
+ * This event temporarily disables player movement,
  * displays a quiz question with TRUE/FALSE buttons, and provides
- * feedback based on the player's answer. If the player gets the answer 
+ * feedback based on the player's answer. If the player gets the answer
  * correct the score increases, otherwise the
  * player is slowed down.
  */
@@ -61,17 +63,17 @@ public class EventTHE3 implements IEvent {
   private DifficultySetup diffSetup = new DifficultySetup();
 
   /**
-   * EXTENDS ON FROM ASSESSMENT 1. 
-   * It is used to set up the systems needed as well as the 
+   * EXTENDS ON FROM ASSESSMENT 1.
+   * It is used to set up the systems needed as well as the
    * textures and the UI for the question.
-   *  
+   *
    * @param player the player controlled by the user
    * @param game the main LibGDX game instance
    * @param scoreManager the manager which handles the players score
    * @param achievementManager the manager which handles the players achievement
    * @param eventSystem the central manager for the events
    */
-  public EventTHE3(Player player, EscapeGame game, ScoreManager scoreManager, 
+  public EventTHE3(Player player, EscapeGame game, ScoreManager scoreManager,
       AchievementManager achievementManager, EventSystem eventSystem) {
 
     this.player = player;
@@ -98,7 +100,7 @@ public class EventTHE3 implements IEvent {
     falseButtonSprite = new Sprite(falseButtonTexture);
   }
 
-  /** 
+  /**
    * Returns the event type.
    */
   @Override
@@ -124,7 +126,7 @@ public class EventTHE3 implements IEvent {
   public void startEvent() {
     if (eventFinished) {
       return;
-    } 
+    }
 
     // Stops the player from moving and sets up the event
     player.enableMovement(false);
@@ -185,7 +187,7 @@ public class EventTHE3 implements IEvent {
    */
   public void initialiseQuestions() {
     // NEW FOR ASSESSMENT 2 - Questions for hard difficulty
-    if (diffSetup.readDifficulty().hardQuestions) { 
+    if (diffSetup.readDifficulty().hardQuestions) {
       questions.put(
           "True or False:\nThe do ... while loop is in the C programming language",
           Boolean.TRUE
@@ -203,7 +205,7 @@ public class EventTHE3 implements IEvent {
            "True or False:\nThe Java programming language\nis named after a coffee\n from Indonesia",
            Boolean.TRUE
       );
-    
+
     } else { // EXTENDED FROM QUESTION 1 - Questions for easy and medium difficulty
       questions.put(
           "True or False:\nThe self-accepting problem SA \nis semi-decidable", Boolean.TRUE);
@@ -224,7 +226,7 @@ public class EventTHE3 implements IEvent {
   /**
    * Using a randomly generated number, this function selects a random question.
    * from the hash map.
-   * 
+   *
    * @return String - A random key from the hash map containing the question
    */
   private String selectQuestion() {
@@ -254,7 +256,7 @@ public class EventTHE3 implements IEvent {
    * Called every frame to update the event's logic.
    * Handles input detection for true/false buttons.
    * Controls the post-answer delay before ending the event.
-   * 
+   *
    * @param delta The time elapsed since the last frame in seconds.
    *
    */
@@ -290,7 +292,7 @@ public class EventTHE3 implements IEvent {
   /**
    * Apply's effects based on the player's answer.
    * If correct, score is increased. If incorrect, player speed is decreased.
-   * 
+   *
    * @param answer {@code true} if the true button was pressed, {@code false} otherwise.
    */
   private void handleAnswer(boolean answer) {
@@ -346,8 +348,8 @@ public class EventTHE3 implements IEvent {
     String displayText = questionAnswered ? feedbackText : questionText;
     layout.setText(game.font, displayText);
     float questionX = (uiWidth - layout.width) / 2f;
-    float questionY = questionPanelSprite.getY() 
-        + questionPanelSprite.getHeight() / 2f 
+    float questionY = questionPanelSprite.getY()
+        + questionPanelSprite.getHeight() / 2f
         + layout.height / 2f;
     game.font.draw(game.batch, layout, questionX, questionY);
 
@@ -359,11 +361,11 @@ public class EventTHE3 implements IEvent {
 
     // Draws the False button label
     layout.setText(game.font, "FALSE");
-    float falseTextX = falseButtonSprite.getX() 
-        + (falseButtonSprite.getWidth() 
+    float falseTextX = falseButtonSprite.getX()
+        + (falseButtonSprite.getWidth()
         - layout.width) / 2f;
-    float falseTextY = falseButtonSprite.getY() 
-        + (falseButtonSprite.getHeight() 
+    float falseTextY = falseButtonSprite.getY()
+        + (falseButtonSprite.getHeight()
         + layout.height) / 2f;
     game.font.draw(game.batch, layout, falseTextX, falseTextY);
   }

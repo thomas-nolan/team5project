@@ -7,8 +7,16 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
+/**
+ * New for Assessment 2
+ *
+ * A new event that locks the door leading to the exit and requires a key
+ * to open.
+ *
+ * This key is located in the Dean's room and is guarded by him.
+ */
 public class KeyEvent implements IEvent{
-    
+
     private final Player player;
     private final EscapeGame game;
 
@@ -21,6 +29,12 @@ public class KeyEvent implements IEvent{
 
     private BitmapFont font = new BitmapFont();
 
+    /**
+     * Constructor for the KeyEvent
+     * @param player
+     * @param game
+     * @param eventSystem
+     */
     public KeyEvent(Player player, EscapeGame game, EventSystem eventSystem){
         this.player = player;
         this.game = game;
@@ -47,6 +61,10 @@ public class KeyEvent implements IEvent{
         keyTexture.dispose();
     }
 
+    /**
+     * update runs each frame and checks for player collision with the key
+     * @param delta The time elapsed since the last frame in seconds.
+     */
     @Override
     public void update(float delta) {
         if(isFinished) return;
