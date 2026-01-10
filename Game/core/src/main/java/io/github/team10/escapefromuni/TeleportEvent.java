@@ -8,6 +8,11 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Align;
 
+/**
+ * New for Assessment 2
+ * This class manages the new teleport event that teleports
+ * the player between rooms in the map.
+ */
 public class TeleportEvent implements IEvent{
 
     private final Player player;
@@ -20,19 +25,33 @@ public class TeleportEvent implements IEvent{
 
     private boolean finished = false;
 
+    /**
+     * Constructor for the teleport
+     * @param player - The player character
+     * @param roomFlow - The RoomFlowManager
+     * @param game - The EscapeGame
+     * @param eventSystem - The EventSystem
+     */
     public TeleportEvent (Player player, RoomFlowManager roomFlow, EscapeGame game, EventSystem eventSystem){
         this.player = player;
         this.roomFlow = roomFlow;
         this.game = game;
         this.eventSystem = eventSystem;
-
     }
 
+    /**
+     * Getter for the event type
+     * @return - The EventType for the TeleportEvent (HIDDEN)
+     */
     @Override
     public EventType getType() {
         return EventType.HIDDEN;
     }
 
+    /**
+     * Initialises the event's texture and its position in the map
+     * The event resembles a map (map.png)
+     */
     @Override
     public void startEvent() {
         teleportTexture = new Texture("map.png");
@@ -45,11 +64,18 @@ public class TeleportEvent implements IEvent{
 
     }
 
+    /**
+     * Disposes of the texture when it is no longer needed
+     */
     @Override
     public void endEvent() {
         teleportTexture.dispose();
     }
 
+    /**
+     * Checks if the event is collided with by the player
+     * @param delta The time elapsed since the last frame in seconds.
+     */
     @Override
     public void update(float delta) {
        if(finished) return;
@@ -57,7 +83,7 @@ public class TeleportEvent implements IEvent{
        if (player.checkCollision(teleportSprite) && Gdx.input.isKeyJustPressed(Input.Keys.F)){
 
             Room destination = roomFlow.getRandomRoom(roomFlow.getRoomByName("hiddenBookshelfRoom"));
-            
+
             if(destination != null){
                 eventSystem.registerEvent(EventType.HIDDEN);
                 roomFlow.changeRoomTo(destination);
@@ -66,6 +92,9 @@ public class TeleportEvent implements IEvent{
        }
     }
 
+    /**
+     * Draws the event sprite on the map
+     */
     @Override
     public void draw() {
         if(!finished){
@@ -73,6 +102,10 @@ public class TeleportEvent implements IEvent{
         }
     }
 
+    /**
+     * Displays the appropriate message for this event
+     * when the player is near it.
+     */
     @Override
     public void drawUI() {
         if(!finished && player.checkCollision(teleportSprite)) {
@@ -98,10 +131,13 @@ public class TeleportEvent implements IEvent{
         }
     }
 
+    /**
+     *
+     * @return - True if the event is finished, false if not.
+     */
     @Override
     public boolean IsFinished() {
         return finished;
     }
-    
 }
 

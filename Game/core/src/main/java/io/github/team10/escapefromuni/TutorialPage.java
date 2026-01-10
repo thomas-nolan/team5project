@@ -8,15 +8,15 @@ import com.badlogic.gdx.graphics.Texture;
 
 /**
  * Tutorial page displaying game instructions.
- * 
+ *
  * Shows tutorial image. ESC key returns to main menu.
  */
 public class TutorialPage implements Screen {
-    
+
     private final EscapeGame game;
     private final UIController uiController;
     private Texture tutorialImage;
-    
+
     /**
      * Creates a new TutorialPage instance.
      * @param game Reference to the main {@link EscapeGame} instance.
@@ -25,13 +25,13 @@ public class TutorialPage implements Screen {
         this.game = game;
         this.uiController = uiController;
     }
-    
+
     @Override
     public void show() {
         // Load tutorial image
         tutorialImage = new Texture(Gdx.files.internal("tutorial1.png"));
     }
-    
+
     /**
      * Displays the tutorial image.
      */
@@ -42,7 +42,7 @@ public class TutorialPage implements Screen {
         game.batch.draw(tutorialImage, 0, 0, game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
         game.batch.end();
     }
-    
+
     /**
      * Handles ESC key press.
      * Returns to main menu.
@@ -51,34 +51,40 @@ public class TutorialPage implements Screen {
         uiController.showMainMenu();
         dispose();
     }
-    
+
+    /**
+    Runs every frame and displays the tutorial page
+    @param delta -
+     */
     @Override
     public void render(float delta) {
         // Check for ESC key press
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             onEscPress();
         }
-        
+
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        
+
         display();
     }
-    
+
+    /** Resizes the tutorial page */
     @Override
     public void resize(int width, int height) {
         game.viewport.update(width, height, true);
     }
-    
+
     @Override
     public void pause() {}
-    
+
     @Override
     public void resume() {}
-    
+
     @Override
     public void hide() {}
-    
+
+    /** Frees memory space when it is no longer needed */
     @Override
     public void dispose() {
         tutorialImage.dispose();
