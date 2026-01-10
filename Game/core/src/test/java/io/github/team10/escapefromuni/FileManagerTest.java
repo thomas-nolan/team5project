@@ -95,7 +95,7 @@ public class FileManagerTest {
         map.put("Harry", 10);
         map.put("Will", 10);
         map.put("Stan", 10);
-        map.put("Mimmi", 10);
+        map.put("Mimi", 10);
         map.put("Lottie", 10);
         map.put("Ruth", 10);
 
