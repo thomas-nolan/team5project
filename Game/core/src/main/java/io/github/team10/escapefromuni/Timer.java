@@ -22,7 +22,7 @@ public class Timer {
     this.time = 0;
     this.timeLeft = 300; // start at 300 seconds
     // Freeze lasts 30 seconds when activated
-    this.frozenTimer = 30 * diffSetup.readDifficulty().freezeModifier; 
+    this.frozenTimer = 30; 
     this.isFrozen = false;
   }
 
@@ -34,7 +34,7 @@ public class Timer {
    */
   public void update(float delta) {
     if (!isFrozen) {
-      this.frozenTimer = 30 * diffSetup.readDifficulty().freezeModifier;
+      this.frozenTimer = 30;
       time += delta;
       timeLeft -= delta;
       if (timeLeft < 0) {
