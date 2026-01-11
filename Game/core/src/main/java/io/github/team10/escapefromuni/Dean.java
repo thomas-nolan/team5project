@@ -53,7 +53,7 @@ public class Dean extends Player {
     if (reached) {
       return;
     }
-    chasePlayer(delta);
+    moveToPlayer(delta);
     super.update(delta);
   }
 
@@ -64,7 +64,7 @@ public class Dean extends Player {
    *
    * @param delta the time elapsed since the last frame in seconds
    */
-  private void chasePlayer(float delta) {
+  private void moveToPlayer(float delta) {
 
     // Get current position of the Dean and the user
     Player player = game.gameController.getPlayer();

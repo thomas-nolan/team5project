@@ -1,9 +1,6 @@
 package io.github.team10.escapefromuni;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 /**
@@ -14,8 +11,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 public class InvincibleEvent implements IEvent {
   private final Player player;
   private final EscapeGame game;
-  private boolean finished = false;
-  private boolean pickedUp = false;
+  private boolean isFinished = false;
+  private boolean collected = false;
   private Texture texture;
   private Sprite sprite;
   private final EventSystem eventSystem;
@@ -65,13 +62,13 @@ public class InvincibleEvent implements IEvent {
    */
   @Override
   public void update(float delta) {
-    if (finished) {
+    if (isFinished) {
       return;
     }
-    if (!pickedUp) {
+    if (!collected) {
       // Checks to see it the player picks up the event and adds it to the event counter
       if (player.checkCollision(sprite)) {
-        pickedUp = true;
+        collected = true;
         eventSystem.registerEvent(EventType.POSITIVE);
         player.setInvincible(10f);
       } 
@@ -80,7 +77,7 @@ public class InvincibleEvent implements IEvent {
 
   @Override
   public void draw() {
-    if (!pickedUp) {
+    if (!collected) {
       sprite.draw(game.batch);
     }
   }
@@ -90,7 +87,7 @@ public class InvincibleEvent implements IEvent {
 
   @Override
   public boolean IsFinished() {
-    return finished;
+    return isFinished;
   }
     
 }

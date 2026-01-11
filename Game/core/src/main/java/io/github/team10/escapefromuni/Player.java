@@ -2,247 +2,247 @@ package io.github.team10.escapefromuni;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
-import jdk.internal.org.jline.utils.DiffHelper;
 
 /**
  * Represents the player character.
- *
  * Handles player rendering, movement and collision detection.
  */
 public class Player {
-    public Texture playerTexture;
-    public Sprite playerSprite;
-    public float speed;
-    public EscapeGame game;
-    private boolean movementEnabled;
-    private boolean textureDisposed = false;
-    private boolean hasKey = false;
-    private boolean invincible = false;
-    private float invincibiltyTime = 0f;
-    private BitmapFont font;
-    private DifficultySetup difficultySetup = new DifficultySetup();
+  public Texture playerTexture;
+  public Sprite playerSprite;
+  public float speed;
+  public EscapeGame game;
+  private boolean movementEnabled;
+  private boolean textureDisposed = false;
+  private boolean hasKey = false;
+  private boolean invincible = false;
+  private float invincibiltyTime = 0f;
+  private DifficultySetup difficultySetup = new DifficultySetup();
 
-    private final float EDGE_LIMIT = 1f;
+  private final float EDGE_LIMIT = 1f;
 
-    /**
-     * Creates a new player instance.
-     * @param speed The player's movement speed (world units per second).
-     * @param playerWidth The width of the player in world units.
-     * @param playerHeight The height of the player in world units.
-     * @param game Reference to the main {@link EscapeGame} instance.
-     */
-    public Player(float speed, float playerWidth, float playerHeight, EscapeGame game)
-    {
-        this.speed = speed * (difficultySetup.readDifficulty().playerSpeedModifier);
-        this.game = game;
-        this.movementEnabled = true;
+  /**
+   * Creates a new player instance.
+   * 
+   * @param speed The player's movement speed (world units per second).
+   * @param playerWidth The width of the player in world units.
+   * @param playerHeight The height of the player in world units.
+   * @param game Reference to the main {@link EscapeGame} instance.
+   */
+  public Player(float speed, float playerWidth, float playerHeight, EscapeGame game) {
+    this.speed = speed * (difficultySetup.readDifficulty().playerSpeedModifier);
+    this.game = game;
+    this.movementEnabled = true;
 
-        font = new BitmapFont();
+    loadTexture(playerWidth, playerHeight);
+  }
 
-        loadTexture(playerWidth, playerHeight);
+  private void loadTexture(float width, float height) {
+    if (playerTexture != null && !textureDisposed) {
+      playerTexture.dispose();
     }
 
-    private void loadTexture(float width, float height){
-        if(playerTexture != null && !textureDisposed){
-            playerTexture.dispose();
-        }
+    playerTexture = new Texture("MalePlayer.png");
+    playerSprite = new Sprite(playerTexture);
+    playerSprite.setSize(width, height);
 
-        playerTexture = new Texture("MalePlayer.png");
-        playerSprite = new Sprite(playerTexture);
-        playerSprite.setSize(width, height);
+    // Center the player
+    float centerX = game.viewport.getWorldWidth() / 2f;
+    float centerY = game.viewport.getWorldHeight() / 2f;
+    playerSprite.setCenter(centerX, centerY);
+  }
 
-        // Center the player
-        float centerX = game.viewport.getWorldWidth() / 2f;
-        float centerY = game.viewport.getWorldHeight() / 2f;
-        playerSprite.setCenter(centerX, centerY);
+  /**
+   * Resets the player.
+   * 
+   * @param playerWidth a float containing the player width
+   * @param playerHeight a float containing the player height
+   */
+  public void reset(float playerWidth, float playerHeight) {
+    loadTexture(playerWidth, playerHeight);
+  }
+
+  /**
+   * NEW FOR ASSESSMENT 2.
+   * Sets the player to invincible
+   * 
+   * @param duration the time for the player to be invincible
+   */
+  public void setInvincible(float duration) {
+    invincible = true;
+    invincibiltyTime = duration;
+  }
+
+  public boolean isInvincible() {
+    return invincible;
+  }
+
+  /**
+   * Called every frame to perform player logic.
+   * 
+   * @param delta The time in seconds since the last frame.
+   */
+  public void update(float delta) {
+    if (movementEnabled) {
+      move(delta);
     }
 
-    public void reset(float playerWidth, float playerHeight){
-        loadTexture(playerWidth, playerHeight);
+    // NEW FOR ASSESSMENT 2 - counts down if the player is invincible
+    if (invincible) {
+      invincibiltyTime -= delta;
+      if (invincibiltyTime <= 0) {
+        invincible = false;
+        invincibiltyTime = 0;
+      }
     }
+  }
 
-    public void setInvincible(float duration){
-        invincible = true;
-        invincibiltyTime = duration;
+  /**
+   * Handles player movement and constrains movement to within screen edge boundaries.
+   * Uses arrow key input. Center of player remains at 
+   * least {@link #EDGE_LIMIT} units from the world edges.
+   * 
+   * @param delta The time in seconds since the last frame.
+   */
+  private void move(float delta) {
+    float worldWidth = game.viewport.getWorldWidth();
+    float worldHeight = game.viewport.getWorldHeight();
+    float halfWidth = playerSprite.getWidth() / 2f;
+    float halfHeight = playerSprite.getHeight() / 2f;
+    float playerCenterX = playerSprite.getX() + halfWidth;
+    float playerCenterY = playerSprite.getY() + halfHeight;
+
+    if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
+      if (playerCenterX < worldWidth - EDGE_LIMIT) {
+        playerSprite.translateX(speed * delta);
+      }
     }
-
-    public boolean isInvincible(){
-        return invincible;
+    if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
+      if (playerCenterX > EDGE_LIMIT) {
+        playerSprite.translateX(-speed * delta);
+      }
     }
-
-    /**
-     * Called every frame to perform player logic.
-     * @param delta The time in seconds since the last frame.
-     */
-    public void update(float delta)
-    {
-        if (movementEnabled)
-        {
-            move(delta);
-        }
-
-        if(invincible){
-            invincibiltyTime -= delta;
-            if(invincibiltyTime <= 0){
-                invincible = false;
-                invincibiltyTime = 0;
-            }
-        }
+    if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
+      if (playerCenterY < worldHeight - EDGE_LIMIT) {
+        playerSprite.translateY(speed * delta);
+      }
     }
-
-    /**
-     * Handles player movement and constrains movement to within screen edge boundaries.
-     *
-     * Uses arrow key input. Center of player remains at least {@link #EDGE_LIMIT} units from the world edges.
-     * @param delta The time in seconds since the last frame.
-     */
-    private void move(float delta) {
-        float worldWidth = game.viewport.getWorldWidth();
-        float worldHeight = game.viewport.getWorldHeight();
-        float halfWidth = playerSprite.getWidth() / 2f;
-        float halfHeight = playerSprite.getHeight() / 2f;
-        float playerCenterX = playerSprite.getX() + halfWidth;
-        float playerCenterY = playerSprite.getY() + halfHeight;
-
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
-            if (playerCenterX < worldWidth - EDGE_LIMIT) {
-                playerSprite.translateX(speed * delta);
-            }
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
-            if (playerCenterX > EDGE_LIMIT) {
-                playerSprite.translateX(-speed * delta);
-            }
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
-            if (playerCenterY < worldHeight - EDGE_LIMIT) {
-                playerSprite.translateY(speed * delta);
-            }
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
-            if (playerCenterY > EDGE_LIMIT) {
-                playerSprite.translateY(-speed * delta);
-            }
-        }
+    if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
+      if (playerCenterY > EDGE_LIMIT) {
+        playerSprite.translateY(-speed * delta);
+      }
     }
+  }
 
-    /**
-     * Allows enabling or disabling movement for the player.
-     * @param enabled boolean representing whether the player will be able to move.
-     */
-    public void enableMovement(boolean enabled)
-    {
-        this.movementEnabled = enabled;
+  /**
+   * Allows enabling or disabling movement for the player.
+   * 
+   * @param enabled boolean representing whether the player will be able to move.
+   */
+  public void enableMovement(boolean enabled) {
+    this.movementEnabled = enabled;
+  }
+
+  /**
+   * Draws the player sprite.
+   */
+  public void draw() {
+    if (!textureDisposed) {
+      playerSprite.draw(game.batch);
     }
+  }
 
-    /**
-     * Draws the player sprite.
-     */
-    public void draw() {
-        if(!textureDisposed){
-            playerSprite.draw(game.batch);
-        }
+  /**
+   * Draws the UI for the player.
+   * Is currently empty.
+   */
+  public void drawUI() {}
 
+  /**
+   * Checks whether the player has collided (overlaps) with another sprite.
+   * 
+   * @param objectSprite The other object's sprite.
+   * @return boolean representing whether collision has occured.
+   */
+  public boolean checkCollision(Sprite objectSprite) {
+    return playerSprite.getBoundingRectangle().overlaps(objectSprite.getBoundingRectangle());
+  }
+
+  /**
+   * Dispose of player texture to free GPU memory.
+   * Should be called when the GameScreen is disposed.
+   */
+  public void dispose() {
+    if (playerTexture != null && !textureDisposed) {
+      playerTexture.dispose();
     }
+  }
 
-    public void drawUI(){
-        if(invincible){
-            font.getData().setScale(4f);
-            font.setColor(Color.GREEN);
+  /**
+   * Set the position of the player sprite, updating from the bottom left corner.
+   * 
+   * @param x The x-coord of new position.
+   * @param y The y-coord of new position.
+   */
+  public void setPosition(float x, float y) {
+    playerSprite.setPosition(x, y);
+  }
 
-            String message = "Invincible! " + (int)Math.ceil(invincibiltyTime) + "s";
+  /**
+   * Sets the center position of the player sprite.
+   * 
+   * @param x The x-coord of the new position.
+   * @param y The y-coord of the new position.
+   */
+  public void setCenter(float x, float y) {
+    playerSprite.setCenter(x, y);
+  }
 
-            if(!game.batch.isDrawing()) {
-                game.batch.begin();
-            }
+  /**
+   * Return the center position of the player sprite, as a Vector2.
+   */
+  public Vector2 getCenter() {
+    float centerX = playerSprite.getX() + playerSprite.getWidth() / 2f;
+    float centerY = playerSprite.getY() + playerSprite.getHeight() / 2f;
+    return new Vector2(centerX, centerY);
+  }
 
-            float uiWidth = game.uiViewport.getWorldWidth();
-            float uiHeight = game.uiViewport.getWorldHeight();
+  /**
+   * Increase the player's speed by a fixed amount.
+   * 
+   * @param speedIncrease the amount by which the speed will increase.
+   */
+  public void increaseSpeed(float speedIncrease) {
+    speed += speedIncrease;
+  }
 
-            float textX = uiWidth / 2f - message.length() * 4f;
-            float textY = uiHeight * 0.9f;
+  /**
+   * NEW FOR ASSESSMENT 2.
+   * Used by the key event to give the player the key
+   */
+  public void giveKey() { 
+    hasKey = true;
+  }
 
-            font.draw(game.batch, message, textX, textY);
-        }
-    }
+  /**
+   * NEW FOR ASSESSMENT 2.
+   * This is a check to see if the player has the key
+   * 
+   * @return a boolean value 
+   */
+  public boolean hasKey() {
+    return hasKey;
+  }
 
-    /**
-     * Checks whether the player has collided (overlaps) with another sprite.
-     * @param objectSprite The other object's sprite.
-     * @return boolean representing whether collision has occured.
-     */
-    public boolean checkCollision(Sprite objectSprite)
-    {
-        return playerSprite.getBoundingRectangle().overlaps(objectSprite.getBoundingRectangle());
-    }
-
-    /**
-     * Dispose of player texture to free GPU memory.
-     *
-     * Should be called when the GameScreen is disposed.
-     */
-    public void dispose()
-    {
-        if(playerTexture != null && !textureDisposed){
-            playerTexture.dispose();
-        }
-    }
-
-    /**
-     * Set the position of the player sprite, updating from the bottom left corner.
-     * @param x The x-coord of new position.
-     * @param y The y-coord of new position.
-     */
-    public void setPosition(float x, float y)
-    {
-        playerSprite.setPosition(x, y);
-    }
-
-    /**
-     * Sets the center position of the player sprite.
-     * @param x The x-coord of the new position.
-     * @param y The y-coord of the new position.
-     */
-    public void setCenter(float x, float y)
-    {
-        playerSprite.setCenter(x, y);
-    }
-
-    /**
-     * Return the center position of the player sprite, as a Vector2.
-     */
-    public Vector2 getCenter()
-    {
-        float centerX = playerSprite.getX() + playerSprite.getWidth() / 2f;
-        float centerY = playerSprite.getY() + playerSprite.getHeight() / 2f;
-        return new Vector2(centerX, centerY);
-    }
-
-    /**
-     * Increase the player's speed by a fixed amount.
-     * @param speedIncrease the amount by which the speed will increase.
-     */
-    public void increaseSpeed(float speedIncrease)
-    {
-        speed += speedIncrease;
-    }
-
-    public void giveKey(){
-        hasKey = true;
-    }
-
-    public boolean hasKey(){
-        return hasKey;
-    }
-
-    public void useKey(){
-        hasKey = false;
-    }
+  /**
+   * NEW FOR ASSESSMENT 2.
+   * Sets the haskey boolean to false
+   */
+  public void useKey() {
+    hasKey = false;
+  }
 
 }

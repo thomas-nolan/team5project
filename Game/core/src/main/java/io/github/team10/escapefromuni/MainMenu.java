@@ -12,7 +12,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,366 +21,398 @@ import java.util.Map;
  */
 public class MainMenu implements Screen {
 
-    private final EscapeGame game;
-    private final UIController ui;
-    private Texture backgroundImage;
-    private Texture buttonTexture;
-    private BitmapFont font;
-    private GlyphLayout layout;
+  private final EscapeGame game;
+  private final UIController ui;
+  private Texture backgroundImage;
+  private Texture buttonTexture;
+  private BitmapFont font;
+  private GlyphLayout layout;
 
-    private FileManager fileManager = new FileManager();
-    private String[] files = {"scores.csv", "previous_score.csv", "player_name.txt"};
+  private FileManager fileManager = new FileManager();
+  private String[] files = {"scores.csv", "previous_score.csv", "player_name.txt"};
 
-    // buttons
-    private Rectangle startButton;
-    private Rectangle tutorialButton;
-    private Rectangle settingsButton;
-    private Rectangle exitButton;
-    private Rectangle resetButton;
+  // buttons
+  private Rectangle startButton;
+  private Rectangle tutorialButton;
+  private Rectangle settingsButton;
+  private Rectangle exitButton;
+  private Rectangle resetButton;
 
-    private Rectangle easyMode;
-    private Rectangle mediumMode;
-    private Rectangle hardMode;
+  private Rectangle easyMode;
+  private Rectangle mediumMode;
+  private Rectangle hardMode;
 
-    // hover states for buttons
-    private boolean startHovered;
-    private boolean tutorialHovered;
-    private boolean settingsHovered;
-    private boolean exitHovered;
-    private boolean resetHovered;
+  // hover states for buttons
+  private boolean startHovered;
+  private boolean tutorialHovered;
+  private boolean settingsHovered;
+  private boolean exitHovered;
+  private boolean resetHovered;
 
-    private boolean easyHovered;
-    private boolean mediumHovered;
-    private boolean hardHovered;
+  private boolean easyHovered;
+  private boolean mediumHovered;
+  private boolean hardHovered;
 
-    private Stage stage;
-    private Skin skin;
-    private TextField inputField;
+  private Stage stage;
+  private Skin skin;
+  private TextField inputField;
 
-    private DifficultySetup difficultySetup = new DifficultySetup();
+  private DifficultySetup difficultySetup = new DifficultySetup();
 
-    public MainMenu(EscapeGame game, UIController ui) {
-        this.game = game;
-        this.ui = ui;
+  /**
+   * This is a constructor which intisiliases the Main menu.
+   * 
+   * @param game the main LibGDX game instance
+   * @param ui the UI controller used to handle screens
+   */
+  public MainMenu(EscapeGame game, UIController ui) {
+    this.game = game;
+    this.ui = ui;
+  }
+
+  /**
+   * Sets up the main menu and initialises all values.
+   */
+  @Override
+  public void show() {
+    // background
+    backgroundImage = new Texture(Gdx.files.internal("mainmenu_background.png"));
+    buttonTexture = new Texture(Gdx.files.internal("ButtonBG.png"));
+
+    font = game.font;
+    layout = new GlyphLayout();
+
+    // button sizes
+    float buttonWidth = 500f;
+    float buttonHeight = 80f;
+
+    // alignment; To be Fixed
+    float screenWidth = game.uiViewport.getWorldWidth();
+    float screenHeight = game.uiViewport.getWorldHeight();
+    float centerX = screenWidth / 2f;
+
+    // main menu button positions
+    startButton = new Rectangle(centerX - (buttonWidth / 2f), 
+        screenHeight / 2f + 150f, buttonWidth, buttonHeight);
+    tutorialButton = new Rectangle(centerX - (buttonWidth / 2f), 
+        screenHeight / 2f + 50f, buttonWidth, buttonHeight);
+    settingsButton = new Rectangle(centerX - (buttonWidth / 2f), 
+        screenHeight / 2f - 50f, buttonWidth, buttonHeight);
+    exitButton = new Rectangle(centerX - (buttonWidth / 2f), 
+        screenHeight / 2f - 150f, buttonWidth, buttonHeight);
+    resetButton = new Rectangle(centerX - (buttonWidth / 2f), 
+        screenHeight / 2f - 250f, buttonWidth, buttonHeight);
+
+    easyMode = new Rectangle((centerX + 600f) - buttonWidth / 2f, 
+        screenHeight / 2f - 250f, buttonWidth, buttonHeight);
+    mediumMode = new Rectangle((centerX + 600f) - buttonWidth / 2f, 
+        screenHeight / 2f - 350f, buttonWidth, buttonHeight);
+    hardMode = new Rectangle((centerX + 600f) - buttonWidth / 2f, 
+        screenHeight / 2f - 450f, buttonWidth, buttonHeight);
+
+    // menu music
+    AudioManager.getInstance().playMenuMusic();
+
+    // Display input field
+    // font.draw(game.batch, "Name:",centerX - buttonWidth, screenHeight + 100f / 2f);
+    stage = new Stage(game.uiViewport);
+    Gdx.input.setInputProcessor(stage);
+
+    skin = new Skin(Gdx.files.internal("uiskin.json"));
+
+    inputField = new TextField("null", skin);
+    inputField.setSize(300, 50);
+    inputField.setPosition(centerX - buttonWidth + 1800f / 2f, screenHeight / 2f);
+    stage.addActor(inputField);
+  }
+
+  /**
+   * Draws the main menu UI.
+   */
+  public void display() {
+    game.viewport.apply();
+    game.batch.setProjectionMatrix(game.viewport.getCamera().combined);
+    game.batch.begin();
+    game.batch.draw(backgroundImage, 0, 0, 
+        game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
+    game.batch.end();
+
+    game.uiViewport.apply();
+    game.batch.setProjectionMatrix(game.uiCamera.combined);
+    game.batch.begin();
+
+    // draw all main menu buttons
+    drawButton(startButton, "Start Game", startHovered);
+    drawButton(tutorialButton, "Tutorial", tutorialHovered);
+    drawButton(settingsButton, "Settings", settingsHovered);
+    drawButton(exitButton, "Exit", exitHovered);
+    drawButton(resetButton, "Reset Leaderboards", resetHovered);
+
+    drawButton(easyMode, "Easy", easyHovered);
+    drawButton(mediumMode, "Medium", mediumHovered);
+    drawButton(hardMode, "Hard", hardHovered);
+
+    displayLeaderboards();
+    // difficultySetup.setDifficulty(Difficulty.EASY); // TEST
+    game.batch.end();
+
+  }
+
+  /**
+   * Used to draw buttons.
+   * 
+   * @param button the button to draw
+   * @param text the text to write on it
+   * @param hovered a boolean stating if it is hovered over
+   */
+  private void drawButton(Rectangle button, String text, boolean hovered) {
+
+    if (hovered) {
+      game.batch.setColor(1f, 1f, 0.5f, 1f);
+    } else {
+      game.batch.setColor(Color.WHITE);
     }
 
-    /**
-     * Sets up the main menu and initialises all values
-     */
-    @Override
-    public void show() {
-        // background
-        backgroundImage = new Texture(Gdx.files.internal("mainmenu_background.png"));
-        buttonTexture = new Texture(Gdx.files.internal("ButtonBG.png"));
+    // button bg,size etc
+    game.batch.draw(buttonTexture, button.x, button.y, button.width, button.height);
+    game.batch.setColor(Color.WHITE);
 
-        font = game.font;
-        layout = new GlyphLayout();
+    layout.setText(font, text);
+    float textX = button.x + (button.width - layout.width) / 2f;
+    float textY = button.y + (button.height + layout.height) / 2f;
 
-        // button sizes
-        float buttonWidth = 500f;
-        float buttonHeight = 80f;
+    font.setColor(Color.WHITE);
+    font.draw(game.batch, layout, textX, textY);
 
-        // alignment; To be Fixed
-        float screenWidth = game.uiViewport.getWorldWidth();
-        float screenHeight = game.uiViewport.getWorldHeight();
-        float centerX = screenWidth / 2f;
+  }
 
-        // main menu button positions
-        startButton = new Rectangle(centerX - (buttonWidth / 2f), screenHeight / 2f + 150f, buttonWidth, buttonHeight);
-        tutorialButton = new Rectangle(centerX - (buttonWidth / 2f), screenHeight / 2f + 50f, buttonWidth, buttonHeight);
-        settingsButton = new Rectangle(centerX - (buttonWidth / 2f), screenHeight / 2f - 50f, buttonWidth, buttonHeight);
-        exitButton = new Rectangle(centerX - (buttonWidth / 2f), screenHeight / 2f - 150f, buttonWidth, buttonHeight);
-        resetButton = new Rectangle(centerX - (buttonWidth / 2f), screenHeight / 2f - 250f, buttonWidth, buttonHeight);
+  /**
+   * Displays the leaderboards on the main menu.
+   * reads from a csv file for the leaderboards
+   * Also calls a function that displays previous score
+   */
+  private void displayLeaderboards() {
+    Map<String, Integer> scores = fileManager.readFile(files[0]);
+    scores = fileManager.sortMap(scores);
+    float textY = 800;
+    for (String key : scores.keySet()) {
+      String entry = (key + " : " + scores.get(key));
+      font.draw(game.batch, entry, 20, textY);
+      textY -= 50;
+    }
+    displayPreviousScore();
+  }
 
-        easyMode = new Rectangle((centerX + 600f) - buttonWidth / 2f, screenHeight / 2f - 250f, buttonWidth, buttonHeight);
-        mediumMode = new Rectangle((centerX + 600f) - buttonWidth / 2f, screenHeight / 2f - 350f, buttonWidth, buttonHeight);
-        hardMode = new Rectangle((centerX + 600f) - buttonWidth / 2f, screenHeight / 2f - 450f, buttonWidth, buttonHeight);
+  /**
+   * Reads from a csv file to display the previous score.
+   */
+  private void displayPreviousScore() {
+    String key;
+    Integer val;
+    Map<String, Integer> prevScore = fileManager.readFile(files[1]);
+    try {
+      key = (String) prevScore.keySet().toArray()[0];
+      val = prevScore.get(key);
+    } catch (Exception e) {
+      key = "";
+      val = 0;
+    }
+    String score = "Previous score\n" + key + " : " + val;
+    font.draw(game.batch, score, 20, 400);
+  }
 
-        //menu music
-        AudioManager.getInstance().playMenuMusic();
+  /**
+   * Detects button clicks.
+   * 
+   * @param button - The button being checked
+   * @return - True is clicked, false if not
+   */
+  private boolean isButtonClicked(Rectangle button) {
+    // click detector
+    if (Gdx.input.justTouched()) {
+      Vector2 touchPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+      game.uiViewport.unproject(touchPos);
 
-        // Display input field
-        //font.draw(game.batch, "Name:",centerX - buttonWidth, screenHeight + 100f / 2f);
-        stage = new Stage(game.uiViewport);
-        Gdx.input.setInputProcessor(stage);
+      if (button.contains(touchPos.x, touchPos.y)) {
+        // play click audio
+        AudioManager.getInstance().playClickSound();
+        return true;
+      }
+    }
+    return false;
+  }
 
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
+  /**
+   * Detects mouse hovers.
+   * 
+   * @param button the buttons scan box
+   * @return - True is hovered over, false if not
+   */
+  private boolean isButtonHovered(Rectangle button) {
+    // detect mouse hover in UI coordinates
+    Vector2 mousePos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+    game.uiViewport.unproject(mousePos);
+    return button.contains(mousePos.x, mousePos.y);
+  }
 
-        inputField = new TextField("null", skin);
-        inputField.setSize(300, 50);
-        inputField.setPosition(centerX - buttonWidth + 1800f / 2f, screenHeight / 2f);
-        stage.addActor(inputField);
+  /**
+   * Runs when starting the main game.
+   */
+  public void onStartGame() {
+    // switch to main gameplay
+    System.out.println("Starting game...");
+    ui.startGame();
+    dispose();
+  }
+
+  /**
+   * Opens tutorial menu.
+   */
+  public void onTutorial() {
+    // open tutorial page
+    System.out.println("Opening tutorial...");
+    ui.showTutorial();
+    dispose();
+  }
+
+  /**
+   * Opens setting menu.
+   */
+  public void onSettings() {
+    // open settings page
+    System.out.println("Opening settings...");
+    ui.showSettings(this);
+    dispose();
+  }
+
+  /**
+   * Exits the game fully.
+   */
+  public void onExit() {
+    System.out.println("Exiting game...");
+    ui.exitGame();
+  }
+
+  /**
+   * NEW FOR ASSESSMENT 2
+   * Reset the leaderboards with sample values.
+   */
+  public void onReset() {
+    Map<String, Integer> defaultScores = new HashMap<String, Integer>();
+    defaultScores.put("Tom", 15000);
+    defaultScores.put("Harry", 12000);
+    defaultScores.put("Mimi", 10000);
+    defaultScores.put("Will", 5000);
+    defaultScores.put("Lottie", 1000);
+    Map<String, Integer> defaultPreviousScore = new HashMap<String, Integer>();
+    defaultPreviousScore.put("Stan", 500);
+    fileManager.writeFile(files[0], defaultScores);
+    fileManager.writeFile(files[1], defaultPreviousScore);
+  }
+
+  /**
+   * NEW FOR ASSESSMENT 2.
+   * Used to change the difficulty to easy
+   */
+  public void onEasy() {
+    difficultySetup.setDifficulty(Difficulty.EASY);
+  }
+
+  /**
+   * NEW FOR ASSESSMENT 2.
+   * Used to change the difficulty to normal
+   */
+  public void onMedium() {
+    difficultySetup.setDifficulty(Difficulty.NORMAL);
+  }
+
+  /**
+   * NEW FOR ASSESSMENT 2.
+   * Used to change the difficulty to normal
+   */  
+  public void onHard() {
+    difficultySetup.setDifficulty(Difficulty.HARD);
+  }
+
+  /**
+   * EXTENDED FROM ASSESSMENT 1.
+   * Runs every frame, checks for button clicks.
+   * 
+   * @param delta - Time between frames
+   */
+  @Override
+  public void render(float delta) {
+
+    Gdx.gl.glClearColor(0, 0, 0, 1);
+    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+    startHovered = isButtonHovered(startButton);
+    tutorialHovered = isButtonHovered(tutorialButton);
+    settingsHovered = isButtonHovered(settingsButton);
+    exitHovered = isButtonHovered(exitButton);
+    resetHovered = isButtonHovered(resetButton);
+
+    // NEW FOR ASSESSMENT 2
+    easyHovered = isButtonHovered(easyMode);
+    mediumHovered = isButtonHovered(mediumMode);
+    hardHovered = isButtonHovered(hardMode);
+
+
+    if (isButtonClicked(startButton)) {
+      onStartGame();
+    } else if (isButtonClicked(tutorialButton)) {
+      onTutorial();
+    } else if (isButtonClicked(settingsButton)) {
+      onSettings();
+    } else if (isButtonClicked(exitButton)) {
+      onExit();
+    } else if (isButtonClicked(resetButton)) {
+      onReset();
+    } else if (isButtonClicked(easyMode)) {
+      onEasy();
+    } else if (isButtonClicked(mediumMode)) {
+      onMedium();
+    } else if (isButtonClicked(hardMode)) {
+      onHard();
     }
 
-    /**
-     * Draws the main menu UI
-     */
-    public void display() {
-        game.viewport.apply();
-        game.batch.setProjectionMatrix(game.viewport.getCamera().combined);
-        game.batch.begin();
-        game.batch.draw(backgroundImage, 0, 0, game.viewport.getWorldWidth(), game.viewport.getWorldHeight());
-        game.batch.end();
+    String playerName = inputField.getText().trim();
 
-        game.uiViewport.apply();
-        game.batch.setProjectionMatrix(game.uiCamera.combined);
-        game.batch.begin();
-
-        // draw all main menu buttons
-        drawButton(startButton, "Start Game", startHovered);
-        drawButton(tutorialButton, "Tutorial", tutorialHovered);
-        drawButton(settingsButton, "Settings", settingsHovered);
-        drawButton(exitButton, "Exit", exitHovered);
-        drawButton(resetButton, "Reset Leaderboards", resetHovered);
-
-        drawButton(easyMode, "Easy", easyHovered);
-        drawButton(mediumMode, "Medium", mediumHovered);
-        drawButton(hardMode, "Hard", hardHovered);
-
-        displayLeaderboards();
-        //difficultySetup.setDifficulty(Difficulty.EASY); // TEST
-        game.batch.end();
-
+    if (!(playerName.isEmpty())) {
+      fileManager.writeFileString(files[2], playerName);
     }
 
-    /**
-     * Used to destroy buttons
-     * @param button
-     * @param text
-     * @param hovered
-     */
-    private void drawButton(Rectangle button, String text, boolean hovered) {
+    // draw everything
+    display();
 
-        if (hovered) {
-            game.batch.setColor(1f, 1f, 0.5f, 1f);
-        } else {
-            game.batch.setColor(Color.WHITE);
-        }
+    stage.act(delta);
+    stage.draw();
 
-        // button bg,size etc
-        game.batch.draw(buttonTexture, button.x, button.y, button.width, button.height);
-        game.batch.setColor(Color.WHITE);
+  }
 
-        layout.setText(font, text);
-        float textX = button.x + (button.width - layout.width) / 2f;
-        float textY = button.y + (button.height + layout.height) / 2f;
+  @Override
+  public void resize(int width, int height) {
+    game.viewport.update(width, height, true);
+    game.uiViewport.update(width, height, true);
+  }
 
-        font.setColor(Color.WHITE);
-        font.draw(game.batch, layout, textX, textY);
+  @Override
+  public void pause() {}
 
-    }
+  @Override
+  public void resume() {}
 
-    /**
-     * Displays the leaderboards on the main menu
-     * reads from a csv file for the leaderboards
-     * Also calls a function that displays previous score
-     */
-    private void displayLeaderboards() {
-        Map<String,Integer> scores = fileManager.readFile(files[0]);
-        scores = fileManager.sortMap(scores);
-        float textY = 800;
-        for (String key : scores.keySet()) {
-            String entry = (key + " : " + scores.get(key));
-            font.draw(game.batch, entry,20, textY);
-            textY -= 50;
-        }
-        displayPreviousScore();
-    }
+  @Override
+  public void hide() {}
 
-    /**
-     * Reads from a csv file to display the previous score
-     */
-    private void displayPreviousScore() {
-        String key;
-        Integer val;
-        Map<String,Integer> prevScore = fileManager.readFile(files[1]);
-        try{
-            key = (String) prevScore.keySet().toArray()[0];
-            val = prevScore.get(key);
-        } catch (Exception e){
-            key = "";
-            val = 0;
-        }
-        String score = "Previous score\n" + key + " : " + val;
-        font.draw(game.batch, score, 20, 400);
-    }
-
-    /**
-     * Detects button clicks
-     * @param button - The button being checked
-     * @return - True is clicked, false if not
-     */
-    private boolean isButtonClicked(Rectangle button) {
-        // click detector
-        if (Gdx.input.justTouched()) {
-            Vector2 touchPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
-            game.uiViewport.unproject(touchPos);
-
-            if (button.contains(touchPos.x, touchPos.y)) {
-                // play click audio
-                AudioManager.getInstance().playClickSound();
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Detects mouse hovers
-     * @param button
-     * @return - True is hovered over, false if not
-     */
-    private boolean isButtonHovered(Rectangle button) {
-        // detect mouse hover in UI coordinates
-        Vector2 mousePos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
-        game.uiViewport.unproject(mousePos);
-        return button.contains(mousePos.x, mousePos.y);
-    }
-
-    /**
-     * Runs when starting the main game
-     */
-    public void onStartGame() {
-        // switch to main gameplay
-        System.out.println("Starting game...");
-        ui.startGame();
-        dispose();
-    }
-
-    /**
-     * Opens tutorial menu
-     */
-    public void onTutorial() {
-        // open tutorial page
-        System.out.println("Opening tutorial...");
-        ui.showTutorial();
-        dispose();
-    }
-
-    /**
-     * Opens setting menu
-     */
-    public void onSettings() {
-        // open settings page
-        System.out.println("Opening settings...");
-        ui.showSettings(this);
-        dispose();
-    }
-
-    /**
-     * Exits the game fully
-     */
-    public void onExit() {
-        System.out.println("Exiting game...");
-        ui.exitGame();
-    }
-
-    /**
-     * Reset the leaderboards with sample values
-     */
-    public void onReset() {
-        Map<String, Integer> defaultScores = new HashMap<String, Integer>();
-        defaultScores.put("Tom", 15000);
-        defaultScores.put("Harry",12000);
-        defaultScores.put("Mimi",10000);
-        defaultScores.put("Will",5000);
-        defaultScores.put("Lottie",1000);
-        Map<String, Integer> defaultPreviousScore = new HashMap<String, Integer>();
-        defaultPreviousScore.put("Stan", 500);
-        fileManager.writeFile(files[0],defaultScores);
-        fileManager.writeFile(files[1],defaultPreviousScore);
-    }
-
-    /**
-     * Three functions used to change the difficulty
-     */
-    public void onEasy() {
-        difficultySetup.setDifficulty(Difficulty.EASY);
-    }
-
-    public void onMedium() {
-        difficultySetup.setDifficulty(Difficulty.NORMAL);
-    }
-
-    public void onHard() {
-        difficultySetup.setDifficulty(Difficulty.HARD);
-    }
-
-    /**
-     * Runs every frame, checks for button clicks
-     * @param delta - Time between frames
-     */
-    @Override
-    public void render(float delta) {
-
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        startHovered = isButtonHovered(startButton);
-        tutorialHovered = isButtonHovered(tutorialButton);
-        settingsHovered = isButtonHovered(settingsButton);
-        exitHovered = isButtonHovered(exitButton);
-        resetHovered = isButtonHovered(resetButton);
-
-        easyHovered = isButtonHovered(easyMode);
-        mediumHovered = isButtonHovered(mediumMode);
-        hardHovered = isButtonHovered(hardMode);
-
-        if (isButtonClicked(startButton)) {
-            onStartGame();
-        } else if (isButtonClicked(tutorialButton)) {
-            onTutorial();
-        } else if (isButtonClicked(settingsButton)) {
-            onSettings();
-        } else if (isButtonClicked(exitButton)) {
-            onExit();
-        } else if (isButtonClicked(resetButton)) {
-            onReset();
-        } else if (isButtonClicked(easyMode)) {
-            onEasy();
-        } else if (isButtonClicked(mediumMode)) {
-            onMedium();
-        } else if (isButtonClicked(hardMode)) {
-            onHard();
-        }
-
-        String playerName = inputField.getText().trim();
-
-        if (!(playerName.isEmpty())) {
-            fileManager.writeFileString(files[2], playerName);
-        }
-
-        // draw everything
-        display();
-
-        stage.act(delta);
-        stage.draw();
-
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        game.viewport.update(width, height, true);
-        game.uiViewport.update(width, height, true);
-    }
-
-    @Override
-    public void pause() {}
-
-    @Override
-    public void resume() {}
-
-    @Override
-    public void hide() {}
-
-    /**
-     * Dispose of redundant assets
-     */
-    @Override
-    public void dispose() {
-        backgroundImage.dispose();
-        buttonTexture.dispose();
-        stage.dispose();
-        skin.dispose();
-    }
+  /**
+   * Dispose of redundant assets.
+   */
+  @Override
+  public void dispose() {
+    backgroundImage.dispose();
+    buttonTexture.dispose();
+    stage.dispose();
+    skin.dispose();
+  }
 }
