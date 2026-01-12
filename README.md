@@ -1,49 +1,50 @@
-# team10project
+# team5 project
+
+## Project Overview
+### Escape from Uni
+
+Explore a maze set at University, in which you have to escape within 5 minutes, without being caught by the dean. In order to escape you have to find a hidden key, whilst avoiding hidden traps.
+
+### Games Key Features
+- Hidden events
+- 5-minute timer, that you can pause
+- Multiple positive events, that boost your score
+- Multiple negative events, that decrease your score
+- Leaderboard
+- Acheivements
+- Unique scoring system
+- User friendly menu and adjustable settings functions
+
+---
+## Game Play
+### How to play
+You can find out the keys using setting, but the player uses W/A/S/D keys to move, F to interact with something, and Esc key to go back.
+You can choose what difficulty you want to play at before beginning the game. Explore the maze and interact with as many things as you find, being careful as some things may decrease your score.
+
+---
 
 ## Links
 
-### Trello
-
-https://trello.com/b/FkccrNpt/eng1-team-10
-
-### Planning
-
-https://docs.google.com/document/d/1ib__qU7JRzAEIXeXTKm5G1zbhA6kSTIAK-MLs1ewC-Q/edit?usp=sharing
-
 ### Requirements
 
-https://docs.google.com/document/d/1Z5EULXh2rezTe4XgGwQYjvJAbz6ApW7z0xSND8PmUJk/edit?usp=sharing
+https://github.com/thomas-nolan/team5projectsite/blob/main/docs/Req2.pdf
 
 ### Architecture
 
-https://docs.google.com/document/d/1ttgzSkKAa-nU32mumbeGtjiTOcdinZ63kUqj-hlkOJo/edit?usp=sharing
+https://github.com/thomas-nolan/team5projectsite/blob/main/docs/Arch2.pdf
 
 ### Method Selection and Planning
 
-https://docs.google.com/document/d/1jP_QSOm5AOlqduEG_hz37fWpack5aPXX66zcs3Q0cug/edit?usp=sharing
+https://github.com/thomas-nolan/team5projectsite/blob/main/docs/Plan2.pdf
 
 ### Risk Assessment and Mitigation (Table at the very end)
 
-https://docs.google.com/document/d/1MGHRkPNj2HTmQdMBd2MlmwN3UmxL4tfz4RAHLsYtz00/edit?usp=sharing
-
-
-### Log book
-
-https://docs.google.com/document/d/1nefS_T2zxws9ahAw4WhI1m7xnQswVGlH6SUdeZW3maE/edit?usp=sharing
-
-### Customer Brief Notes Summary (Hux)
-
-https://docs.google.com/document/d/1zVI7KV-4z7WfSw-ppdQfvINaTa6foHvixx7xmgziPoU/edit?usp=sharing
-
-### Refined and analysed customer brief transcript
-
-https://docs.google.com/document/d/14ipl_7XwUrfqLkRuuWHkuxb77QpD1bh-yUbrubL6ZLs/edit?usp=sharing
+https://github.com/thomas-nolan/team5projectsite/blob/main/docs/Risk2.pdf
 
 ### LibGDX Docs
 
 https://libgdx.com/wiki/
 https://javadoc.io/doc/com.badlogicgames.gdx/gdx/latest/index.html
 
-### Presentation
-
-https://docs.google.com/presentation/d/1GU2Udjd_fOla8rh5pwHqV2Gnu_CQXcOKN46nP2goUVQ/edit?usp=sharing
+## How to run
+Click on the JAR file on this Git page.
